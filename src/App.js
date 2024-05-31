@@ -7,7 +7,7 @@ function App() {
     <div className="App flex justify-center items-center h-screen bg-white">
       <header className="text-center">
         <motion.p
-          className="text-red-500 text-4xl font-bold"
+          className="text-4xl font-bold"
           animate={{ rotate: 360 }}
           transition={{ repeat: Infinity, duration: 5, ease: "linear" }}
         >
