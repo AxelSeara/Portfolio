@@ -8,15 +8,15 @@ const Modal = ({ isOpen, onClose, title, children }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center ">
       <motion.div
-        className="relative bg-secondary text-accent w-1/2 shadow-lg" 
+        className="relative bg-quaternary text-accent w-1/2 shadow-lg" 
         drag
         dragConstraints={{ top: -200, left: -200, right: 200, bottom: 200 }}
       >
-        <div className="flex justify-between items-center p-4 border-b border-accent cursor-move">
+        <div className="flex justify-between items-center p-1 px-4  border-b-4 border-accent cursor-move">
           <h2 className="text-lg">{title}</h2>
           <button className="text-lg font-bold" onClick={onClose}>X</button>
         </div>
-        <div className="p-4 border">
+        <div className="p-2 border">
           {children}
         </div>
       </motion.div>

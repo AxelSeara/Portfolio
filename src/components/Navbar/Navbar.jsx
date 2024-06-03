@@ -25,7 +25,7 @@ const Navbar = ({ name, links }) => {
 
   return (
     <div className="relative">
-      <nav className="flex justify-between items-center p-2 px-6 bg-quaternary text-accent font-mono">
+      <nav className="flex justify-between items-center p-1 px-6 bg-quaternary text-accent font-mono">
         <div className="relative flex items-center space-x-4">
           <button
             id="dropdownDefaultButton"
@@ -45,10 +45,10 @@ const Navbar = ({ name, links }) => {
           ))}
         </div>
         <div className="flex items-center space-x-4">
-          <div className="w-8 h-8 flex items-center justify-center hover:bg-primary hover:text-white rounded-md">
+          <div className="w-8 h-8 flex items-center justify-center hover:bg-primary hover:text-white rounded-sm">
             <img src={iconLetter} alt="Icon Letter" className="w-6 h-6" />
           </div>
-          <div className="w-8 h-8 flex items-center justify-center hover:bg-primary hover:text-white rounded-md">
+          <div className="w-8 h-8 flex items-center justify-center hover:bg-primary hover:text-white rounded-sm">
             <img src={iconAdjust} alt="Icon Adjust" className="w-6 h-6" />
           </div>
           <span>{currentTime}</span>
@@ -57,26 +57,26 @@ const Navbar = ({ name, links }) => {
       {dropdownOpen && (
         <div
           id="dropdown"
-          className="absolute left-0 mt-2 z-10 bg-primary divide-y divide-gray-100  shadow w-44 "
+          className="absolute left-2 mt-2 z-10 bg-quaternary divide-y  shadow w-44 "
         >
-          <ul className="py-2 text-sm text-accent dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+          <ul className="py-2 text-sm text-accent" aria-labelledby="dropdownDefaultButton">
             <li>
-              <a href="#" className="block px-4 py-2 hover:bg-secondary hover:text-white ">
+              <a href="#" className="block px-4 py-2 hover:bg-accent hover:text-white ">
                 About
               </a>
             </li>
             <li>
-              <a href="#" className="block px-4 py-2 hover:bg-secondary hover:text-white ">
+              <a href="#" className="block px-4 py-2 hover:bg-accent hover:text-white ">
                 Version
               </a>
             </li>
             <li>
-              <a href="#" className="block px-4 py-2 hover:bg-secondary hover:text-white ">
+              <a href="#" className="block px-4 py-2 hover:bg-accent hover:text-white ">
                 Me
               </a>
             </li>
             <li>
-              <a href="#" className="block px-4 py-2 hover:bg-secondary hover:text-white ">
+              <a href="#" className="block px-4 py-2 hover:bg-accent hover:text-white ">
                 Haha
               </a>
             </li>
