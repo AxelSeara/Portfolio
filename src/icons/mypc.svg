@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Capa_2" data-name="Capa 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 109.47 140.9">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #ff8e78;
+      }
+
+      .cls-1, .cls-2, .cls-3, .cls-4, .cls-5, .cls-6 {
+        stroke-miterlimit: 10;
+      }
+
+      .cls-1, .cls-2, .cls-3, .cls-5, .cls-6 {
+        stroke: #243b40;
+      }
+
+      .cls-1, .cls-4, .cls-5, .cls-6 {
+        stroke-width: 6px;
+      }
+
+      .cls-2, .cls-3 {
+        stroke-width: 4px;
+      }
+
+      .cls-2, .cls-5 {
+        fill: none;
+      }
+
+      .cls-7 {
+        fill: #243b40;
+      }
+
+      .cls-7, .cls-8 {
+        stroke-width: 0px;
+      }
+
+      .cls-3 {
+        fill: #e1b1a9;
+      }
+
+      .cls-4 {
+        fill: #71321a;
+        stroke: #71321a;
+      }
+
+      .cls-8 {
+        fill: #ffba6b;
+      }
+
+      .cls-6 {
+        fill: #75bebe;
+      }
+    </style>
+  </defs>
+  <g id="Capa_1-2" data-name="Capa 1">
+    <g>
+      <rect class="cls-4" x="34.39" y="89.65" width="40.68" height="31.69"/>
+      <path class="cls-1" d="M19.57,109.05h70.33c7.91,0,14.32,6.42,14.32,14.32v10.21c0,2.39-1.94,4.32-4.32,4.32H9.57c-2.39,0-4.32-1.94-4.32-4.32v-10.21c0-7.91,6.42-14.32,14.32-14.32Z"/>
+      <rect class="cls-1" x="3" y="3" width="103.47" height="100.45" rx="10" ry="10"/>
+      <rect class="cls-6" x="15.94" y="14.44" width="77.58" height="77.58" rx="5.74" ry="5.74"/>
+      <line class="cls-5" x1="11.98" y1="123.95" x2="50.77" y2="123.95"/>
+      <rect class="cls-7" x="83.25" y="118.74" width="10.41" height="10.41" rx="5.2" ry="5.2"/>
+      <g>
+        <polygon class="cls-8" points="55.3 18.61 62.88 34.75 79.65 28.69 73.59 45.46 89.73 53.03 73.59 60.61 79.65 77.38 62.88 71.32 55.3 87.46 47.73 71.32 30.96 77.38 37.02 60.61 20.88 53.03 37.02 45.46 30.96 28.69 47.73 34.75 55.3 18.61"/>
+        <circle class="cls-3" cx="46.48" cy="47.44" r="5.69"/>
+        <circle class="cls-3" cx="64.96" cy="47.44" r="5.69"/>
+        <path class="cls-2" d="M60.91,57.22c0,3.14-2.55,5.69-5.69,5.69s-5.69-2.55-5.69-5.69"/>
+      </g>
+    </g>
+  </g>
+</svg>

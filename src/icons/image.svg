@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Capa_2" data-name="Capa 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 159.51 126">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #ffd798;
+      }
+
+      .cls-1, .cls-2, .cls-3, .cls-4, .cls-5 {
+        stroke: #243b40;
+        stroke-miterlimit: 10;
+      }
+
+      .cls-1, .cls-3, .cls-4, .cls-5 {
+        stroke-width: 6px;
+      }
+
+      .cls-2 {
+        stroke-width: 4px;
+      }
+
+      .cls-2, .cls-4 {
+        fill: #ffba6b;
+      }
+
+      .cls-3 {
+        fill: #ff8e78;
+      }
+
+      .cls-5 {
+        fill: #75bebe;
+      }
+    </style>
+  </defs>
+  <g id="Capa_1-2" data-name="Capa 1">
+    <g>
+      <rect class="cls-1" x="3" y="3" width="153.51" height="120" rx="5.92" ry="5.92"/>
+      <rect class="cls-5" x="13.27" y="13.81" width="132.97" height="98.38"/>
+      <circle class="cls-3" cx="62.75" cy="63.75" r="19.67"/>
+      <polyline class="cls-4" points="22.19 93.27 60.59 64.83 89.22 83.54 108.82 54.05 137.86 92.19"/>
+      <path class="cls-2" d="M115,21.87c9.7,2.08,17.61,8.41,21.41,17.62,2.08,5.04,3.37,11.24,2,16.63-1.25,4.92-8.09,12.34-13.69,8.28-2.69-1.95-1.84-6.89-3.05-9.81-1.35-3.26-3.65-5.95-6.45-8.07-6.03-4.58-13.95-6.43-21.31-7.39-.97-.13-1.92-.41-2.73-.96-3.97-2.68-2.26-8.13.01-11.12.63-.84,1.33-1.58,2.07-2.24,5.19-4.62,14.31-4.53,21.74-2.94Z"/>
+    </g>
+  </g>
+</svg>

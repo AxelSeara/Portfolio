@@ -1,21 +1,19 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import './App.css';
+import Navbar from './components/Navbar/Navbar';
+import MainLayout from './components/MainLayout/MainLayout';
+import Folder from './components/Folder/Folder';
 
-function App() {
+const App = () => {
   return (
-    <div className="App flex justify-center items-center h-screen bg-white">
-      <header className="text-center">
-        <motion.p
-          className="text-4xl font-bold"
-          animate={{ rotate: 360 }}
-          transition={{ repeat: Infinity, duration: 5, ease: "linear" }}
-        >
-          We are working on it
-        </motion.p>
-      </header>
-    </div>
+    <MainLayout>
+      <Navbar name="Axel S" links={['About', 'CV']} />
+      <div className="relative mt-16 h-full w-full">
+        <Folder initialOpen={false} className="absolute" style={{ top: '80px', left: '80px' }} />
+        <Folder initialOpen={false} className="absolute" style={{ top: '160px', left: '200px' }} />
+        <Folder initialOpen={false} className="absolute" style={{ top: '240px', left: '320px' }} />
+      </div>
+    </MainLayout>
   );
-}
+};
 
 export default App;
