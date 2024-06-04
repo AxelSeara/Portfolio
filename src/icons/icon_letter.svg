@@ -1,21 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg id="Capa_2" data-name="Capa 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45.43 34">
+<svg xmlns="http://www.w3.org/2000/svg" id="Capa_2" data-name="Capa 2" viewBox="0 0 45.43 34">
   <defs>
-    <style>
-      .cls-1 {
-        fill: none;
-        stroke: #243b40;
-        stroke-miterlimit: 10;
-        stroke-width: 6px;
-      }
-    </style>
+    <style>.cls-1{fill:none;stroke:#243b40;stroke-miterlimit:10;stroke-width:5px}</style>
   </defs>
   <g id="Capa_1-2" data-name="Capa 1">
-    <g>
-      <rect class="cls-1" x="3" y="3" width="39.43" height="28"/>
-      <line class="cls-1" x1="17.95" y1="17.53" x2="3.53" y2="27.61"/>
-      <line class="cls-1" x1="41.49" y1="27.57" x2="27.95" y2="17.86"/>
-      <path class="cls-1" d="M3.86,3.57l15.79,15.5c1.85,1.85,4.86,1.85,6.71,0l15.5-14.93"/>
-    </g>
+    <path d="M3 3h39.43v28H3zM17.95 17.53 3.53 27.61M41.49 27.57l-13.54-9.71" class="cls-1 stroke-current group-hover:stroke-white"/>
+    <path d="m3.86 3.57 15.79 15.5a4.75 4.75 0 0 0 6.71 0l15.5-14.93" class="cls-1 stroke-current group-hover:stroke-white"/>
   </g>
 </svg>

@@ -20,5 +20,15 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function({ addUtilities }) {
+      addUtilities({
+        '.svg-stroke-hover': {
+          '&:hover svg path': {
+            stroke: 'white',
+          },
+        },
+      });
+    },
+  ],
 }

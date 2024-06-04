@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import iconLetter from '../../icons/icon_letter.svg';
-import iconAdjust from '../../icons/icon_adjust.svg';
 
 const Navbar = ({ name, links }) => {
   const [currentTime, setCurrentTime] = useState('');
@@ -30,7 +28,7 @@ const Navbar = ({ name, links }) => {
           <button
             id="dropdownDefaultButton"
             onClick={toggleDropdown}
-            className="font-bold text-accent hover:bg-primary hover:text-white rounded-lg px-2 py-1 focus:outline-none"
+            className="font-bold text-accent hover:bg-accent hover:text-white px-2 py-1 focus:outline-none"
           >
             {name}
           </button>
@@ -38,18 +36,39 @@ const Navbar = ({ name, links }) => {
             <a
               key={link}
               href={`#${link.toLowerCase()}`}
-              className="hover:bg-primary hover:text-white rounded-md px-2 py-1"
+              className="hover:bg-accent hover:text-white px-2 py-1"
             >
               {link}
             </a>
           ))}
         </div>
         <div className="flex items-center space-x-4">
-          <div className="w-8 h-8 flex items-center justify-center hover:bg-primary hover:text-white rounded-sm">
-            <img src={iconLetter} alt="Icon Letter" className="w-6 h-6" />
+          <div className="group w-6 h-6 flex items-center justify-center hover:bg-accent hover:text-white">
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              id="Capa_2" 
+              data-name="Capa 2" 
+              viewBox="0 0 49 42.09"
+              className="w-5 h-5 stroke-current text-accent group-hover:text-white fill-accent">
+              <g id="Capa_1-2" data-name="Capa 1">
+                <path d="M30 10.29H4.92M44.46 31.03H18" className="stroke-current" strokeWidth="6"/>
+                <circle cx="37.94" cy="11.06" r="8.06" className="stroke-current" strokeWidth="6"/>
+                <circle cx="10.96" cy="31.13" r="7.96" className="stroke-current" strokeWidth="6"/>
+              </g>
+            </svg>
           </div>
-          <div className="w-8 h-8 flex items-center justify-center hover:bg-primary hover:text-white rounded-sm">
-            <img src={iconAdjust} alt="Icon Adjust" className="w-6 h-6" />
+          <div className="group w-6 h-6 flex items-center justify-center hover:bg-accent hover:text-white">
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              id="Capa_2" 
+              data-name="Capa 2" 
+              viewBox="0 0 45.43 34"
+              className="w-5 h-5 stroke-current stroke-4 text-accent group-hover:text-white fill-none">
+              <g id="Capa_1-2" data-name="Capa 1">
+                <path d="M3 3h39.43v28H3zM17.95 17.53 3.53 27.61M41.49 27.57l-13.54-9.71" className="stroke-current" strokeWidth="4"/>
+                <path d="m3.86 3.57 15.79 15.5a4.75 4.75 0 0 0 6.71 0l15.5-14.93" className="stroke-current" strokeWidth="4"/>
+              </g>
+            </svg>
           </div>
           <span>{currentTime}</span>
         </div>
@@ -57,26 +76,26 @@ const Navbar = ({ name, links }) => {
       {dropdownOpen && (
         <div
           id="dropdown"
-          className="absolute left-2 mt-2 z-10 bg-quaternary divide-y  shadow w-44 "
+          className="absolute left-6 mt-2 z-10 bg-quaternary divide-y shadow w-44"
         >
           <ul className="py-2 text-sm text-accent" aria-labelledby="dropdownDefaultButton">
             <li>
-              <a href="#" className="block px-4 py-2 hover:bg-accent hover:text-white ">
+              <a href="#" className="block px-4 py-2 hover:bg-accent hover:text-white">
                 About
               </a>
             </li>
             <li>
-              <a href="#" className="block px-4 py-2 hover:bg-accent hover:text-white ">
+              <a href="#" className="block px-4 py-2 hover:bg-accent hover:text-white">
                 Version
               </a>
             </li>
             <li>
-              <a href="#" className="block px-4 py-2 hover:bg-accent hover:text-white ">
+              <a href="#" className="block px-4 py-2 hover:bg-accent hover:text-white">
                 Me
               </a>
             </li>
             <li>
-              <a href="#" className="block px-4 py-2 hover:bg-accent hover:text-white ">
+              <a href="#" className="block px-4 py-2 hover:bg-accent hover:text-white">
                 Haha
               </a>
             </li>
