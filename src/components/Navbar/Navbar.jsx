@@ -23,7 +23,7 @@ const Navbar = ({ name, links }) => {
 
   return (
     <div className="relative">
-      <nav className="flex justify-between items-center p-1 px-6 bg-quaternary text-accent font-mono">
+      <nav className="flex justify-between items-center p-1 px-6 bg-tertiary text-accent font-mono">
         <div className="relative flex items-center space-x-4">
           <button
             id="dropdownDefaultButton"
@@ -49,7 +49,7 @@ const Navbar = ({ name, links }) => {
               id="Capa_2" 
               data-name="Capa 2" 
               viewBox="0 0 49 42.09"
-              className="w-5 h-5 stroke-current text-accent group-hover:text-white fill-accent">
+              className="w-5 h-5 stroke-current text-accent group-hover:text-white fill-accent ">
               <g id="Capa_1-2" data-name="Capa 1">
                 <path d="M30 10.29H4.92M44.46 31.03H18" className="stroke-current" strokeWidth="6"/>
                 <circle cx="37.94" cy="11.06" r="8.06" className="stroke-current" strokeWidth="6"/>
@@ -76,27 +76,27 @@ const Navbar = ({ name, links }) => {
       {dropdownOpen && (
         <div
           id="dropdown"
-          className="absolute left-6 mt-2 z-10 bg-quaternary divide-y shadow w-44"
+          className="absolute left-6 mt-2 z-10 bg-tertiary divide-y shadow w-44"
         >
           <ul className="py-2 text-sm text-accent" aria-labelledby="dropdownDefaultButton">
             <li>
               <a href="#" className="block px-4 py-2 hover:bg-accent hover:text-white">
-                About
+                ABOUT
               </a>
             </li>
             <li>
               <a href="#" className="block px-4 py-2 hover:bg-accent hover:text-white">
-                Version
+                VERSION
               </a>
             </li>
             <li>
               <a href="#" className="block px-4 py-2 hover:bg-accent hover:text-white">
-                Me
+                ME
               </a>
             </li>
             <li>
               <a href="#" className="block px-4 py-2 hover:bg-accent hover:text-white">
-                Haha
+                HOLA
               </a>
             </li>
           </ul>
