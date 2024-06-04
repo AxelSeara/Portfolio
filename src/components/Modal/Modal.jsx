@@ -2,13 +2,13 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import PropTypes from 'prop-types';
 
-const Modal = ({ isOpen, onClose, title, children }) => {
+const Modal = ({ isOpen, onClose, title, children, zIndex }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
+    <div className="fixed inset-0 pointer-events-none flex items-center justify-center" style={{ zIndex }}>
       <motion.div
-        className="relative bg-quaternary text-accent border-t-4 border-l-4 border-white w-1/2 shadow-no-blur"
+        className="relative bg-red-200 text-accent border-t-4 border-l-4 border-white w-1/2 shadow-no-blur pointer-events-auto"
         drag
         dragConstraints={{ top: -200, left: -200, right: 200, bottom: 200 }}
       >
@@ -34,10 +34,12 @@ Modal.propTypes = {
   onClose: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
   children: PropTypes.node,
+  zIndex: PropTypes.number,
 };
 
 Modal.defaultProps = {
   children: null,
+  zIndex: 50,
 };
 
 export default Modal;

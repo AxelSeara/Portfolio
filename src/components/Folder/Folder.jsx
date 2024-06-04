@@ -5,7 +5,7 @@ import folderCloseIcon from '../../icons/folder_close.svg';
 import folderOpenIcon from '../../icons/folder_open.svg';
 import Modal from '../Modal/Modal';
 
-const Folder = ({ initialOpen, className, style, name }) => {
+const Folder = ({ initialOpen, className, style, name, content }) => {
   const [isOpen, setIsOpen] = useState(initialOpen);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
@@ -58,10 +58,8 @@ const Folder = ({ initialOpen, className, style, name }) => {
           {name}
         </span>
       </motion.div>
-      <Modal isOpen={isModalOpen} onClose={closeModal} title={name}>
-        <div className="border-4 border-accent p-4">
-          <p>Folder content goes here...</p>
-        </div>
+      <Modal isOpen={isModalOpen} onClose={closeModal} title={name} zIndex={1000 + parseInt(style.top, 10)}>
+        {content}
       </Modal>
     </>
   );
@@ -72,6 +70,7 @@ Folder.propTypes = {
   className: PropTypes.string,
   style: PropTypes.object,
   name: PropTypes.string.isRequired,
+  content: PropTypes.node.isRequired,
 };
 
 Folder.defaultProps = {
