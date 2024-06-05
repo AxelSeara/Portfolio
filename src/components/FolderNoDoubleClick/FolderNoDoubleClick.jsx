@@ -20,7 +20,7 @@ const FolderNoDoubleClick = ({ initialOpen, className, style, name, content }) =
     'DailyBloom': dailyBloomIcon,
     'Weather': weatherIcon,
     'Contact': contactIcon,
-    'Mondrian Generator': mondrianIcon, // Añade la entrada para Mondrian
+    'Mondrian Generator': mondrianIcon, 
   };
 
   const handleDoubleClick = () => {
