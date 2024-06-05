@@ -9,6 +9,7 @@ import DesignContent from './content/DesignContent';
 import CVContent from './content/CVContent';
 import DailyBloomContent from './content/DailyBloomContent';
 import WeatherContent from './content/WeatherContent';
+import ContactContent from './content/ContactContent';  // Añade esta línea
 
 const App = () => {
   const folders = [
@@ -18,6 +19,7 @@ const App = () => {
     { name: 'CV', content: <CVContent /> },
     { name: 'DailyBloom', content: <DailyBloomContent /> },
     { name: 'Weather', content: <WeatherContent /> },
+    { name: 'Contact', content: <ContactContent /> },  // Añade esta línea
   ];
 
   return (
@@ -26,7 +28,7 @@ const App = () => {
       <div className="relative mt-16 h-full w-full">
         <div className="grid grid-cols-3 gap-4 lg:grid-cols-4 lg:gap-8 mx-4">
           {folders.map((folder, index) => {
-            const FolderComponent = ['CV', 'DailyBloom', 'Weather'].includes(folder.name) ? FolderNoDoubleClick : Folder;
+            const FolderComponent = ['CV', 'DailyBloom', 'Weather', 'Contact'].includes(folder.name) ? FolderNoDoubleClick : Folder;
             return (
               <FolderComponent
                 key={folder.name}

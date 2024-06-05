@@ -34,33 +34,35 @@ const Folder = ({ initialOpen, className, style, name, content }) => {
 
   return (
     <>
-      <motion.div
-        className={`flex flex-col items-center justify-center w-24 p-2 m-4 ${className}`}
-        style={style}
-        drag
-        dragMomentum={false}
-        onDoubleClick={handleDoubleClick}
-        tabIndex={0}
-        onKeyDown={handleKeyDown}
-        onPointerDown={handlePointerDown}
-        onPointerUp={() => setIsClicked(false)}
-        whileTap={{ scale: 0.95 }}
-      >
-        <motion.img
-          src={isOpen ? folderOpenIcon : folderCloseIcon}
-          alt={isOpen ? "Folder Open" : "Folder Close"}
-          className={isOpen ? "w-full h-full pointer-events-none" : "w-[105%] h-[105%] pointer-events-none"}
-          whileHover={{ scale: 1.05 }}
-          transition={{ duration: 0.2 }}
-          style={{ cursor: 'move' }}
-        />
-        <span className={`mt-2 text-center w-full ${isClicked ? 'bg-accent text-white ' : 'text-accent'}`}>
-          {name}
-        </span>
-      </motion.div>
-      <Modal isOpen={isModalOpen} onClose={closeModal} title={name} zIndex={1000 + parseInt(style.top, 10)}>
-        {content}
-      </Modal>
+      <div className="m-3">
+        <motion.div
+          className={`flex flex-col items-center justify-center w-24 p-2 ${className}`}
+          style={style}
+          drag
+          dragMomentum={false}
+          onDoubleClick={handleDoubleClick}
+          tabIndex={0}
+          onKeyDown={handleKeyDown}
+          onPointerDown={handlePointerDown}
+          onPointerUp={() => setIsClicked(false)}
+          whileTap={{ scale: 0.95 }}
+        >
+          <motion.img
+            src={isOpen ? folderOpenIcon : folderCloseIcon}
+            alt={isOpen ? "Folder Open" : "Folder Close"}
+            className={isOpen ? "w-full h-full pointer-events-none" : "w-[105%] h-[105%] pointer-events-none"}
+            whileHover={{ scale: 1.05 }}
+            transition={{ duration: 0.2 }}
+            style={{ cursor: 'move' }}
+          />
+          <span className={`mt-2 text-center w-full ${isClicked ? 'bg-accent text-white ' : 'text-accent'}`}>
+            {name}
+          </span>
+        </motion.div>
+        <Modal isOpen={isModalOpen} onClose={closeModal} title={name} zIndex={2000}>
+          {content}
+        </Modal>
+      </div>
     </>
   );
 };
