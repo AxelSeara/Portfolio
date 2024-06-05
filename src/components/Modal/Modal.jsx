@@ -13,7 +13,7 @@ const Modal = ({ isOpen, onClose, title, children, zIndex }) => {
         dragConstraints={{ top: -200, left: -200, right: 200, bottom: 200 }}
       >
         <div className="flex justify-between items-center p-2 px-4 cursor-move">
-          <h2 className="text-lg">{title}</h2>
+          <h2 className="text-lg font-bold">{title}</h2>
           <button
             className="text-lg font-bold px-2 hover:bg-accent hover:text-white hover:shadow-none transition-colors duration-200"
             onClick={onClose}

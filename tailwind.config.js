@@ -5,6 +5,14 @@ module.exports = {
   ],
   theme: {
     extend: {
+      gridTemplateColumns: {
+        '2': 'repeat(2, minmax(0, 1fr))',
+        '4': 'repeat(4, minmax(0, 1fr))',
+      },
+      gap: {
+        '4': '1rem',
+        '8': '2rem',
+      },
       boxShadow: {
         'no-blur': '5px 5px 0 0 #243b40',
       },

@@ -1,14 +1,22 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import PropTypes from 'prop-types';
-import folderCloseIcon from '../../icons/folder_close.svg';
-import folderOpenIcon from '../../icons/folder_open.svg';
+import documentIcon from '../../icons/document.svg';
+import dailyBloomIcon from '../../icons/dailybloom.svg';
+import weatherIcon from '../../icons/weather1.svg';
 import Modal from '../Modal/Modal';
+import CVContent from '../../content/CVContent';
 
-const Folder = ({ initialOpen, className, style, name, content }) => {
+const FolderNoDoubleClick = ({ initialOpen, className, style, name, content }) => {
   const [isOpen, setIsOpen] = useState(initialOpen);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
+
+  const iconMapping = {
+    'CV': documentIcon,
+    'DailyBloom': dailyBloomIcon,
+    'Weather': weatherIcon,
+  };
 
   const handleDoubleClick = () => {
     if (!isOpen) {
@@ -35,7 +43,7 @@ const Folder = ({ initialOpen, className, style, name, content }) => {
   return (
     <>
       <motion.div
-        className={`flex flex-col items-center justify-center w-24 p-2 m-4 ${className}`}
+        className={`flex flex-col items-center justify-center w-24 p-2 mb-4  ${className}`}
         style={style}
         drag
         dragMomentum={false}
@@ -47,9 +55,9 @@ const Folder = ({ initialOpen, className, style, name, content }) => {
         whileTap={{ scale: 0.95 }}
       >
         <motion.img
-          src={isOpen ? folderOpenIcon : folderCloseIcon}
-          alt={isOpen ? "Folder Open" : "Folder Close"}
-          className={isOpen ? "w-full h-full pointer-events-none" : "w-[105%] h-[105%] pointer-events-none"}
+          src={iconMapping[name] || documentIcon}
+          alt={name}
+          className="w-full h-full pointer-events-none"
           whileHover={{ scale: 1.05 }}
           transition={{ duration: 0.2 }}
           style={{ cursor: 'move' }}
@@ -58,14 +66,14 @@ const Folder = ({ initialOpen, className, style, name, content }) => {
           {name}
         </span>
       </motion.div>
-      <Modal isOpen={isModalOpen} onClose={closeModal} title={name} zIndex={1000 + parseInt(style.top, 10)}>
-        {content}
+      <Modal isOpen={isModalOpen} onClose={closeModal} title={name}>
+        {name === 'CV' ? <CVContent onClose={closeModal} /> : content}
       </Modal>
     </>
   );
 };
 
-Folder.propTypes = {
+FolderNoDoubleClick.propTypes = {
   initialOpen: PropTypes.bool,
   className: PropTypes.string,
   style: PropTypes.object,
@@ -73,10 +81,10 @@ Folder.propTypes = {
   content: PropTypes.node.isRequired,
 };
 
-Folder.defaultProps = {
+FolderNoDoubleClick.defaultProps = {
   initialOpen: false,
   className: '',
   style: {},
 };
 
-export default Folder;
+export default FolderNoDoubleClick;
