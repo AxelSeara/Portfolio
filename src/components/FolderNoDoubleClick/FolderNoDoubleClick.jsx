@@ -5,8 +5,10 @@ import documentIcon from '../../icons/document.svg';
 import dailyBloomIcon from '../../icons/dailybloom.svg';
 import weatherIcon from '../../icons/weather3.svg';
 import contactIcon from '../../icons/letter_close.svg';
+import mondrianIcon from '../../icons/mondrian.svg'; // Importa el icono de Mondrian
 import Modal from '../Modal/Modal';
 import CVContent from '../../content/CVContent';
+import MondrianContent from '../../content/MondrianContent'; // Importa el contenido de Mondrian
 
 const FolderNoDoubleClick = ({ initialOpen, className, style, name, content }) => {
   const [isOpen, setIsOpen] = useState(initialOpen);
@@ -18,6 +20,7 @@ const FolderNoDoubleClick = ({ initialOpen, className, style, name, content }) =
     'DailyBloom': dailyBloomIcon,
     'Weather': weatherIcon,
     'Contact': contactIcon,
+    'Mondrian Generator': mondrianIcon, // Añade la entrada para Mondrian
   };
 
   const handleDoubleClick = () => {
@@ -70,7 +73,7 @@ const FolderNoDoubleClick = ({ initialOpen, className, style, name, content }) =
           </span>
         </motion.div>
         <Modal isOpen={isModalOpen} onClose={closeModal} title={name} zIndex={2000}>
-          {name === 'CV' ? <CVContent onClose={closeModal} /> : content}
+          {name === 'CV' ? <CVContent onClose={closeModal} /> : name === 'Mondrian Generator' ? <MondrianContent /> : content}
         </Modal>
       </div>
     </>
