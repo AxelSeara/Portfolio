@@ -15,6 +15,7 @@ const WeatherContent = () => {
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const setLatLon = (lat, lon) => {
     setLatitude(lat);
@@ -30,6 +31,7 @@ const WeatherContent = () => {
       setWeather(weatherResponse.data);
     } catch (error) {
       console.error('Error fetching weather data:', error);
+      setError('Unable to fetch weather data.');
     } finally {
       setLoading(false);
     }
@@ -50,10 +52,12 @@ const WeatherContent = () => {
         },
         (error) => {
           console.error('Error getting location:', error);
+          setError('Unable to access your location.');
         }
       );
     } else {
       console.error('Geolocation is not supported by this browser.');
+      setError('Geolocation is not supported by your browser.');
     }
   };
 
@@ -128,19 +132,19 @@ const WeatherContent = () => {
 
   return (
     <div className={`flex flex-col items-center justify-center h-full p-4 ${getBackgroundClass()}`}>
-      <div className="w-full flex justify-center bg-gray-800 text-white mb-4 p-2 rounded">
+      <div className="w-full flex justify-center bg-quaternary text-accent mb-4 p-2 rounded flex-wrap">
         {cities.map((city) => (
           <button
             key={city.name}
-            className="bg-blue-500 text-white px-2 py-1 m-1 rounded text-xs"
+            className="bg-tertiary text-accent px-2 py-1 m-1 rounded text-xs"
             onClick={() => handleCityClick(city)}
           >
             {city.name}
           </button>
         ))}
         <button
-          className="bg-green-500 text-white px-2 py-1 m-1 rounded text-xs"
-          onClick={() => window.location.reload()}
+          className="bg-tertiary text-accent px-2 py-1 m-1 rounded text-xs"
+          onClick={handleLocationPermission}
         >
           Current Location
         </button>
@@ -150,6 +154,10 @@ const WeatherContent = () => {
           <div className="flex flex-col items-center justify-center">
             <div className="w-12 h-12 bg-yellow-500 rounded-full animate-sunrise mb-4"></div>
             <p className="text-xl">Loading weather data... 🌞</p>
+          </div>
+        ) : error ? (
+          <div className="text-center mt-6">
+            <p className="text-xl">{error}</p>
           </div>
         ) : (
           <div className="text-center mt-6">
