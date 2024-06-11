@@ -18,7 +18,7 @@ const iconMapping = {
   'Mondrian Generator': mondrianIcon, 
 };
 
-const Folder = ({ initialOpen, className, style, name, content, disableDoubleClick, onOpen, onClose, onClick, zIndex }) => {
+const Folder = ({ id, initialOpen, className, style, name, content, disableDoubleClick, onOpen, onClose, onClick, zIndex }) => {
   const [isOpen, setIsOpen] = useState(initialOpen);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
@@ -29,7 +29,7 @@ const Folder = ({ initialOpen, className, style, name, content, disableDoubleCli
         setIsOpen(true);
       }
       setIsModalOpen(true);
-      onOpen(name);
+      onOpen(id);
     }
   };
 
@@ -90,6 +90,7 @@ const Folder = ({ initialOpen, className, style, name, content, disableDoubleCli
 };
 
 Folder.propTypes = {
+  id: PropTypes.number.isRequired,
   initialOpen: PropTypes.bool,
   className: PropTypes.string,
   style: PropTypes.object,

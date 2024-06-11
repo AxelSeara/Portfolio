@@ -1,70 +1,84 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# OS Emulation personal portfolio website
 
-## Available Scripts
+## Overview
 
-In the project directory, you can run:
+This project is a website designed to emulate an operating system environment for both phone and desktop devices. The main idea is to create an interactive experience that feels like navigating through an actual operating system, complete with draggable folders, modals, and a dynamic navbar.
 
-### `npm start`
+## Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **Folders and Files**: The desktop contains folders that can be opened to reveal content.
+- **Modals**: Clicking on folders opens modals with specific content.
+- **Navbar**: A functional navbar that dynamically updates and includes a dropdown menu.
+- **Responsive Design**: The layout adjusts for phone and desktop environments, providing a seamless user experience.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Current Stage
 
-### `npm test`
+The project is currently in the final stages of implementing features related to modal opening, navbar functionality, and styling.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Usage
 
-### `npm run build`
+To run this project locally, follow these steps:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/your-username/os-emulation-website.git
+   ```
+2. **Navigate to the project directory**:
+   ```bash
+   cd os-emulation-website
+   ```
+3. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+4. **Start the development server**:
+   ```bash
+   npm start
+   ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+After starting the development server, you can view the website in your browser at `http://localhost:3000`.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Logic Overview
 
-### `npm run eject`
+### Folder Component
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Each folder component is draggable and can be opened with a double-click to reveal its content in a modal. The folders have unique IDs assigned to them, which allows the modals to be triggered by these IDs.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Modal Component
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Modals are used to display the content of the folders. They have a draggable feature for desktop environments, which is disabled on smaller screens like phones.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Navbar Component
 
-## Learn More
+The navbar includes dynamic links that update based on the open modals. It also features a dropdown menu that lists folders, allowing users to open them directly from the navbar. The dropdown closes when clicking outside of it.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### State Management
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+State is managed using React's `useState` hook. The main states include:
+- `openModals`: Tracks the currently open modals.
+- `zIndex`: Manages the z-index of modals to bring the clicked modal to the front.
+- `modalZIndices`: Keeps track of the z-index for each modal.
+- `activeLink`: Highlights the currently active link in the navbar.
 
-### Code Splitting
+## Implementation
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+The project is implemented using:
+- **React**: For building the user interface.
+- **Tailwind CSS**: For styling the components.
+- **Framer Motion**: For animations and draggable functionality.
 
-### Analyzing the Bundle Size
+## Future Improvements
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- **File Management**: Implementing more complex file management within the folders.
+- **Enhanced UI**: Adding more detailed styling and transitions to enhance the user experience.
+- **Backend Integration**: Connecting the project with a backend to manage user data and files.
 
-### Making a Progressive Web App
+We hope you enjoy exploring this OS emulation website. Your feedback and contributions are welcome!
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## License
 
-### Advanced Configuration
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This README provides a comprehensive overview of your project, its current stage, usage instructions, and the logic behind it.

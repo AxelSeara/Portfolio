@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
-const Navbar = ({ name, links, onClickLink, activeLink }) => {
+const Navbar = ({ name, links, onClickLink, activeLink, folders, onOpenModal }) => {
   const [currentTime, setCurrentTime] = useState('');
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isSwitched, setIsSwitched] = useState(false);
+  const [activeSubmenu, setActiveSubmenu] = useState(null);
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
     const updateClock = () => {
@@ -19,6 +21,20 @@ const Navbar = ({ name, links, onClickLink, activeLink }) => {
     return () => clearInterval(intervalId);
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+        setActiveSubmenu(null);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
   };
@@ -27,9 +43,24 @@ const Navbar = ({ name, links, onClickLink, activeLink }) => {
     setIsSwitched(!isSwitched);
   };
 
+  const handleMouseEnter = (menu) => {
+    setActiveSubmenu(menu);
+  };
+
+  const handleMouseLeave = () => {
+    setActiveSubmenu(null);
+  };
+
+  const submenuItems = {
+    ABOUT: [
+      "Welcome to my portfolio. Here Axel former graphic designer jumping into the front end world. This page was entirely developed by me from assets to features and the small apps containing. Hope you to have a good time visiting it :D"
+    ],
+    VERSION: ["We are still on 0.1 wishing to drop the bomb soon"]
+  };
+
   return (
     <div className="relative">
-      <nav className="flex justify-between items-center p-1 px-2 bg-tertiary text-accent font-mono m-4 border-2 border-accent shadow-no-blur rounded-md ">
+      <nav className="flex justify-between items-center p-1 px-2 bg-tertiary text-accent font-mono m-4 border-2 border-accent shadow-no-blur rounded-md">
         <div className="relative flex items-center space-x-4">
           <button
             id="dropdownDefaultButton"
@@ -38,7 +69,7 @@ const Navbar = ({ name, links, onClickLink, activeLink }) => {
           >
             {name}
           </button>
-          {links && links.map((link, index) => (
+          {links && links.map((link) => (
             <motion.a
               key={link}
               href={`#${link.toLowerCase()}`}
@@ -107,28 +138,59 @@ const Navbar = ({ name, links, onClickLink, activeLink }) => {
         <div
           id="dropdown"
           className="absolute left-6 mt-2 z-10 bg-tertiary divide-y shadow w-44"
+          ref={dropdownRef}
         >
           <ul className="py-2 text-sm text-accent" aria-labelledby="dropdownDefaultButton">
-            <li>
-              <a href="#" className="block px-4 py-2 hover:bg-accent hover:text-white">
-                ABOUT
-              </a>
-            </li>
-            <li>
-              <a href="#" className="block px-4 py-2 hover:bg-accent hover:text-white">
-                VERSION
-              </a>
-            </li>
-            <li>
-              <a href="#" className="block px-4 py-2 hover:bg-accent hover:text-white">
-                ME
-              </a>
-            </li>
-            <li>
-              <a href="#" className="block px-4 py-2 hover:bg-accent hover:text-white">
-                HOLA
-              </a>
-            </li>
+            {['ABOUT', 'VERSION', 'FILES'].map((menu) => (
+              <li
+                key={menu}
+                onMouseEnter={() => handleMouseEnter(menu)}
+                onMouseLeave={handleMouseLeave}
+                className="relative"
+              >
+                <a href="#" className="block px-4 py-2 hover:bg-accent hover:text-white">
+                  {menu}
+                </a>
+                <AnimatePresence>
+                  {activeSubmenu === menu && (
+                    <motion.div
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -10 }}
+                      transition={{ duration: 0.3 }}
+                      className="absolute top-0 left-full mt-0 bg-tertiary shadow-lg w-44 py-2 text-accent"
+                    >
+                      <ul>
+                        {menu === 'FILES' ? (
+                          folders.map((folder) => (
+                            <li key={folder.id}>
+                              <a
+                                href="#"
+                                className="block px-4 py-2 hover:bg-accent hover:text-white"
+                                onClick={() => {
+                                  onOpenModal(folder.id);
+                                  setDropdownOpen(false);
+                                }}
+                              >
+                                {folder.name}
+                              </a>
+                            </li>
+                          ))
+                        ) : (
+                          submenuItems[menu]?.map((submenuItem) => (
+                            <li key={submenuItem}>
+                              <a href="#" className="block px-4 py-2 hover:bg-accent hover:text-white">
+                                {submenuItem}
+                              </a>
+                            </li>
+                          ))
+                        )}
+                      </ul>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </li>
+            ))}
           </ul>
         </div>
       )}
@@ -141,6 +203,11 @@ Navbar.propTypes = {
   links: PropTypes.arrayOf(PropTypes.string).isRequired,
   onClickLink: PropTypes.func.isRequired,
   activeLink: PropTypes.string.isRequired,
+  folders: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+  })).isRequired,
+  onOpenModal: PropTypes.func.isRequired,
 };
 
 export default Navbar;

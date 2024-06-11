@@ -18,21 +18,24 @@ const App = () => {
   const [activeLink, setActiveLink] = useState('');
 
   const folders = [
-    { name: 'Ilus', content: <IlusContent /> },
-    { name: 'Projects', content: <ProjectsContent /> },
-    { name: 'Design', content: <DesignContent /> },
-    { name: 'CV', content: <CVContent /> },
-    { name: 'DailyBloom', content: <DailyBloomContent /> },
-    { name: 'Weather', content: <WeatherContent /> },
-    { name: 'Contact', content: <ContactContent /> },
-    { name: 'Mondrian Generator', content: <MondrianContent /> },
+    { id: 1, name: 'Ilus', content: <IlusContent /> },
+    { id: 2, name: 'Projects', content: <ProjectsContent /> },
+    { id: 3, name: 'Design', content: <DesignContent /> },
+    { id: 4, name: 'CV', content: <CVContent /> },
+    { id: 5, name: 'DailyBloom', content: <DailyBloomContent /> },
+    { id: 6, name: 'Weather', content: <WeatherContent /> },
+    { id: 7, name: 'Contact', content: <ContactContent /> },
+    { id: 8, name: 'Mondrian Generator', content: <MondrianContent /> },
   ];
 
-  const handleOpenModal = (name) => {
-    setOpenModals((prevModals) => [...prevModals, name]);
-    setModalZIndices((prevIndices) => ({ ...prevIndices, [name]: zIndex }));
-    setZIndex((prevZIndex) => prevZIndex + 1); // Increment zIndex for the next modal
-    setActiveLink(name); // Set the active link to the opened modal
+  const handleOpenModal = (id) => {
+    const folder = folders.find(folder => folder.id === id);
+    if (folder) {
+      setOpenModals((prevModals) => [...prevModals, folder.name]);
+      setModalZIndices((prevIndices) => ({ ...prevIndices, [folder.name]: zIndex }));
+      setZIndex((prevZIndex) => prevZIndex + 1); // Increment zIndex for the next modal
+      setActiveLink(folder.name); // Set the active link to the opened modal
+    }
   };
 
   const handleCloseModal = (name) => {
@@ -48,13 +51,21 @@ const App = () => {
   return (
     <MainLayout>
       <div className="fixed top-0 left-0 right-0 z-50">
-        <Navbar name="AXEL S" links={openModals} onClickLink={handleClickModal} activeLink={activeLink} />
+        <Navbar 
+          name="AXEL S" 
+          links={openModals} 
+          onClickLink={handleClickModal} 
+          activeLink={activeLink} 
+          folders={folders} 
+          onOpenModal={handleOpenModal} 
+        />
       </div>
       <div className="relative mt-16 h-screen overflow-y-auto">
         <div className="grid grid-cols-3 gap-1 lg:grid-cols-3 lg:gap-2 mx-4">
           {folders.map((folder, index) => (
             <Folder
-              key={folder.name}
+              key={folder.id}
+              id={folder.id}
               initialOpen={false}
               className="relative"
               style={{ marginTop: `${index >= 3 ? '20px' : '0'}` }}
