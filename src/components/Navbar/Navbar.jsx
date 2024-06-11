@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { motion } from 'framer-motion';
 
-const Navbar = ({ name, links }) => {
+const Navbar = ({ name, links, onClickLink, activeLink }) => {
   const [currentTime, setCurrentTime] = useState('');
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [isSwitched, setIsSwitched] = useState(false);
 
   useEffect(() => {
     const updateClock = () => {
@@ -21,9 +23,13 @@ const Navbar = ({ name, links }) => {
     setDropdownOpen(!dropdownOpen);
   };
 
+  const handleIconClick = () => {
+    setIsSwitched(!isSwitched);
+  };
+
   return (
     <div className="relative">
-      <nav className="flex justify-between items-center p-1 px-6 bg-tertiary text-accent font-mono">
+      <nav className="flex justify-between items-center p-1 px-2 bg-tertiary text-accent font-mono m-4 border-2 border-accent shadow-no-blur rounded-md ">
         <div className="relative flex items-center space-x-4">
           <button
             id="dropdownDefaultButton"
@@ -32,28 +38,52 @@ const Navbar = ({ name, links }) => {
           >
             {name}
           </button>
-          {links.map((link) => (
-            <a
+          {links && links.map((link, index) => (
+            <motion.a
               key={link}
               href={`#${link.toLowerCase()}`}
-              className="hover:bg-accent hover:text-white px-2 py-1"
+              className={`px-2 py-1 ${link === activeLink ? 'bg-accent text-white' : ''}`}
+              initial={{ x: -50, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: 50, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              onClick={() => onClickLink(link)}
             >
               {link}
-            </a>
+            </motion.a>
           ))}
         </div>
         <div className="flex items-center space-x-4">
-          <div className="group w-6 h-6 flex items-center justify-center hover:bg-accent hover:text-white">
+          <div className="group w-6 h-6 flex items-center justify-center hover:bg-accent hover:text-white" onClick={handleIconClick}>
             <svg 
               xmlns="http://www.w3.org/2000/svg" 
               id="Capa_2" 
               data-name="Capa 2" 
               viewBox="0 0 49 42.09"
-              className="w-5 h-5 stroke-current text-accent group-hover:text-white fill-accent ">
+              className="w-5 h-5 stroke-current text-accent group-hover:text-white fill-accent "
+            >
               <g id="Capa_1-2" data-name="Capa 1">
-                <path d="M30 10.29H4.92M44.46 31.03H18" className="stroke-current" strokeWidth="6"/>
-                <circle cx="37.94" cy="11.06" r="8.06" className="stroke-current" strokeWidth="6"/>
-                <circle cx="10.96" cy="31.13" r="7.96" className="stroke-current" strokeWidth="6"/>
+                <path d="M49 10.29H0M49 31.03H0" className="stroke-current" strokeWidth="6"/>
+                <motion.circle 
+                  cx={isSwitched ? "10.96" : "37.94"} 
+                  cy="11.06" 
+                  r="8.06" 
+                  className="stroke-current" 
+                  strokeWidth="6"
+                  initial={false}
+                  animate={{ x: isSwitched ? 27 : -27 }}
+                  transition={{ duration: 0.5 }}
+                />
+                <motion.circle 
+                  cx={isSwitched ? "37.94" : "10.96"} 
+                  cy="31.13" 
+                  r="7.96" 
+                  className="stroke-current" 
+                  strokeWidth="6"
+                  initial={false}
+                  animate={{ x: isSwitched ? -27 : 27 }}
+                  transition={{ duration: 0.5 }}
+                />
               </g>
             </svg>
           </div>
@@ -109,6 +139,8 @@ const Navbar = ({ name, links }) => {
 Navbar.propTypes = {
   name: PropTypes.string.isRequired,
   links: PropTypes.arrayOf(PropTypes.string).isRequired,
+  onClickLink: PropTypes.func.isRequired,
+  activeLink: PropTypes.string.isRequired,
 };
 
 export default Navbar;

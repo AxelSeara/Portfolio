@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { motion, useDragControls } from 'framer-motion';
 import PropTypes from 'prop-types';
 
-const Modal = ({ isOpen, onClose, title, children, zIndex }) => {
+const Modal = ({ isOpen, onClose, title, children, zIndex, onClick }) => {
   const controls = useDragControls();
 
   if (!isOpen) return null;
@@ -12,9 +12,9 @@ const Modal = ({ isOpen, onClose, title, children, zIndex }) => {
   };
 
   return (
-    <div className="fixed inset-0 pointer-events-none flex items-center justify-center" style={{ zIndex }}>
+    <div className="fixed inset-0 pointer-events-none flex items-center justify-center" style={{ zIndex }} onClick={onClick}>
       <motion.div
-        className="relative bg-red-200 text-accent w-full h-full md:w-1/2 md:h-auto shadow-no-blur pointer-events-auto border-t-4 border-l-4 border-white"
+        className="relative bg-tertiary text-accent w-full h-full md:w-1/2 md:h-auto shadow-no-blur pointer-events-auto border-4 border-accent rounded-md"
         drag
         dragListener={false}
         dragControls={controls}
@@ -49,11 +49,13 @@ Modal.propTypes = {
   title: PropTypes.string.isRequired,
   children: PropTypes.node,
   zIndex: PropTypes.number,
+  onClick: PropTypes.func,
 };
 
 Modal.defaultProps = {
   children: null,
   zIndex: 50,
+  onClick: () => {},
 };
 
 export default Modal;

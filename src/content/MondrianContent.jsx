@@ -33,7 +33,6 @@ const MondrianContent = () => {
 
       let espacioUsado = spanCols * spanRows;
       if (espacioUsado > espaciosRestantes || espaciosRestantes - espacioUsado < columnas) {
-        // Ajusta las celdas finales para evitar sobreextensión
         spanRows = 1;
         spanCols = 1;
       }
