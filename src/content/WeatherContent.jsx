@@ -17,11 +17,6 @@ const WeatherContent = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const setLatLon = (lat, lon) => {
-    setLatitude(lat);
-    setLongitude(lon);
-  };
-
   const fetchWeather = async (lat, lon) => {
     setLoading(true);
     try {
@@ -38,7 +33,7 @@ const WeatherContent = () => {
   };
 
   useEffect(() => {
-    if (latitude && longitude) {
+    if (latitude !== null && longitude !== null) {
       fetchWeather(latitude, longitude);
     }
   }, [latitude, longitude]);
@@ -51,7 +46,6 @@ const WeatherContent = () => {
         (position) => {
           setLatitude(position.coords.latitude);
           setLongitude(position.coords.longitude);
-          setLoading(false);
         },
         (error) => {
           console.error('Error getting location:', error);
@@ -144,8 +138,8 @@ const WeatherContent = () => {
   };
 
   const handleCityClick = (city) => {
-    setLatLon(city.lat, city.lon);
-    fetchWeather(city.lat, city.lon);
+    setLatitude(city.lat);
+    setLongitude(city.lon);
   };
 
   return (
