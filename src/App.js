@@ -47,9 +47,11 @@ const App = () => {
 
   return (
     <MainLayout>
-      <Navbar name="AXEL S" links={openModals} onClickLink={handleClickModal} activeLink={activeLink} />
-      <div className="relative mt-16 h-full w-full">
-        <div className="grid grid-cols-3 gap-4 lg:grid-cols-4 lg:gap-8 mx-4">
+      <div className="fixed top-0 left-0 right-0 z-50">
+        <Navbar name="AXEL S" links={openModals} onClickLink={handleClickModal} activeLink={activeLink} />
+      </div>
+      <div className="relative mt-16 h-screen overflow-y-auto">
+        <div className="grid grid-cols-3 gap-1 lg:grid-cols-3 lg:gap-2 mx-4">
           {folders.map((folder, index) => (
             <Folder
               key={folder.name}

@@ -1,1 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" id="Capa_2" data-name="Capa 2" viewBox="0 0 102.9 136"><defs><style>.cls-1{fill:#75bebe;stroke:#243b40;stroke-miterlimit:10;stroke-width:6px}</style></defs><g id="Capa_1-2" data-name="Capa 1"><path d="M99.9 24.88v102.7c0 3-2.43 5.43-5.43 5.43H8.43c-3 0-5.43-2.43-5.43-5.43V8.43C3 5.43 5.43 3 8.43 3h69.51c1.43 0 2.81.57 3.83 1.58l16.54 16.45c1.02 1.02 1.6 2.4 1.6 3.85Z" class="cls-1"/><path d="M77.01 4.07v16.28c0 3 2.43 5.43 5.43 5.43h16.28M11.42 42.75h63.33M11.42 65.59h63.33M11.42 88.43h63.33M11.88 111.27H75.2" class="cls-1"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" id="Capa_2" data-name="Capa 2" viewBox="0 0 92.61 122.4">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #75bebe;
+        stroke: #243b40;
+        stroke-miterlimit: 10;
+        stroke-width: 5px;
+      }
+    </style>
+  </defs>
+  <g id="Capa_1-2" data-name="Capa 1">
+    <path d="M89.91 22.39v92.43c0 2.7-2.19 4.89-4.89 4.89H7.59c-2.7 0-4.89-2.19-4.89-4.89V7.59C2.7 4.89 4.89 2.7 7.59 2.7h62.56c1.29 0 2.53.51 3.45 1.42l14.94 14.86c.92.91 1.44 2.15 1.44 3.41Z" class="cls-1"/>
+    <path d="M69.31 3.66v14.65c0 2.7 2.19 4.89 4.89 4.89h14.65M10.28 38.48h57M10.28 59.03h57M10.28 79.59h57M10.69 100.14h57" class="cls-1"/>
+  </g>
+</svg>
