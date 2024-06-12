@@ -9,17 +9,21 @@ const Modal = ({ isOpen, onClose, title, children, zIndex, onClick }) => {
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth <= 768) {
-        setIsDraggable(false); // Disable drag on small screens
+        setIsDraggable(false); // Disable drag on small screens (phones and tablets)
       } else {
         setIsDraggable(true); // Enable drag on larger screens
       }
     };
 
-    handleResize(); // Check screen size on mount
-    window.addEventListener('resize', handleResize); // Add event listener for window resize
+    // Check screen size on mount
+    handleResize();
 
+    // Add event listener for window resize
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup event listener on unmount
     return () => {
-      window.removeEventListener('resize', handleResize); // Cleanup on unmount
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
 
@@ -32,10 +36,9 @@ const Modal = ({ isOpen, onClose, title, children, zIndex, onClick }) => {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center" style={{ zIndex }} onClick={onClick}>
+    <div className="fixed inset-0 pointer-events-none flex items-center justify-center" style={{ zIndex }} onClick={onClick}>
       <motion.div
-        className="relative bg-tertiary text-accent w-full h-full md:w-1/2 md:h-auto shadow-no-blur pointer-events-auto border-4 border-accent rounded-md"
-        style={{ maxHeight: '100vh md:90vh' }}  // fix for modal height on mobile
+        className="relative bg-tertiary text-accent w-full h-ful md:max-h-5/6 md:w-1/2  shadow-no-blur pointer-events-auto border-4 border-accent rounded-md"
         drag={isDraggable}
         dragListener={false}
         dragControls={controls}
@@ -50,15 +53,20 @@ const Modal = ({ isOpen, onClose, title, children, zIndex, onClick }) => {
             {title}
           </h2>
           <button
-            className="text-lg font-bold px-2 hover:bg-accent hover:text-white hover:shadow-none transition-colors duration-200"
+            className=" border-accent text-lg font-bold px-2 hover:bg-accent hover:text-white hover:shadow-none transition-colors duration-200"
             onClick={onClose}
           >
             X
           </button>
         </div>
-        <div className="p-2 overflow-y-auto" style={{ maxHeight: 'calc(90vh - 48px)' }}> 
-          {children}
-        </div>
+        <div style={{
+            maxHeight: 'calc(90vh - 48px)',
+            overflowY: 'auto',
+            paddingTop: '1rem', // Ajusta este valor según necesites
+            marginTop: '0.04rem', // adjust overflow error
+        }} className="p-2">
+            {children}
+</div>
       </motion.div>
     </div>
   );
