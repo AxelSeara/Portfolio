@@ -58,6 +58,17 @@ const Navbar = ({ name, links, onClickLink, activeLink, folders, onOpenModal }) 
     VERSION: ["We are still on 0.1 wishing to drop the bomb soon"]
   };
 
+  const handleFolderClick = (e) => {
+    e.preventDefault();
+    const folderName = e.currentTarget.getAttribute('data-name');
+    const folder = folders.find(f => f.name === folderName);
+    console.log("Clicked folder:", folder);  // This should log the correct folder object
+    if (folder) {
+      onOpenModal(folder.id);
+    }
+    setDropdownOpen(false);
+  };
+
   return (
     <div className="relative">
       <nav className="flex justify-between items-center p-1 px-2 bg-tertiary text-accent font-mono m-4 border-2 border-accent shadow-no-blur rounded-md">
@@ -78,7 +89,10 @@ const Navbar = ({ name, links, onClickLink, activeLink, folders, onOpenModal }) 
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: 50, opacity: 0 }}
               transition={{ duration: 0.3 }}
-              onClick={() => onClickLink(link)}
+              onClick={(e) => {
+                e.preventDefault();
+                onClickLink(link);
+              }}
             >
               {link}
             </motion.a>
@@ -148,7 +162,7 @@ const Navbar = ({ name, links, onClickLink, activeLink, folders, onOpenModal }) 
                 onMouseLeave={handleMouseLeave}
                 className="relative"
               >
-                <a href="#" className="block px-4 py-2 hover:bg-accent hover:text-white">
+                <a href="#" className="block px-4 py-2 hover:bg-accent hover:text-white" onClick={(e) => e.preventDefault()}>
                   {menu}
                 </a>
                 <AnimatePresence>
@@ -166,11 +180,9 @@ const Navbar = ({ name, links, onClickLink, activeLink, folders, onOpenModal }) 
                             <li key={folder.id}>
                               <a
                                 href="#"
+                                data-name={folder.name}
                                 className="block px-4 py-2 hover:bg-accent hover:text-white"
-                                onClick={() => {
-                                  onOpenModal(folder.id);
-                                  setDropdownOpen(false);
-                                }}
+                                onClick={handleFolderClick}
                               >
                                 {folder.name}
                               </a>
@@ -179,7 +191,7 @@ const Navbar = ({ name, links, onClickLink, activeLink, folders, onOpenModal }) 
                         ) : (
                           submenuItems[menu]?.map((submenuItem) => (
                             <li key={submenuItem}>
-                              <a href="#" className="block px-4 py-2 hover:bg-accent hover:text-white">
+                              <a href="#" className="block px-4 py-2 hover:bg-accent hover:text-white" onClick={(e) => e.preventDefault()}>
                                 {submenuItem}
                               </a>
                             </li>

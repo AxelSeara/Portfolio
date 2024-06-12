@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const MainLayout = ({ children }) => {
   return (
-    <div className="min-h-screen flex flex-col bg-quaternary">
+    <div className="h-screen flex flex-col bg-quaternary overflow-hidden">
       {children}
     </div>
   );

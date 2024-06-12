@@ -2,29 +2,30 @@ import React, { useState, useEffect } from 'react';
 import { motion, useDragControls } from 'framer-motion';
 import PropTypes from 'prop-types';
 
-const Modal = ({ isOpen, onClose, title, children, zIndex, onClick }) => {
+const Modal = ({
+  isOpen,
+  onClose,
+  title,
+  children = null,  // Set default directly in the parameter list
+  zIndex = 50,       // Set default directly in the parameter list
+  onClick = () => {} // Set default directly in the parameter list
+}) => {
   const controls = useDragControls();
   const [isDraggable, setIsDraggable] = useState(true);
 
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth <= 768) {
-        setIsDraggable(false); // Disable drag on small screens (phones and tablets)
+        setIsDraggable(false); // Disable drag on small screens
       } else {
         setIsDraggable(true); // Enable drag on larger screens
       }
     };
 
-    // Check screen size on mount
-    handleResize();
+    handleResize(); // Check screen size on mount
+    window.addEventListener('resize', handleResize); // Add event listener for window resize
 
-    // Add event listener for window resize
-    window.addEventListener('resize', handleResize);
-
-    // Cleanup event listener on unmount
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
+    return () => window.removeEventListener('resize', handleResize); // Cleanup on unmount
   }, []);
 
   if (!isOpen) return null;
@@ -74,12 +75,6 @@ Modal.propTypes = {
   children: PropTypes.node,
   zIndex: PropTypes.number,
   onClick: PropTypes.func,
-};
-
-Modal.defaultProps = {
-  children: null,
-  zIndex: 50,
-  onClick: () => {},
 };
 
 export default Modal;

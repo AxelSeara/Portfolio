@@ -18,23 +18,29 @@ const App = () => {
   const [activeLink, setActiveLink] = useState('');
 
   const folders = [
-    { id: 1, name: 'Ilus', content: <IlusContent /> },
-    { id: 2, name: 'Projects', content: <ProjectsContent /> },
-    { id: 3, name: 'Design', content: <DesignContent /> },
-    { id: 4, name: 'CV', content: <CVContent /> },
-    { id: 5, name: 'DailyBloom', content: <DailyBloomContent /> },
-    { id: 6, name: 'Weather', content: <WeatherContent /> },
-    { id: 7, name: 'Contact', content: <ContactContent /> },
-    { id: 8, name: 'Mondrian Generator', content: <MondrianContent /> },
+    { id: 1, name: 'Ilus', content: <IlusContent onClose={() => handleCloseModal('Ilus')} /> },
+    { id: 2, name: 'Projects', content: <ProjectsContent onClose={() => handleCloseModal('Projects')} /> },
+    { id: 3, name: 'Design', content: <DesignContent onClose={() => handleCloseModal('Design')} /> },
+    { id: 4, name: 'CV', content: <CVContent onClose={() => handleCloseModal('CV')} /> },
+    { id: 5, name: 'DailyBloom', content: <DailyBloomContent onClose={() => handleCloseModal('DailyBloom')} /> },
+    { id: 6, name: 'Weather', content: <WeatherContent onClose={() => handleCloseModal('Weather')} /> },
+    { id: 7, name: 'Contact', content: <ContactContent onClose={() => handleCloseModal('Contact')} /> },
+    { id: 8, name: 'Mondrian Generator', content: <MondrianContent onClose={() => handleCloseModal('Mondrian Generator')} /> },
   ];
 
   const handleOpenModal = (id) => {
     const folder = folders.find(folder => folder.id === id);
     if (folder) {
-      setOpenModals((prevModals) => [...prevModals, folder.name]);
+      console.log("Opening modal for:", folder.name);  // This should log the folder name being opened
+      setOpenModals((prevModals) => {
+        if (!prevModals.includes(folder.name)) {
+          return [...prevModals, folder.name];
+        }
+        return prevModals;  // Prevent adding the same modal if already open
+      });
       setModalZIndices((prevIndices) => ({ ...prevIndices, [folder.name]: zIndex }));
-      setZIndex((prevZIndex) => prevZIndex + 1); // Increment zIndex for the next modal
-      setActiveLink(folder.name); // Set the active link to the opened modal
+      setZIndex((prevZIndex) => prevZIndex + 1);
+      setActiveLink(folder.name);
     }
   };
 
@@ -46,6 +52,11 @@ const App = () => {
     setModalZIndices((prevIndices) => ({ ...prevIndices, [name]: zIndex }));
     setZIndex((prevZIndex) => prevZIndex + 1); // Increment zIndex for the clicked modal
     setActiveLink(name); // Set the active link to the clicked modal
+  };
+
+  const handleClick = (folderName) => {
+    console.log("Folder clicked:", folderName);
+    // Any additional logic you need when a folder is clicked can go here
   };
 
   return (
@@ -62,22 +73,22 @@ const App = () => {
       </div>
       <div className="relative mt-16 h-screen overflow-y-auto">
         <div className="grid grid-cols-3 gap-1 lg:grid-cols-3 lg:gap-2 mx-4">
-          {folders.map((folder, index) => (
-            <Folder
-              key={folder.id}
-              id={folder.id}
-              initialOpen={false}
-              className="relative"
-              style={{ marginTop: `${index >= 3 ? '20px' : '0'}` }}
-              name={folder.name}
-              content={folder.content}
-              onOpen={handleOpenModal}
-              onClose={handleCloseModal}
-              onClick={() => handleClickModal(folder.name)}
-              zIndex={modalZIndices[folder.name] || 1000} // Default zIndex if not set
-              disableDoubleClick={false}
-            />
-          ))}
+            {folders.map((folder, index) => (  // Include index here
+             <Folder
+             key={folder.id}
+             id={folder.id}
+             initialOpen={false}
+             className="relative"
+             name={folder.name}
+             content={folder.content}
+             onClick={handleClick} 
+             onOpen={handleOpenModal}
+             onClose={handleCloseModal}
+             isOpen={openModals.includes(folder.name)}
+             zIndex={modalZIndices[folder.name] || 1000}
+             disableDoubleClick={false}
+           />
+            ))}
         </div>
       </div>
     </MainLayout>

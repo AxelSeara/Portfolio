@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import PropTypes from 'prop-types';
 import folderCloseIcon from '../../icons/folder_close.svg';
@@ -15,21 +15,34 @@ const iconMapping = {
   'DailyBloom': dailyBloomIcon,
   'Weather': weatherIcon,
   'Contact': contactIcon,
-  'Mondrian Generator': mondrianIcon, 
+  'Mondrian Generator': mondrianIcon,
 };
 
-const Folder = ({ id, initialOpen, className, style, name, content, disableDoubleClick, onOpen, onClose, onClick, zIndex }) => {
-  const [isOpen, setIsOpen] = useState(initialOpen);
+const Folder = ({
+  initialOpen = false,
+  className = '',
+  style = {},
+  name,
+  content,
+  disableDoubleClick = false,
+  onOpen,
+  onClose,
+  onClick,
+  zIndex,
+  id,
+  isOpen
+}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
 
+  useEffect(() => {
+    setIsModalOpen(isOpen);  // Control modal visibility directly from props
+  }, [isOpen]);
+
   const handleDoubleClick = () => {
     if (!disableDoubleClick) {
-      if (!isOpen) {
-        setIsOpen(true);
-      }
       setIsModalOpen(true);
-      onOpen(id);
+      onOpen(id); // This will update the state in App which should pass down new props
     }
   };
 
@@ -50,47 +63,44 @@ const Folder = ({ id, initialOpen, className, style, name, content, disableDoubl
   };
 
   return (
-    <>
-      <div className="m-3">
-        <motion.div
-          className={`flex flex-col items-center justify-center w-24 p-2 ${className}`}
-          style={{ ...style, cursor: 'move' }}
-          drag
-          dragMomentum={false}
-          onDoubleClick={handleDoubleClick}
-          tabIndex={0}
-          onKeyDown={handleKeyDown}
-          onPointerDown={handlePointerDown}
-          onPointerUp={() => setIsClicked(false)}
-          whileTap={{ scale: 0.95 }}
-        >
-          <motion.img
-            src={iconMapping[name] || (isOpen ? folderOpenIcon : folderCloseIcon)}
-            alt={name}
-            className={isOpen ? "w-full h-full pointer-events-none" : "w-[105%] h-[105%] pointer-events-none"}
-            whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.2 }}
-          />
-          <span className={`mt-2 text-center w-full ${isClicked ? 'bg-accent text-white ' : 'text-accent'}`}>
-            {name}
-          </span>
-        </motion.div>
-        <Modal
-          isOpen={isModalOpen}
-          onClose={closeModal}
-          title={name}
-          zIndex={zIndex}
-          onClick={() => onClick(name)} // Call onClick when modal is clicked
-        >
-          {content}
-        </Modal>
-      </div>
-    </>
+    <div className="m-3">
+      <motion.div
+        className={`flex flex-col items-center justify-center w-24 p-2 ${className}`}
+        style={{ ...style, cursor: 'move' }}
+        drag
+        dragMomentum={false}
+        onDoubleClick={handleDoubleClick}
+        tabIndex={0}
+        onKeyDown={handleKeyDown}
+        onPointerDown={handlePointerDown}
+        onPointerUp={() => setIsClicked(false)}
+        whileTap={{ scale: 0.95 }}
+      >
+        <motion.img
+          src={iconMapping[name] || (isOpen ? folderOpenIcon : folderCloseIcon)}
+          alt={name}
+          className={isOpen ? "w-full h-full pointer-events-none" : "w-[105%] h-[105%] pointer-events-none"}
+          whileHover={{ scale: 1.05 }}
+          transition={{ duration: 0.2 }}
+        />
+        <span className={`mt-2 text-center w-full ${isClicked ? 'bg-accent text-white ' : 'text-accent'}`}>
+          {name}
+        </span>
+      </motion.div>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        title={name}
+        zIndex={zIndex}
+        onClick={() => onClick && onClick(name)} // Safeguarding the onClick call
+      >
+        {content}
+      </Modal>
+    </div>
   );
 };
 
 Folder.propTypes = {
-  id: PropTypes.number.isRequired,
   initialOpen: PropTypes.bool,
   className: PropTypes.string,
   style: PropTypes.object,
@@ -101,13 +111,7 @@ Folder.propTypes = {
   onClose: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
   zIndex: PropTypes.number.isRequired,
-};
-
-Folder.defaultProps = {
-  initialOpen: false,
-  className: '',
-  style: {},
-  disableDoubleClick: false,
+  id: PropTypes.number.isRequired,
 };
 
 export default Folder;
