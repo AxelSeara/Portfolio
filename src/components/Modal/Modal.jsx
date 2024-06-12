@@ -2,14 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, useDragControls } from 'framer-motion';
 import PropTypes from 'prop-types';
 
-const Modal = ({
-  isOpen,
-  onClose,
-  title,
-  children = null,  // Set default directly in the parameter list
-  zIndex = 50,       // Set default directly in the parameter list
-  onClick = () => {} // Set default directly in the parameter list
-}) => {
+const Modal = ({ isOpen, onClose, title, children, zIndex, onClick }) => {
   const controls = useDragControls();
   const [isDraggable, setIsDraggable] = useState(true);
 
@@ -25,7 +18,9 @@ const Modal = ({
     handleResize(); // Check screen size on mount
     window.addEventListener('resize', handleResize); // Add event listener for window resize
 
-    return () => window.removeEventListener('resize', handleResize); // Cleanup on unmount
+    return () => {
+      window.removeEventListener('resize', handleResize); // Cleanup on unmount
+    };
   }, []);
 
   if (!isOpen) return null;
@@ -37,13 +32,14 @@ const Modal = ({
   };
 
   return (
-    <div className="fixed inset-0 pointer-events-none flex items-center justify-center" style={{ zIndex }} onClick={onClick}>
+    <div className="fixed inset-0 flex items-center justify-center" style={{ zIndex }} onClick={onClick}>
       <motion.div
         className="relative bg-tertiary text-accent w-full h-full md:w-1/2 md:h-auto shadow-no-blur pointer-events-auto border-4 border-accent rounded-md"
+        style={{ maxHeight: '90vh' }}  // Set the maximum height for the modal
         drag={isDraggable}
         dragListener={false}
         dragControls={controls}
-        dragConstraints={{ top: -200, left: -200, right: 200, bottom: 200 }}
+        dragConstraints={{ top: -100, left: -100, right: 100, bottom: 100 }}
       >
         <div
           className={`flex justify-between items-center py-1 px-4 border-b-4 border-accent bg-gradient-to-r from-tertiary to-sky-200 ${isDraggable ? 'cursor-move' : ''}`}
@@ -60,7 +56,7 @@ const Modal = ({
             X
           </button>
         </div>
-        <div className="p-2 overflow-y-auto">
+        <div className="p-2 overflow-y-auto" style={{ maxHeight: 'calc(90vh - 48px)' }}> 
           {children}
         </div>
       </motion.div>
@@ -75,6 +71,12 @@ Modal.propTypes = {
   children: PropTypes.node,
   zIndex: PropTypes.number,
   onClick: PropTypes.func,
+};
+
+Modal.defaultProps = {
+  children: null,
+  zIndex: 50,
+  onClick: () => {},
 };
 
 export default Modal;

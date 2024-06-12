@@ -55,8 +55,7 @@ const App = () => {
   };
 
   const handleClick = (folderName) => {
-    console.log("Folder clicked:", folderName);
-    // Any additional logic you need when a folder is clicked can go here
+    handleClickModal(folderName);
   };
 
   return (
