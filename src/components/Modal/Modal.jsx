@@ -35,7 +35,7 @@ const Modal = ({ isOpen, onClose, title, children, zIndex, onClick }) => {
     <div className="fixed inset-0 flex items-center justify-center" style={{ zIndex }} onClick={onClick}>
       <motion.div
         className="relative bg-tertiary text-accent w-full h-full md:w-1/2 md:h-auto shadow-no-blur pointer-events-auto border-4 border-accent rounded-md"
-        style={{ maxHeight: '90vh' }}  // Set the maximum height for the modal
+        style={{ maxHeight: '100vh md:90vh' }}  // fix for modal height on mobile
         drag={isDraggable}
         dragListener={false}
         dragControls={controls}
