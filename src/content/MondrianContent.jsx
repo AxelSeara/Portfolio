@@ -57,7 +57,7 @@ const MondrianContent = () => {
 
   if (view === 'explanatory') {
     return (
-      <div className="p-2 md:p-4 bg-red-200 border-2 border-quaternary rounded h-full md:h-auto flex flex-col items-center justify-center">
+      <div className="p-2 md:p-4 border-4 border-accent rounded h-full md:h-auto flex flex-col items-center justify-center">
         <h1 className="text-3xl font-bold text-accent mb-4">Welcome to Mondrian Creator</h1>
         <h2 className="text-xl font-semibold text-accent mb-4">A Flexbox-based Tool</h2>
         <p className="text-accent mb-6 text-center max-w-xl">
@@ -88,7 +88,7 @@ const MondrianContent = () => {
   }
 
   return (
-    <div className="p-2 md:p-4 bg-red-200 border-2 border-quaternary rounded h-full md:h-auto">
+    <div className="p-2 md:p-4 bg-white  border-quaternary  h-full md:h-auto">
       <div className="flex flex-col md:flex-row p-2 md:p-4 bg-black text-white items-center justify-between">
         <div className="flex flex-col items-center md:items-start mb-4 md:mb-0 md:mr-4">
           <div className="flex items-center mb-4">

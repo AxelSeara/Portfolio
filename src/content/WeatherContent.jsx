@@ -14,7 +14,7 @@ const WeatherContent = () => {
 
   if (view === 'explanatory') {
     return (
-      <div className="p-2 md:p-4 bg-blue-200 border-2 border-quaternary rounded h-full md:h-auto flex flex-col items-center justify-center">
+      <div className="p-2 md:p-4  border-4 border-accent h-full md:h-auto flex flex-col items-center justify-center">
         <h1 className="text-3xl font-bold text-accent mb-4">Welcome to the Weather App</h1>
         <h2 className="text-xl font-semibold text-accent mb-4">Your Local and Global Weather Updates</h2>
         <p className="text-accent mb-6 text-center max-w-xl">

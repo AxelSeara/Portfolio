@@ -40,10 +40,6 @@
   }
 }
 
-/* Additional styles for WeatherContent */
-.font-mono {
-  font-family: 'Courier New', monospace;
-}
 .bg-accent {
   background-color: #243b40;
 }
