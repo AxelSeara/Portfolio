@@ -8,6 +8,7 @@ import dailyBloomIcon from '../../icons/dailybloom.svg';
 import weatherIcon from '../../icons/weather3.svg';
 import contactIcon from '../../icons/letter_close.svg';
 import mondrianIcon from '../../icons/mondrian.svg';
+import aboutIcon from '../../icons/mypc.svg';
 import Modal from '../Modal/Modal';
 
 const iconMapping = {
@@ -16,6 +17,7 @@ const iconMapping = {
   'Weather': weatherIcon,
   'Contact': contactIcon,
   'Mondrian Generator': mondrianIcon,
+  'About': aboutIcon,
 };
 
 const Folder = ({
@@ -65,7 +67,7 @@ const Folder = ({
   return (
     <div className="m-3">
       <motion.div
-        className={`flex flex-col items-center justify-center w-24 p-2 ${className}`}
+        className={` flex flex-col items-center justify-center w-24 p-2 ${className}`}
         style={{ ...style, cursor: 'move' }}
         drag
         dragMomentum={false}

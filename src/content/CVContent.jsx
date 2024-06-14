@@ -11,7 +11,7 @@ const CVContent = ({ onClose }) => {
 
     const interval = setInterval(() => {
       setProgress((prevProgress) => {
-        const increment = prevProgress < 70 ? 25 : 10;  // Adjusted increments for faster download
+        const increment = prevProgress < 70 ? 25 : 10; // Adjusted increments for faster download
         const newProgress = prevProgress + increment;
         if (newProgress >= 100) {
           clearInterval(interval);
@@ -20,14 +20,17 @@ const CVContent = ({ onClose }) => {
             onClose();
             // Trigger the download
             const link = document.createElement('a');
-            link.href = 'src/components/Pdf/AxelSeara_HB.pdf';
+            link.href = '/AxelSeara_HB.pdf'; // Ensure the path is correct
             link.download = 'AxelSeara_HB.pdf';
+            document.body.appendChild(link);
             link.click();
+            document.body.removeChild(link);
           }, 500);
+          return 100; // Ensure progress does not exceed 100
         }
         return newProgress;
       });
-    }, 150);  // Adjusted interval for faster download
+    }, 150); // Adjusted interval for faster download
   };
 
   return (

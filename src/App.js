@@ -10,6 +10,7 @@ import DailyBloomContent from './content/DailyBloomContent';
 import WeatherContent from './content/WeatherContent';
 import ContactContent from './content/ContactContent';
 import MondrianContent from './content/MondrianContent';
+import AboutContent from './content/AboutContent';
 
 const App = () => {
   const [openModals, setOpenModals] = useState([]);
@@ -26,6 +27,8 @@ const App = () => {
     { id: 6, name: 'Weather', content: <WeatherContent onClose={() => handleCloseModal('Weather')} /> },
     { id: 7, name: 'Contact', content: <ContactContent onClose={() => handleCloseModal('Contact')} /> },
     { id: 8, name: 'Mondrian Generator', content: <MondrianContent onClose={() => handleCloseModal('Mondrian Generator')} /> },
+    { id: 9, name: 'About', content: <AboutContent onClose={() => handleCloseModal('About Content')} /> },
+
   ];
 
   const handleOpenModal = (id) => {
