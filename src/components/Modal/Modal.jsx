@@ -38,7 +38,7 @@ const Modal = ({ isOpen, onClose, title, children, zIndex, onClick }) => {
   return (
     <div className="fixed inset-0 pointer-events-none flex items-center justify-center" style={{ zIndex }} onClick={onClick}>
       <motion.div
-        className="relative bg-tertiary text-accent w-full h-ful md:max-h-5/6 md:w-1/2  shadow-no-blur pointer-events-auto border-4 border-accent rounded-md"
+        className="relative bg-tertiary text-accent w-full h-full md:h-auto md:w-1/2  shadow-no-blur pointer-events-auto border-4 border-accent rounded-md"
         drag={isDraggable}
         dragListener={false}
         dragControls={controls}
