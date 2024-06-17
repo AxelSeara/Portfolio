@@ -9,6 +9,14 @@ const Navbar = ({ name, links, onClickLink, activeLink, folders, onOpenModal }) 
   const [activeSubmenu, setActiveSubmenu] = useState(null);
   const dropdownRef = useRef(null);
 
+  
+  const openContactModal = () => {
+    const contactFolder = folders.find(folder => folder.name === "Contact");
+    if (contactFolder) {
+      onOpenModal(contactFolder.id);
+    }
+  };
+
   useEffect(() => {
     const updateClock = () => {
       const now = new Date();
@@ -132,7 +140,7 @@ const Navbar = ({ name, links, onClickLink, activeLink, folders, onOpenModal }) 
               </g>
             </svg>
           </div>
-          <div className="group w-6 h-6 flex items-center justify-center hover:bg-accent hover:text-white">
+          <div className="group w-6 h-6 flex items-center justify-center hover:bg-accent hover:text-white" onClick={openContactModal}>
             <svg 
               xmlns="http://www.w3.org/2000/svg" 
               id="Capa_2" 

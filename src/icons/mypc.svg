@@ -1,1 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" id="Capa_2" data-name="Capa 2" viewBox="0 0 109.47 140.9"><defs><style>.cls-1{fill:#ff8e78}.cls-1,.cls-3{stroke-miterlimit:10;stroke:#243b40}.cls-1{stroke-width:6px}.cls-3{stroke-width:4px;fill:#e1b1a9}</style></defs><g id="Capa_1-2" data-name="Capa 1"><path d="M34.39 89.65h40.68v31.69H34.39z" style="fill:#71321a;stroke:#71321a;stroke-width:6px;stroke-miterlimit:10"/><path d="M19.57 109.05H89.9c7.91 0 14.32 6.42 14.32 14.32v10.21c0 2.39-1.94 4.32-4.32 4.32H9.57c-2.39 0-4.32-1.94-4.32-4.32v-10.21c0-7.91 6.42-14.32 14.32-14.32Z" class="cls-1"/><rect width="103.47" height="100.45" x="3" y="3" class="cls-1" rx="10" ry="10"/><rect width="77.58" height="77.58" x="15.94" y="14.44" rx="5.74" ry="5.74" style="fill:#75bebe;stroke-width:6px;stroke:#243b40;stroke-miterlimit:10"/><path d="M11.98 123.95h38.79" style="fill:none;stroke-width:6px;stroke:#243b40;stroke-miterlimit:10"/><rect width="10.41" height="10.41" x="83.25" y="118.74" rx="5.2" ry="5.2" style="stroke-width:0;fill:#243b40"/><path d="m55.3 18.61 7.58 16.14 16.77-6.06-6.06 16.77 16.14 7.57-16.14 7.58 6.06 16.77-16.77-6.06-7.58 16.14-7.57-16.14-16.77 6.06 6.06-16.77-16.14-7.58 16.14-7.57-6.06-16.77 16.77 6.06 7.57-16.14z" style="fill:#ffba6b;stroke-width:0"/><circle cx="46.48" cy="47.44" r="5.69" class="cls-3"/><circle cx="64.96" cy="47.44" r="5.69" class="cls-3"/><path d="M60.91 57.22c0 3.14-2.55 5.69-5.69 5.69s-5.69-2.55-5.69-5.69" style="fill:none;stroke-width:4px;stroke:#243b40;stroke-miterlimit:10"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" id="Capa_2" viewBox="0 0 109.47 140.9">
+  <defs>
+    <style>
+      .cls-1 { fill: #ff8e78; stroke: #243b40; stroke-width: 4px; stroke-miterlimit: 10; }
+      .cls-3 { fill: #e1b1a9; stroke: #243b40; stroke-width: 4px; stroke-miterlimit: 10; }
+    </style>
+  </defs>
+  <g id="Capa_1-2">
+    <path d="M34.39 89.65h40.68v31.69H34.39z" style="fill:#71321a;stroke:#71321a;stroke-width:6px;stroke-miterlimit:10"/>
+    <path d="M19.57 109.05H89.9c7.91 0 14.32 6.42 14.32 14.32v10.21c0 2.39-1.94 4.32-4.32 4.32H9.57c-2.39 0-4.32-1.94-4.32-4.32v-10.21c0-7.91 6.42-14.32 14.32-14.32Z" class="cls-1"/>
+    <rect width="103.47" height="100.45" x="3" y="3" class="cls-1" rx="10" ry="10"/>
+    <rect width="77.58" height="77.58" x="15.94" y="14.44" rx="5.74" ry="5.74" style="fill:#75bebe;stroke-width:6px;stroke:#243b40;stroke-miterlimit:10"/>
+    <path d="M11.98 123.95h38.79" style="fill:none;stroke-width:6px;stroke:#243b40;stroke-miterlimit:10"/>
+    <rect width="10.41" height="10.41" x="83.25" y="118.74" rx="5.2" ry="5.2" style="fill:#243b40;stroke-width:0"/>
+    <path d="m55.3 18.61 7.58 16.14 16.77-6.06-6.06 16.77 16.14 7.57-16.14 7.58 6.06 16.77-16.77-6.06-7.58 16.14-7.57-16.14-16.77 6.06 6.06-16.77-16.14-7.58 16.14-7.57-6.06-16.77 16.77 6.06 7.57-16.14z" style="fill:#ffba6b;stroke-width:0"/>
+    <circle cx="46.48" cy="47.44" r="5.69" class="cls-3"/>
+    <circle cx="64.96" cy="47.44" r="5.69" class="cls-3"/>
+    <path d="M60.91 57.22c0 3.14-2.55 5.69-5.69 5.69s-5.69-2.55-5.69-5.69" style="fill:none;stroke-width:4px;stroke:#243b40;stroke-miterlimit:10"/>
+  </g>
+</svg>

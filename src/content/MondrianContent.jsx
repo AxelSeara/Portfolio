@@ -19,9 +19,9 @@ const MondrianContent = () => {
       console.error('Grid container not found');
       return;
     }
-    container.innerHTML = ''; // Limpia el contenedor antes de generar nueva cuadrícula
+    container.innerHTML = ''; 
     container.style.gridTemplateColumns = `repeat(${columnas}, 1fr)`;
-    container.style.gridTemplateRows = `repeat(${filas}, 1fr)`; // Ajustado para controlar filas también
+    container.style.gridTemplateRows = `repeat(${filas}, 1fr)`; 
 
     let espaciosRestantes = columnas * filas;
     console.log('Generating grid with', columnas, 'columns and', filas, 'rows');
@@ -57,7 +57,7 @@ const MondrianContent = () => {
 
   if (view === 'explanatory') {
     return (
-      <div className="p-2 md:p-4 border-4 border-accent rounded h-full md:h-auto flex flex-col items-center justify-center">
+      <div className="p-2 md:p-4 border-4 border-quaternary rounded h-full md:h-auto flex flex-col items-center justify-center">
         <h1 className="text-3xl font-bold text-accent mb-4">Welcome to Mondrian Creator</h1>
         <h2 className="text-xl font-semibold text-accent mb-4">A Flexbox-based Tool</h2>
         <p className="text-accent mb-6 text-center max-w-xl">

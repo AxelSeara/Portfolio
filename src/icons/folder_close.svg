@@ -1,1 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" data-name="Capa 2" viewBox="0 0 139.16 126"><g data-name="Capa 1"><path d="M12.89 94.35C7.43 94.35 3 89.92 3 84.46V12.89C3 7.43 7.43 3 12.89 3h54.54c5.46 0 16.08 12.34 16.08 17.81" style="fill:#ff6837;stroke:#243b40;stroke-miterlimit:10;stroke-width:6px"/><rect width="133.16" height="102.97" x="3" y="20.03" rx="12.77" ry="12.77" style="stroke:#243b40;stroke-miterlimit:10;stroke-width:6px;fill:#ff8e78"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 139.16 126">
+  <g>
+    <path d="M12.89 94.35C7.43 94.35 3 89.92 3 84.46V12.89C3 7.43 7.43 3 12.89 3h54.54c5.46 0 16.08 12.34 16.08 17.81" style="fill:#ff6837;stroke:#243b40;stroke-miterlimit:10;stroke-width:6px"/>
+    <rect width="133.16" height="102.97" x="3" y="20.03" rx="12.77" ry="12.77" style="stroke:#243b40;stroke-miterlimit:10;stroke-width:6px;fill:#ff8e78"/>
+  </g>
+</svg>

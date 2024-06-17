@@ -1,16 +1,25 @@
-<svg xmlns="http://www.w3.org/2000/svg" id="Capa_2" data-name="Capa 2" viewBox="0 0 92.61 122.4">
-  <defs>
-    <style>
-      .cls-1 {
-        fill: #75bebe;
-        stroke: #243b40;
-        stroke-miterlimit: 10;
-        stroke-width: 5px;
-      }
-    </style>
-  </defs>
-  <g id="Capa_1-2" data-name="Capa 1">
-    <path d="M89.91 22.39v92.43c0 2.7-2.19 4.89-4.89 4.89H7.59c-2.7 0-4.89-2.19-4.89-4.89V7.59C2.7 4.89 4.89 2.7 7.59 2.7h62.56c1.29 0 2.53.51 3.45 1.42l14.94 14.86c.92.91 1.44 2.15 1.44 3.41Z" class="cls-1"/>
-    <path d="M69.31 3.66v14.65c0 2.7 2.19 4.89 4.89 4.89h14.65M10.28 38.48h57M10.28 59.03h57M10.28 79.59h57M10.69 100.14h57" class="cls-1"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 95.45 126">
+  <style>
+    .cls-1{fill:none;stroke:#243b40;stroke-miterlimit:10;stroke-width:4px}
+    .cls-2{fill:#99cecc;stroke:#243b40;stroke-miterlimit:10;stroke-width:4px}
+    .cls-3{fill:#d6e8e7;stroke:#243b40;stroke-miterlimit:10;stroke-width:4px}
+    .cls-4{fill:#75bebe;stroke:#243b40;stroke-miterlimit:10;stroke-width:4px}
+    .cls-5{fill:#ff8e78;stroke-width:0}
+    .cls-6{fill:#ffba6b;stroke-width:0}
+    .cls-7{fill:#233b40;font-family:Athelas-Bold,Athelas;font-size:45.78px;font-weight:700}
+  </style>
+  <g>
+    <path class="cls-4" d="M92.45 23.19v94.8c0 2.77-2.24 5.01-5.01 5.01H8.01c-2.77 0-5.01-2.24-5.01-5.01V8.01c0-2.77 2.24-5.01 5.01-5.01h64.16c1.32 0 2.59.52 3.53 1.46l15.27 15.18c.95.94 1.48 2.22 1.48 3.55z"/>
+    <path class="cls-2" d="M71.32 3.99v15.03c0 2.77 2.24 5.01 5.01 5.01h15.03"/>
+    <rect class="cls-5" x="49.57" y="74.63" width="33.79" height="27.46"/>
+    <circle class="cls-6" cx="31.26" cy="37.36" r="18.48"/>
+    <g>
+      <line class="cls-3" x1="66.58" y1="88.24" x2="66.58" y2="59.73"/>
+      <path class="cls-1" d="M32.08 35.67s34 24 34.46 52.6"/>
+      <rect class="cls-3" x="62.35" y="84.02" width="8.45" height="8.45"/>
+      <rect class="cls-3" x="27.73" y="31.67" width="8.45" height="8.45"/>
+      <circle class="cls-3" cx="66.58" cy="59.73" r="3.17"/>
+    </g>
+    <text class="cls-7" transform="translate(10.82 100.59) rotate(1.57)">A</text>
   </g>
 </svg>
