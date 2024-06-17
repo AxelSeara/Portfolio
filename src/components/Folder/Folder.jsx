@@ -36,6 +36,7 @@ const Folder = ({
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
   const touchTimeout = useRef(null);
 
   useEffect(() => {
@@ -63,6 +64,19 @@ const Folder = ({
 
   const handlePointerDown = () => {
     setIsClicked(true);
+    setIsDragging(false);
+  };
+
+  const handlePointerUp = () => {
+    setIsClicked(false);
+  };
+
+  const handleDragStart = () => {
+    setIsDragging(true);
+  };
+
+  const handleDragEnd = () => {
+    setIsDragging(false);
   };
 
   const handleTouchStart = (e) => {
@@ -79,7 +93,9 @@ const Folder = ({
       clearTimeout(touchTimeout.current);
       touchTimeout.current = null;
     }
-    handleDoubleClick();
+    if (!isDragging) {
+      handleDoubleClick();
+    }
   };
 
   return (
@@ -89,11 +105,13 @@ const Folder = ({
         style={{ ...style, cursor: 'move' }}
         drag
         dragMomentum={false}
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
         onDoubleClick={handleDoubleClick}
         tabIndex={0}
         onKeyDown={handleKeyDown}
         onPointerDown={handlePointerDown}
-        onPointerUp={() => setIsClicked(false)}
+        onPointerUp={handlePointerUp}
         whileTap={{ scale: 0.95 }}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
