@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { motion, useDragControls } from 'framer-motion';
+import { motion, useDragControls, AnimatePresence } from 'framer-motion';
 import PropTypes from 'prop-types';
 
 const Modal = ({ isOpen, onClose, title, children, zIndex, onClick }) => {
@@ -38,7 +38,7 @@ const Modal = ({ isOpen, onClose, title, children, zIndex, onClick }) => {
   return (
     <div className="fixed inset-0 pointer-events-none flex items-center justify-center" style={{ zIndex }} onClick={onClick}>
       <motion.div
-        className="relative bg-tertiary text-accent w-full h-full md:h-auto md:w-1/2  shadow-no-blur pointer-events-auto border-4 border-accent rounded-md"
+        className="relative bg-tertiary text-accent w-full h-full md:h-auto md:w-1/2 shadow-no-blur pointer-events-auto border-4 border-accent rounded-md"
         drag={isDraggable}
         dragListener={false}
         dragControls={controls}
@@ -53,20 +53,33 @@ const Modal = ({ isOpen, onClose, title, children, zIndex, onClick }) => {
             {title}
           </h2>
           <button
-            className=" border-accent text-lg font-bold px-2 hover:bg-accent hover:text-white hover:shadow-none transition-colors duration-200"
+            className="border-accent text-lg font-bold px-2 hover:bg-accent hover:text-white hover:shadow-none transition-colors duration-200"
             onClick={onClose}
           >
             X
           </button>
         </div>
-        <div style={{
+        <div
+          style={{
             maxHeight: 'calc(90vh - 48px)',
             overflowY: 'auto',
-            paddingTop: '1rem', // Ajusta este valor según necesites
-            marginTop: '0.04rem', // adjust overflow error
-        }} className="p-2">
-            {children}
-</div>
+            paddingTop: '1rem',
+            marginTop: '0.04rem',
+          }}
+          className="p-2"
+        >
+          <AnimatePresence>
+            <motion.div
+              key={children.key}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              {children}
+            </motion.div>
+          </AnimatePresence>
+        </div>
       </motion.div>
     </div>
   );
