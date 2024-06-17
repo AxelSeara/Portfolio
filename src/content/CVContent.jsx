@@ -20,8 +20,8 @@ const CVContent = ({ onClose }) => {
             onClose();
             // Trigger the download
             const link = document.createElement('a');
-            link.href = '/AxelSeara_HB.pdf'; // Ensure the path is correct
-            link.download = 'AxelSeara_HB.pdf';
+            link.href = '/AxelSeara_CV.pdf'; // Ensure the path is correct
+            link.download = 'AxelSeara_CV.pdf';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
