@@ -57,18 +57,22 @@ const MondrianContent = () => {
 
   if (view === 'explanatory') {
     return (
-      <div className="p-2 md:p-4 border-4 border-quaternary rounded h-full md:h-auto flex flex-col items-center justify-center">
-        <h1 className="text-3xl font-bold text-accent mb-4">Welcome to Mondrian Creator</h1>
-        <h2 className="text-xl font-semibold text-accent mb-4">A Flexbox-based Tool</h2>
-        <p className="text-accent mb-6 text-center max-w-xl">
-          Here is a tool I developed, playing with CSS flexbox values and JavaScript, to create a Mondrian style art generator. Click below to launch and try it. You can adjust the columns and rows and trigger the generator as much as you want! Enjoy.
-        </p>
-        <button
-          className="bg-primary hover:bg-secondary text-black font-bold py-2 px-4 border-2 border-accent rounded transition duration-200 ease-in-out transform hover:scale-105 active:scale-95"
-          onClick={handleLaunch}
-        >
-          Launch
-        </button>
+      <div className="fixed flex items-center justify-center p-4 ">
+        <div className="p-4 md:p-8 lg:p-12 rounded-lg first:m-2">
+          <h1 className="text-3xl font-bold text-accent mb-4">Welcome to Mondrian Creator</h1>
+          <h2 className="text-xl font-semibold text-accent mb-4">A Flexbox-based Tool</h2>
+          <p className="text-accent mb-6 max-w-xl">
+            Here is a tool I developed, playing with CSS flexbox values and JavaScript, to create a Mondrian style art generator. Click below to launch and try it. You can adjust the columns and rows and trigger the generator as much as you want! Enjoy.
+          </p>
+          <div className="flex justify-center">
+            <button
+              className="bg-primary hover:bg-secondary text-black font-bold py-2 px-4 border-2 border-accent rounded transition duration-200 ease-in-out transform hover:scale-105 active:scale-95"
+              onClick={handleLaunch}
+            >
+              Launch
+            </button>
+          </div>
+        </div>
       </div>
     );
   }
