@@ -66,8 +66,7 @@ const App = () => {
     <MainLayout>
       {showNotification && (
         <Notification
-          message="Hi! Welcome to my portfolio. This webpage was totally designed by me from assets to code, emulating an operating system environment. Feel free to drag the icons on the desktop, double click to open, enjoy and contact me please."
-          onClose={() => setShowNotification(false)}
+        message="Welcome to my portfolio! This site is entirely my creation, from the assets to the code, emulating an operating system environment. Feel free to drag the desktop icons, double-click to open them, and explore. Enjoy your visit, and don't hesitate to contact me!"          onClose={() => setShowNotification(false)}
         />
       )}
       <div className="fixed top-0 left-0 right-0 z-50">
