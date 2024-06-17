@@ -39,38 +39,49 @@ const WeatherContent = () => {
   }, [latitude, longitude]);
 
   const handleLocationPermission = () => {
-    if (navigator.geolocation) {
-      setLoading(true);
-      setError(null);
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setLatitude(position.coords.latitude);
-          setLongitude(position.coords.longitude);
-        },
-        (error) => {
-          console.error('Error getting location:', error);
-          switch (error.code) {
-            case error.PERMISSION_DENIED:
-              setError('User denied the request for Geolocation.');
-              break;
-            case error.POSITION_UNAVAILABLE:
-              setError('Location information is unavailable.');
-              break;
-            case error.TIMEOUT:
-              setError('The request to get user location timed out.');
-              break;
-            default:
-              setError('An unknown error occurred.');
-              break;
-          }
-          setLoading(false);
-        },
-        { timeout: 10000 } // 10 seconds timeout
-      );
-    } else {
+    console.log("Requesting location permission...");
+  
+    // Check if the Geolocation API is available in the browser
+    if (!navigator.geolocation) {
       console.error('Geolocation is not supported by this browser.');
       setError('Geolocation is not supported by your browser.');
+      return;
     }
+  
+    setLoading(true);
+    setError(null);
+  
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        console.log("Location access granted.");
+        setLatitude(position.coords.latitude);
+        setLongitude(position.coords.longitude);
+        setLoading(false);
+      },
+      (error) => {
+        console.error('Error getting location:', error);
+        setLoading(false);
+        switch (error.code) {
+          case error.PERMISSION_DENIED:
+            setError('User denied the request for Geolocation.');
+            break;
+          case error.POSITION_UNAVAILABLE:
+            setError('Location information is unavailable.');
+            break;
+          case error.TIMEOUT:
+            setError('The request to get user location timed out.');
+            break;
+          default:
+            setError('An unknown error occurred.');
+            break;
+        }
+      },
+      { 
+        timeout: 10000,  // 10 seconds
+        maximumAge: 60000, // Accept a cached position within 60 seconds
+        enableHighAccuracy: true // Request the best results possible
+      }
+    );
   };
 
   useEffect(() => {
