@@ -68,7 +68,7 @@ const Folder = ({
   const handleTouchStart = (e) => {
     touchTimeout.current = setTimeout(() => {
       if (navigator.vibrate) {
-        navigator.vibrate(50);
+        navigator.vibrate(100);
       }
       e.target.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
     }, 200);
