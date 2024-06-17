@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar/Navbar';
 import MainLayout from './components/MainLayout/MainLayout';
 import Folder from './components/Folder/Folder';
@@ -11,12 +11,14 @@ import WeatherContent from './content/WeatherContent';
 import ContactContent from './content/ContactContent';
 import MondrianContent from './content/MondrianContent';
 import AboutContent from './content/AboutContent';
+import Notification from './components/Notification/Notification';
 
 const App = () => {
   const [openModals, setOpenModals] = useState([]);
   const [zIndex, setZIndex] = useState(1000); // Starting zIndex for modals
   const [modalZIndices, setModalZIndices] = useState({});
   const [activeLink, setActiveLink] = useState('');
+  const [showNotification, setShowNotification] = useState(true);
 
   const folders = [
     { id: 1, name: 'Ilus', content: <IlusContent onClose={() => handleCloseModal('Ilus')} /> },
@@ -28,7 +30,6 @@ const App = () => {
     { id: 7, name: 'Contact', content: <ContactContent onClose={() => handleCloseModal('Contact')} /> },
     { id: 8, name: 'Mondrian Generator', content: <MondrianContent onClose={() => handleCloseModal('Mondrian Generator')} /> },
     { id: 9, name: 'About', content: <AboutContent onClose={() => handleCloseModal('About Content')} /> },
-
   ];
 
   const handleOpenModal = (id) => {
@@ -63,6 +64,12 @@ const App = () => {
 
   return (
     <MainLayout>
+      {showNotification && (
+        <Notification
+          message="Hi! Welcome to my portfolio. This webpage was totally designed by me from assets to code, emulating an operating system environment. Feel free to drag the icons on the desktop, double click to open, enjoy and contact me please."
+          onClose={() => setShowNotification(false)}
+        />
+      )}
       <div className="fixed top-0 left-0 right-0 z-50">
         <Navbar 
           name="AXEL S" 
