@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import PropTypes from 'prop-types';
 import folderCloseIcon from '../../icons/folder_close.svg';
@@ -36,6 +36,7 @@ const Folder = ({
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
+  const touchTimeout = useRef(null);
 
   useEffect(() => {
     setIsModalOpen(isOpen);  // Control modal visibility directly from props
@@ -64,6 +65,23 @@ const Folder = ({
     setIsClicked(true);
   };
 
+  const handleTouchStart = (e) => {
+    touchTimeout.current = setTimeout(() => {
+      if (navigator.vibrate) {
+        navigator.vibrate(50);
+      }
+      e.target.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
+    }, 200);
+  };
+
+  const handleTouchEnd = (e) => {
+    if (touchTimeout.current) {
+      clearTimeout(touchTimeout.current);
+      touchTimeout.current = null;
+    }
+    handleDoubleClick();
+  };
+
   return (
     <div className="m-3">
       <motion.div
@@ -77,6 +95,8 @@ const Folder = ({
         onPointerDown={handlePointerDown}
         onPointerUp={() => setIsClicked(false)}
         whileTap={{ scale: 0.95 }}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
       >
         <motion.img
           src={iconMapping[name] || (isOpen ? folderOpenIcon : folderCloseIcon)}
