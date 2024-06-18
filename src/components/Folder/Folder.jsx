@@ -81,12 +81,11 @@ const Folder = ({
 
   const handleTouchStart = (e) => {
     touchTimeout.current = setTimeout(() => {
+      setIsDragging(true);
       if (navigator.vibrate) {
         navigator.vibrate(100);
       }
-      e.target.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
-      setIsDragging(true);
-    }, 400); // 0.4 seconds timeout to activate drag
+    }, 1000); // 0.4 seconds timeout to activate drag
   };
 
   const handleTouchEnd = (e) => {
