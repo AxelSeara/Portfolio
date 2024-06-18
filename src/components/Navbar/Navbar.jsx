@@ -1,15 +1,15 @@
 import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { motion, AnimatePresence } from 'framer-motion';
+import DropdownAdjust from '../DropdownAdjust/DropdownAdjust';
 
-const Navbar = ({ name, links, onClickLink, activeLink, folders, onOpenModal }) => {
+const Navbar = ({ name, links, onClickLink, activeLink, folders, onOpenModal, onRefreshFolders }) => {
   const [currentTime, setCurrentTime] = useState('');
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isSwitched, setIsSwitched] = useState(false);
   const [activeSubmenu, setActiveSubmenu] = useState(null);
   const dropdownRef = useRef(null);
 
-  
   const openContactModal = () => {
     const contactFolder = folders.find(folder => folder.name === "Contact");
     if (contactFolder) {
@@ -45,10 +45,6 @@ const Navbar = ({ name, links, onClickLink, activeLink, folders, onOpenModal }) 
 
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
-  };
-
-  const handleIconClick = () => {
-    setIsSwitched(!isSwitched);
   };
 
   const handleMouseEnter = (menu) => {
@@ -107,39 +103,23 @@ const Navbar = ({ name, links, onClickLink, activeLink, folders, onOpenModal }) 
           ))}
         </div>
         <div className="flex items-center space-x-4">
-          <div className="group w-6 h-6 flex items-center justify-center hover:bg-accent hover:text-white" onClick={handleIconClick}>
-            <svg 
-              xmlns="http://www.w3.org/2000/svg" 
-              id="Capa_2" 
-              data-name="Capa 2" 
-              viewBox="0 0 49 42.09"
-              className="w-5 h-5 stroke-current text-accent group-hover:text-white fill-accent "
-            >
-              <g id="Capa_1-2" data-name="Capa 1">
-                <path d="M49 10.29H0M49 31.03H0" className="stroke-current" strokeWidth="6"/>
-                <motion.circle 
-                  cx={isSwitched ? "10.96" : "37.94"} 
-                  cy="11.06" 
-                  r="8.06" 
-                  className="stroke-current" 
-                  strokeWidth="6"
-                  initial={false}
-                  animate={{ x: isSwitched ? 27 : -27 }}
-                  transition={{ duration: 0.5 }}
-                />
-                <motion.circle 
-                  cx={isSwitched ? "37.94" : "10.96"} 
-                  cy="31.13" 
-                  r="7.96" 
-                  className="stroke-current" 
-                  strokeWidth="6"
-                  initial={false}
-                  animate={{ x: isSwitched ? -27 : 27 }}
-                  transition={{ duration: 0.5 }}
-                />
-              </g>
-            </svg>
-          </div>
+        <DropdownAdjust
+  buttonContent={
+    <div className="group w-6 h-6 flex items-center justify-center hover:bg-accent hover:text-white" id="adjust">
+      <svg xmlns="http://www.w3.org/2000/svg" id="Capa_2" data-name="Capa 2" viewBox="0 0 49 42.09" className="w-5 h-5 stroke-current text-accent group-hover:text-white fill-accent">
+        <defs>
+          <style>{'.cls-1{fill:none;stroke:#243b40;stroke-miterlimit:10;stroke-width:6px}'}</style>
+        </defs>
+        <g id="Capa_1-2" data-name="Capa 1">
+          <path d="M30 10.29H4.92M44.46 31.03H18" className="cls-1 stroke-current group-hover:stroke-white"/>
+          <circle cx="37.94" cy="11.06" r="8.06" className="cls-1 stroke-current group-hover:stroke-white"/>
+          <circle cx="10.96" cy="31.13" r="7.96" className="cls-1 stroke-current group-hover:stroke-white"/>
+        </g>
+      </svg>
+    </div>
+  }
+  onRefreshFolders={onRefreshFolders} //refresh icons
+/>
           <div className="group w-6 h-6 flex items-center justify-center hover:bg-accent hover:text-white" onClick={openContactModal}>
             <svg 
               xmlns="http://www.w3.org/2000/svg" 
@@ -216,18 +196,6 @@ const Navbar = ({ name, links, onClickLink, activeLink, folders, onOpenModal }) 
       )}
     </div>
   );
-};
-
-Navbar.propTypes = {
-  name: PropTypes.string.isRequired,
-  links: PropTypes.arrayOf(PropTypes.string).isRequired,
-  onClickLink: PropTypes.func.isRequired,
-  activeLink: PropTypes.string.isRequired,
-  folders: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-  })).isRequired,
-  onOpenModal: PropTypes.func.isRequired,
 };
 
 export default Navbar;

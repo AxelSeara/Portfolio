@@ -19,6 +19,7 @@ const App = () => {
   const [modalZIndices, setModalZIndices] = useState({});
   const [activeLink, setActiveLink] = useState('');
   const [showNotification, setShowNotification] = useState(true);
+  const [resetCounter, setResetCounter] = useState(0); // New state to trigger re-renders
   const containerRef = useRef(null);
 
   const folders = [
@@ -32,6 +33,10 @@ const App = () => {
     { id: 8, name: 'Mondrian Generator', content: <MondrianContent onClose={() => handleCloseModal('Mondrian Generator')} /> },
     { id: 9, name: 'About', content: <AboutContent onClose={() => handleCloseModal('About Content')} /> },
   ];
+  const resetFolderPositions = () => {
+    setResetCounter(prev => prev + 1); // Increment to trigger re-render
+  };
+  
 
   const handleOpenModal = (id) => {
     const folder = folders.find(folder => folder.id === id);
@@ -79,13 +84,14 @@ const App = () => {
           activeLink={activeLink}
           folders={folders}
           onOpenModal={handleOpenModal}
+          onRefreshFolders={resetFolderPositions}  // Pass the function down to Navbar
         />
       </div>
       <div className="relative mt-16 h-screen overflow-y-auto" ref={containerRef}>
         <div className="grid grid-cols-3 gap-1 lg:grid-cols-3 lg:gap-2 mx-4">
           {folders.map((folder, index) => (  // Include index here
             <Folder
-              key={folder.id}
+              key={`${folder.id}-${resetCounter}`} // Resetting using resetCounter`.
               id={folder.id}
               initialOpen={false}
               className="relative"
