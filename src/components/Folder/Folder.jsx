@@ -107,7 +107,7 @@ const handleDragEnd = () => {
       <motion.div
         className={` flex flex-col items-center justify-center w-24 p-2 ${className}`}
         style={{ ...style, cursor: 'move' }}
-        drag={isDragging} 
+        drag
         dragMomentum={false}
         dragConstraints={dragConstraints}
         onDragStart={handleDragStart}
