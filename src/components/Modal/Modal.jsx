@@ -36,9 +36,9 @@ const Modal = ({ isOpen, onClose, title, children, zIndex, onClick }) => {
   };
 
   return (
-    <div className="fixed inset-0 pointer-events-none flex items-center justify-center" style={{ zIndex }} onClick={onClick}>
+    <div className="fixed inset-0 pointer-events-none flex items-center justify-center p-4 md:p-6" style={{ zIndex }} onClick={onClick}>
       <motion.div
-        className="relative bg-tertiary text-accent w-full h-full md:h-auto md:w-1/2 shadow-no-blur pointer-events-auto border-4 border-accent rounded-md"
+        className="relative bg-tertiary text-accent w-full h-full md:h-auto md:w-1/2 shadow-no-blur pointer-events-auto border-4 border-accent rounded-md flex flex-col"
         drag={isDraggable}
         dragListener={false}
         dragControls={controls}
@@ -66,7 +66,7 @@ const Modal = ({ isOpen, onClose, title, children, zIndex, onClick }) => {
             paddingTop: '1rem',
             marginTop: '0.04rem',
           }}
-          className="p-2"
+          className="p-2 flex flex-grow items-center justify-center overflow-y-auto"
         >
           <AnimatePresence>
             <motion.div

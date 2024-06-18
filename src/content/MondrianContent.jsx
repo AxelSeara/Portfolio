@@ -59,11 +59,11 @@ const MondrianContent = () => {
 
   if (view === 'explanatory') {
     return (
-      <div className="p-2 md:p-4  border- border-accent h-full md:h-auto flex flex-col items-center justify-center">
+      <div className="flex flex-col items-center justify-center h-full p-2 md:p-4 text-center">
         <h1 className="text-3xl font-bold text-accent mb-4">Welcome to Mondrian Creator</h1>
         <h2 className="text-xl font-semibold text-accent mb-4">A Flexbox-based Tool</h2>
-        <p className="text-accent mb-6 text-center max-w-xl">
-        Here is a tool I developed, playing with CSS flexbox values and JavaScript, to create a Mondrian style art generator. Click below to launch and try it. You can adjust the columns and rows and trigger the generator as much as you want! Enjoy.
+        <p className="text-accent mb-6 max-w-xl">
+          Here is a tool I developed, playing with CSS flexbox values and JavaScript, to create a Mondrian style art generator. Click below to launch and try it. You can adjust the columns and rows and trigger the generator as much as you want! Enjoy.
         </p>
         <button
           className="bg-primary hover:bg-secondary text-black font-bold py-2 px-4 border-2 border-accent rounded transition duration-200 ease-in-out transform hover:scale-105 active:scale-95"
@@ -89,9 +89,10 @@ const MondrianContent = () => {
     );
   }
 
+
   return (
-    <div className="p-2 md:p-4 bg-white  border-quaternary  h-full md:h-auto">
-      <div className="flex flex-col md:flex-row p-2 md:p-4 bg-black text-white items-center justify-between">
+    <div className="p-2 md:p-4 bg-white w-full h-full flex flex-col border-quaternary">
+      <div className="flex flex-col md:flex-row p-2 md:p-4 bg-black text-white items-center justify-between flex-shrink-0">
         <div className="flex flex-col items-center md:items-start mb-4 md:mb-0 md:mr-4">
           <div className="flex items-center mb-4">
             <h3 className="text-lg">Vertical cells:</h3>
@@ -102,12 +103,12 @@ const MondrianContent = () => {
             min="2"
             max="8"
             value={verticalValue}
-            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+            className="w-30 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-400"
             id="verticalValue"
             onChange={(e) => setVerticalValue(parseInt(e.target.value))}
           />
         </div>
-
+  
         <div className="flex flex-col items-center md:items-start mb-4 md:mb-0">
           <div className="flex items-center mb-4">
             <h3 className="text-lg">Horizontal cells:</h3>
@@ -118,21 +119,21 @@ const MondrianContent = () => {
             min="2"
             max="8"
             value={horizontalValue}
-            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+            className="w-30 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-400"
             id="horizontalValue"
             onChange={(e) => setHorizontalValue(parseInt(e.target.value))}
           />
         </div>
-
+  
         <button
           id="generate"
-          className="bg-primary hover:bg-secondary text-black font-bold py-2 px-4 mt-4 md:mt-0"
+          className="bg-primary hover:bg-secondary text-black font-bold ml-4 m-3 py-2 px-4 mt-4"
           onClick={() => generateGrid(horizontalValue, verticalValue)}
         >
           Generate
         </button>
       </div>
-      <div className="grid-container mt-4 h-60 md:h-96 overflow-y-auto"></div>
+      <div className="flex-grow grid-container mt-4 overflow-y-auto"></div>
     </div>
   );
 };

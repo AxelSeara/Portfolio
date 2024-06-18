@@ -148,7 +148,7 @@ const WeatherContent = () => {
 
   return (
     <div className={`flex flex-col items-center justify-center h-full p-4 ${getBackgroundClass()} font-mono`}>
-      <div className="w-full flex justify-center text-accent mb-4 p-2 rounded flex-wrap">
+      <div className="w-full flex justify-center text-accent mb-6 p-2 rounded flex-wrap">
         {cities.map((city) => (
           <button
             key={city.name}

@@ -40,9 +40,11 @@ const MondrianApp = ({ horizontalValue, verticalValue }) => {
       container.appendChild(cell);
       espaciosRestantes -= espacioUsado;
     }
-    };
-    
-    return ;
-    };
-    
-    export default MondrianApp;
+  };
+
+  return (
+    <div className="grid-container"></div>
+  );
+};
+
+export default MondrianApp;
