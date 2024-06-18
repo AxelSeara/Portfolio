@@ -13,6 +13,13 @@ import MondrianContent from './content/MondrianContent';
 import AboutContent from './content/AboutContent';
 import Notification from './components/Notification/Notification';
 
+const preloadImages = (imageArray) => {
+  imageArray.forEach((image) => {
+    const img = new Image();
+    img.src = image;
+  });
+};
+
 const App = () => {
   const [openModals, setOpenModals] = useState([]);
   const [zIndex, setZIndex] = useState(1000); // Starting zIndex for modals
@@ -20,7 +27,14 @@ const App = () => {
   const [activeLink, setActiveLink] = useState('');
   const [showNotification, setShowNotification] = useState(true);
   const [resetCounter, setResetCounter] = useState(0); // New state to trigger re-renders
+  const [backgroundImage, setBackgroundImage] = useState('/bg3.jpg');
   const containerRef = useRef(null);
+
+  useEffect(() => {
+    // Images to preload
+    const imagesToPreload = ['/bg2.jpg', '/bg3.jpg'];
+    preloadImages(imagesToPreload);
+  }, []);
 
   const folders = [
     { id: 1, name: 'Ilus', content: <IlusContent onClose={() => handleCloseModal('Ilus')} /> },
@@ -68,8 +82,13 @@ const App = () => {
     handleClickModal(folderName);
   };
 
+  const switchBackground = (bgName) => {
+    const timestamp = new Date().getTime(); // Get current timestamp
+    const newBg = bgName === 'Classic' ? `/bg2.jpg?${timestamp}` : `/bg3.jpg?${timestamp}`;
+    setBackgroundImage(newBg);
+};
   return (
-    <MainLayout>
+    <MainLayout key={backgroundImage}  backgroundImage={backgroundImage}>
       {showNotification && (
         <Notification
           message="Welcome to my portfolio! This site is entirely my creation, from the assets to the code, emulating an operating system environment. Feel free to drag the desktop icons, double-click to open them, and explore. Enjoy your visit, and don't hesitate to contact me!"
@@ -85,6 +104,7 @@ const App = () => {
           folders={folders}
           onOpenModal={handleOpenModal}
           onRefreshFolders={resetFolderPositions}  // Pass the function down to Navbar
+          switchBackground={switchBackground} // Pass the function down to Navbar
         />
       </div>
       <div className="relative mt-16 h-screen overflow-y-auto" ref={containerRef}>

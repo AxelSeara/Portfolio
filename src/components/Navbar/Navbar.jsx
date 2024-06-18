@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { motion, AnimatePresence } from 'framer-motion';
 import DropdownAdjust from '../DropdownAdjust/DropdownAdjust';
 
-const Navbar = ({ name, links, onClickLink, activeLink, folders, onOpenModal, onRefreshFolders }) => {
+const Navbar = ({ name, links, onClickLink, activeLink, folders, onOpenModal, onRefreshFolders, switchBackground }) => {
   const [currentTime, setCurrentTime] = useState('');
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isSwitched, setIsSwitched] = useState(false);
@@ -119,6 +119,7 @@ const Navbar = ({ name, links, onClickLink, activeLink, folders, onOpenModal, on
     </div>
   }
   onRefreshFolders={onRefreshFolders} //refresh icons
+  switchBackground={switchBackground} // Pass the switchBackground function to DropdownAdjust
 />
           <div className="group w-6 h-6 flex items-center justify-center hover:bg-accent hover:text-white" onClick={openContactModal}>
             <svg 
