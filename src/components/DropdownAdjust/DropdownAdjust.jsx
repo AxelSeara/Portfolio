@@ -59,7 +59,7 @@ const DropdownAdjust = ({ buttonContent, onRefreshFolders, switchBackground }) =
                       whileTap={{ scale: 1.1 }}
                       onClick={() => handleBgClick('Classic')}
                     />
-                    <p>Classic</p>
+                    <p>Nighty</p>
                   </div>
                   <div className="text-center group">
                     <motion.img
@@ -69,7 +69,7 @@ const DropdownAdjust = ({ buttonContent, onRefreshFolders, switchBackground }) =
                       whileTap={{ scale: 1.1 }}
                       onClick={() => handleBgClick('Nighty')}
                     />
-                    <p>Nighty</p>
+                    <p>Classic</p>
                   </div>
                 </div>
               </li>

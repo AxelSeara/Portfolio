@@ -127,7 +127,7 @@ const Folder = ({
           whileHover={{ scale: 1.05 }}
           transition={{ duration: 0.2 }}
         />
-        <span className={`mt-2 text-center w-full font-bold  ${isClicked ? 'bg-accent text-white ' : 'text-white shadow-sm'}`}>
+        <span className={`mt-2 text-center w-full font-bold  ${isClicked ? 'bg-accent text-white ' : 'text-white text-shadow-lg'}`}>
           {name}
         </span>
       </motion.div>

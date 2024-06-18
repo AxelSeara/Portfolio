@@ -1,4 +1,5 @@
-/** @type {import('tailwindcss').Config} */
+const plugin = require('tailwindcss/plugin');
+
 module.exports = {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
@@ -23,12 +24,19 @@ module.exports = {
         quaternary: '#e1b1a9',
         accent: '#243b40',
       },
-       fontFamily: {
+      fontFamily: {
         mono: ['Roboto Mono', 'monospace'],
+      },
+      // Adding text shadow extensions
+      textShadow: {
+        sm: '0 1px 2px var(--tw-shadow-color)',
+        DEFAULT: '0 2px 4px var(--tw-shadow-color)',
+        lg: '0 8px 16px var(--tw-shadow-color)',
       },
     },
   },
   plugins: [
+    // Existing plugin for custom utilities
     function({ addUtilities }) {
       addUtilities({
         '.svg-stroke-hover': {
@@ -38,5 +46,16 @@ module.exports = {
         },
       });
     },
+    // Adding plugin for text shadow
+    plugin(function ({ matchUtilities, theme }) {
+      matchUtilities(
+        {
+          'text-shadow': (value) => ({
+            textShadow: value,
+          }),
+        },
+        { values: theme('textShadow') }
+      )
+    }),
   ],
 }
