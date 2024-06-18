@@ -45,11 +45,11 @@ const Folder = ({
   }, [isOpen]);
 
   const handleDoubleClick = () => {
-    if (!disableDoubleClick && !isDragging) {
-        setIsModalOpen(true);
-        onOpen(id); // This will update the state in App which should pass down new props
+    if (!disableDoubleClick) {
+      setIsModalOpen(true);
+      onOpen(id); // This will update the state in App which should pass down new props
     }
-};
+  };
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -72,38 +72,37 @@ const Folder = ({
     setIsClicked(false);
   };
 
-
-const handleTouchStart = (e) => {
-  e.preventDefault(); // Prevents the default action of the touch event
-  touchTimeout.current = setTimeout(() => {
+  const handleDragStart = () => {
     setIsDragging(true);
-    if (navigator.vibrate) {
-      navigator.vibrate(100);
+  };
+
+  const handleDragEnd = () => {
+    setIsDragging(false);
+  };
+
+  const handleTouchStart = (e) => {
+    touchTimeout.current = setTimeout(() => {
+      if (navigator.vibrate) {
+        navigator.vibrate(100);
+      }
+      e.target.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
+      setIsDragging(true);
+    }, 400); // 0.4 seconds timeout to activate drag
+  };
+
+  const handleTouchEnd = (e) => {
+    if (touchTimeout.current) {
+      clearTimeout(touchTimeout.current);
+      touchTimeout.current = null;
     }
-  }, 1000); // Delay drag activation for 1 second
-};
-
-
- // Touch end logic
- const handleTouchEnd = () => {
-  clearTimeout(touchTimeout.current); // Clear the timeout to prevent unwanted drag activation
-  if (!isDragging) {
-    handleDoubleClick(); // Handle as a click if not dragged
-  }
-  setIsDragging(false); // Always reset dragging state on touch end
-};
-
-// Drag start and end handlers
-const handleDragStart = () => {
-  // Additional logic if needed
-};
-
-const handleDragEnd = () => {
-  setIsDragging(false); // Reset dragging state
-};
+    if (!isDragging) {
+      handleDoubleClick();
+    }
+    setIsDragging(false);
+  };
 
   return (
-    <div className="m-3 flex flex-col items-center justify-center w-24 p-2">
+    <div className="m-3">
       <motion.div
         className={` flex flex-col items-center justify-center w-24 p-2 ${className}`}
         style={{ ...style, cursor: 'move' }}
@@ -124,11 +123,11 @@ const handleDragEnd = () => {
         <motion.img
           src={iconMapping[name] || (isOpen ? folderOpenIcon : folderCloseIcon)}
           alt={name}
-          className= "w-full h-full pointer-events-none" 
-          whileHover={{ scale: 1.1 }}
+          className={isOpen ? "w-full h-full pointer-events-none" : "w-[105%] h-[105%] pointer-events-none"}
+          whileHover={{ scale: 1.05 }}
           transition={{ duration: 0.2 }}
         />
-        <span className={`mt-2 text-center w-full font-bold  ${isClicked ? 'bg-accent text-white ' : 'text-white text-shadow-lg'}`}>
+        <span className={`mt-2 text-center w-full font-bold  ${isClicked ? 'bg-accent text-white ' : 'text-white text-shadow-'}`}>
           {name}
         </span>
       </motion.div>
