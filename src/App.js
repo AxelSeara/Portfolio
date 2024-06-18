@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Navbar from './components/Navbar/Navbar';
 import MainLayout from './components/MainLayout/MainLayout';
 import Folder from './components/Folder/Folder';
@@ -19,6 +19,7 @@ const App = () => {
   const [modalZIndices, setModalZIndices] = useState({});
   const [activeLink, setActiveLink] = useState('');
   const [showNotification, setShowNotification] = useState(true);
+  const containerRef = useRef(null);
 
   const folders = [
     { id: 1, name: 'Ilus', content: <IlusContent onClose={() => handleCloseModal('Ilus')} /> },
@@ -66,37 +67,39 @@ const App = () => {
     <MainLayout>
       {showNotification && (
         <Notification
-        message="Welcome to my portfolio! This site is entirely my creation, from the assets to the code, emulating an operating system environment. Feel free to drag the desktop icons, double-click to open them, and explore. Enjoy your visit, and don't hesitate to contact me!"          onClose={() => setShowNotification(false)}
+          message="Welcome to my portfolio! This site is entirely my creation, from the assets to the code, emulating an operating system environment. Feel free to drag the desktop icons, double-click to open them, and explore. Enjoy your visit, and don't hesitate to contact me!"
+          onClose={() => setShowNotification(false)}
         />
       )}
       <div className="fixed top-0 left-0 right-0 z-50">
-        <Navbar 
-          name="AXEL S" 
-          links={openModals} 
-          onClickLink={handleClickModal} 
-          activeLink={activeLink} 
-          folders={folders} 
-          onOpenModal={handleOpenModal} 
+        <Navbar
+          name="AXEL S"
+          links={openModals}
+          onClickLink={handleClickModal}
+          activeLink={activeLink}
+          folders={folders}
+          onOpenModal={handleOpenModal}
         />
       </div>
-      <div className="relative mt-16 h-screen overflow-y-auto">
+      <div className="relative mt-16 h-screen overflow-y-auto" ref={containerRef}>
         <div className="grid grid-cols-3 gap-1 lg:grid-cols-3 lg:gap-2 mx-4">
-            {folders.map((folder, index) => (  // Include index here
-             <Folder
-             key={folder.id}
-             id={folder.id}
-             initialOpen={false}
-             className="relative"
-             name={folder.name}
-             content={folder.content}
-             onClick={handleClick} 
-             onOpen={handleOpenModal}
-             onClose={handleCloseModal}
-             isOpen={openModals.includes(folder.name)}
-             zIndex={modalZIndices[folder.name] || 1000}
-             disableDoubleClick={false}
-           />
-            ))}
+          {folders.map((folder, index) => (  // Include index here
+            <Folder
+              key={folder.id}
+              id={folder.id}
+              initialOpen={false}
+              className="relative"
+              name={folder.name}
+              content={folder.content}
+              onClick={handleClick}
+              onOpen={handleOpenModal}
+              onClose={handleCloseModal}
+              isOpen={openModals.includes(folder.name)}
+              zIndex={modalZIndices[folder.name] || 1000}
+              disableDoubleClick={false}
+              dragConstraints={containerRef}
+            />
+          ))}
         </div>
       </div>
     </MainLayout>

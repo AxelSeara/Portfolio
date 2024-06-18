@@ -32,7 +32,8 @@ const Folder = ({
   onClick,
   zIndex,
   id,
-  isOpen
+  isOpen,
+  dragConstraints
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
@@ -81,11 +82,12 @@ const Folder = ({
 
   const handleTouchStart = (e) => {
     touchTimeout.current = setTimeout(() => {
-      setIsDragging(true);
       if (navigator.vibrate) {
         navigator.vibrate(100);
       }
-    }, 1000); // 0.4 seconds timeout to activate drag
+      e.target.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
+      setIsDragging(true);
+    }, 400); // 0.4 seconds timeout to activate drag
   };
 
   const handleTouchEnd = (e) => {
@@ -106,6 +108,7 @@ const Folder = ({
         style={{ ...style, cursor: 'move' }}
         drag
         dragMomentum={false}
+        dragConstraints={dragConstraints}
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
         onDoubleClick={handleDoubleClick}
@@ -153,6 +156,7 @@ Folder.propTypes = {
   onClick: PropTypes.func.isRequired,
   zIndex: PropTypes.number.isRequired,
   id: PropTypes.number.isRequired,
+  dragConstraints: PropTypes.object.isRequired,
 };
 
 export default Folder;

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
 import './WeatherStyles.css';
+
 const cities = [
   { name: 'Reykjavik', lat: 64.1355, lon: -21.8954 },
   { name: 'Dubai', lat: 25.276987, lon: 55.296249 },
@@ -23,7 +24,10 @@ const WeatherContent = () => {
       const weatherResponse = await axios.get(
         `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=9d6c6b757538770137128e0520bd7f64&units=metric`
       );
-      setWeather(weatherResponse.data);
+      const uvResponse = await axios.get(
+        `https://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${lon}&appid=9d6c6b757538770137128e0520bd7f64`
+      );
+      setWeather({ ...weatherResponse.data, uvIndex: uvResponse.data.value });
     } catch (error) {
       console.error('Error fetching weather data:', error);
       setError('Unable to fetch weather data.');
@@ -40,17 +44,16 @@ const WeatherContent = () => {
 
   const handleLocationPermission = () => {
     console.log("Requesting location permission...");
-  
-    // Check if the Geolocation API is available in the browser
+
     if (!navigator.geolocation) {
       console.error('Geolocation is not supported by this browser.');
       setError('Geolocation is not supported by your browser.');
       return;
     }
-  
+
     setLoading(true);
     setError(null);
-  
+
     navigator.geolocation.getCurrentPosition(
       (position) => {
         console.log("Location access granted.");
@@ -77,9 +80,9 @@ const WeatherContent = () => {
         }
       },
       { 
-        timeout: 10000,  // 10 seconds
-        maximumAge: 60000, // Accept a cached position within 60 seconds
-        enableHighAccuracy: true // Request the best results possible
+        timeout: 10000,
+        maximumAge: 60000,
+        enableHighAccuracy: true
       }
     );
   };
@@ -101,50 +104,40 @@ const WeatherContent = () => {
         return 'bg-gradient-to-t from-blue-900 to-blue-500';
       case 'thunderstorm':
         return 'bg-gradient-to-t from-gray-900 to-gray-700';
+      case 'snow':
+        return 'bg-gradient-to-t from-blue-500 to-white';
+      case 'drizzle':
+        return 'bg-gradient-to-t from-blue-300 to-blue-100';
+      case 'mist':
+      case 'fog':
+        return 'bg-gradient-to-t from-gray-400 to-gray-200';
       default:
         return 'bg-gradient-to-t from-pink-500 to-orange-300';
     }
   };
 
-  const getAnimation = () => {
-    if (!weather) return null;
+  const getEmoji = () => {
+    if (!weather) return '🌞';
     const main = weather.weather[0].main.toLowerCase();
 
     switch (main) {
       case 'clear':
-        return (
-          <motion.div
-            className="w-12 h-12 bg-yellow-500 rounded-full"
-            animate={{ scale: [0.5, 1.5, 0.5] }}
-            transition={{ duration: 2, repeat: Infinity }}
-          />
-        );
+        return '🌞';
       case 'clouds':
-        return (
-          <motion.div
-            className="w-12 h-12 bg-purple-600 rounded-lg"
-            animate={{ y: [0, 20, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-          />
-        );
+        return '🌥️';
       case 'rain':
-        return (
-          <motion.div
-            className="w-0 h-0 border-l-6 border-r-6 border-b-12 border-transparent border-b-blue-900"
-            animate={{ y: [0, 20, 0] }}
-            transition={{ duration: 0.5, repeat: Infinity }}
-          />
-        );
+        return '🌧️';
       case 'thunderstorm':
-        return (
-          <motion.div
-            className="w-12 h-12 bg-gray-900 bg-zigzag"
-            animate={{ y: [0, 20, 0] }}
-            transition={{ duration: 0.3, repeat: Infinity }}
-          />
-        );
+        return '⛈️';
+      case 'snow':
+        return '❄️';
+      case 'drizzle':
+        return '🌦️';
+      case 'mist':
+      case 'fog':
+        return '🌫️';
       default:
-        return null;
+        return '🌞';
     }
   };
 
@@ -175,8 +168,14 @@ const WeatherContent = () => {
       <div className="flex flex-col items-center justify-center flex-grow w-full max-w-md h-96">
         {loading ? (
           <div className="flex flex-col items-center justify-center">
-            <div className="w-12 h-12 bg-yellow-500 rounded-full animate-sunrise mb-4"></div>
-            <p className="text-xl">Loading weather data... 🌞</p>
+            <motion.div
+              className="w-12 h-12"
+              animate={{ y: [0, -10, 0] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+            >
+              🌞
+            </motion.div>
+            <p className="text-xl mt-2">Loading weather data...</p>
           </div>
         ) : error ? (
           <div className="text-center mt-6">
@@ -184,10 +183,19 @@ const WeatherContent = () => {
           </div>
         ) : (
           <div className="text-center mt-6">
-            <h1 className="text-2xl mb-2">{weather?.name}</h1>
-            <p className="text-lg">Temperature: {weather?.main?.temp}°C</p>
+            <motion.div
+              className="text-6xl"
+              animate={{ y: [0, -10, 0] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+            >
+              {getEmoji()}
+            </motion.div>
+            <h1 className="text-2xl mb-2 mt-2">{weather?.name}</h1>
+            <p className="text-lg">Temperature: {weather?.main?.temp.toFixed(1)}°C</p>
             <p className="text-lg">Condition: {weather?.weather[0]?.description}</p>
-            {getAnimation()}
+            <p className="text-lg">Min Temp: {weather?.main?.temp_min.toFixed(1)}°C</p>
+            <p className="text-lg">Max Temp: {weather?.main?.temp_max.toFixed(1)}°C</p>
+            <p className="text-lg">UV Index: {weather?.uvIndex}</p>
           </div>
         )}
       </div>
