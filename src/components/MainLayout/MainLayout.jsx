@@ -1,16 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const MainLayout = ({ children, backgroundImage }) => {
   return (
-    <div
-      className="h-screen flex flex-col overflow-hidden bg-no-repeat bg-cover bg-center transition-background"
-      style={{
-        backgroundImage: `url(${backgroundImage})`,
-        transition: 'background-image 0.5s ease-in-out' // Add this line for the transition
-      }}
-    >
-      {children}
+    <div className="h-screen flex flex-col overflow-hidden relative">
+      <AnimatePresence>
+        <motion.div
+          key={backgroundImage} 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.5 }} 
+          className="absolute inset-0 bg-no-repeat bg-cover bg-center"
+          style={{
+            backgroundImage: `url(${backgroundImage})`,
+          }}
+        />
+      </AnimatePresence>
+      <div className="relative z-10">{children}</div> {}
     </div>
   );
 };

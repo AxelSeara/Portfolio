@@ -43,33 +43,50 @@ const DropdownAdjust = ({ buttonContent, onRefreshFolders, switchBackground }) =
             className="absolute right-0 mt-8 bg-tertiary shadow-lg w-44 py-2 text-accent z-20"
           >
             <ul>
-              <li>
-                <a href="#" className="block px-4 py-2 hover:bg-accent hover:text-white" onClick={onRefreshFolders}>
-                  Refresh Folders
-                </a>
+              <li 
+                className="flex items-center px-4 py-2 hover:bg-accent hover:text-white transition-colors duration-200 group"
+                onClick={onRefreshFolders}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className="mr-4 w-8 h-8 text-accent group-hover:text-white"
+                >
+                  <path d="M0 0h24v24H0z" fill="none"/>
+                  <path d="M17.65 6.35A7.95 7.95 0 0 0 12 4a8 8 0 0 0 0 16c4.41 0 8-3.59 8-8h-2c0 3.31-2.69 6-6 6s-6-2.69-6-6 2.69-6 6-6c1.66 0 3.14.69 4.24 1.76L13 11h7V4l-2.35 2.35z"/>
+                </svg>
+                <span className="flex-grow">Refresh Folders</span>
               </li>
               <li className="mt-4 px-4">
-                <h3 className="font-bold mb-2">Background</h3>
+                <h3 className="font-bold mb-2">Backgrounds</h3>
                 <div className="flex items-center justify-between">
-                  <div className="text-center group">
-                    <motion.img
-                      src={bg2Icon}
-                      alt="Classic"
-                      className="w-10 h-10 border-2 hover:border-accent rounded"
-                      whileTap={{ scale: 1.1 }}
-                      onClick={() => handleBgClick('Classic')}
-                    />
-                    <p>Nighty</p>
-                  </div>
+
                   <div className="text-center group">
                     <motion.img
                       src={bg3Icon}
                       alt="Nighty"
-                      className="w-10 h-10 border-2 hover:border-accent rounded"
-                      whileTap={{ scale: 1.1 }}
+                      className="w-12 h-12 border-2 hover:border-accent rounded"
+                      whileTap={{ scale: 1.1, border: '2px solid #000' }}
                       onClick={() => handleBgClick('Nighty')}
+                      initial={{ borderColor: '#fff' }}
+                      whileHover={{ borderColor: '#000' }}
+                      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                     />
-                    <p>Classic</p>
+                    <p className="mt-2 text-sm">Classic</p>
+                  </div>
+                  <div className="text-center group">
+                    <motion.img
+                      src={bg2Icon}
+                      alt="Classic"
+                      className="w-12 h-12 border-2 hover:border-accent rounded"
+                      whileTap={{ scale: 1.1, border: '2px solid #000' }}
+                      onClick={() => handleBgClick('Classic')}
+                      initial={{ borderColor: '#fff' }}
+                      whileHover={{ borderColor: '#000' }}
+                      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                    />
+                    <p className="mt-2 text-sm">Nighty</p>
                   </div>
                 </div>
               </li>

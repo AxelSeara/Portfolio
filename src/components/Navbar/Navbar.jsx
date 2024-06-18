@@ -57,16 +57,16 @@ const Navbar = ({ name, links, onClickLink, activeLink, folders, onOpenModal, on
 
   const submenuItems = {
     ABOUT: [
-      "Welcome to my portfolio. Here Axel former graphic designer jumping into the front end world. This page was entirely developed by me from assets to features and the small apps containing. Hope you to have a good time visiting it :D"
+      "Welcome to my portfolio! I’m Axel, a former graphic designer now diving into front-end development. I crafted this site from scratch, including all assets and features. Enjoy exploring the small apps and features I’ve created. Have fun!"
     ],
-    VERSION: ["We are still on 0.1 wishing to drop the bomb soon"]
+    VERSION: ["Version 0.8 almost ready to deploy"],
   };
 
   const handleFolderClick = (e) => {
     e.preventDefault();
     const folderName = e.currentTarget.getAttribute('data-name');
     const folder = folders.find(f => f.name === folderName);
-    console.log("Clicked folder:", folder);  // This should log the correct folder object
+    console.log("Clicked folder:", folder); 
     if (folder) {
       onOpenModal(folder.id);
     }
