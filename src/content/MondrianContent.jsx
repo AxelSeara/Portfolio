@@ -133,7 +133,11 @@ const MondrianContent = () => {
           Generate
         </button>
       </div>
-      <div className="flex-grow grid-container mt-4 overflow-y-auto"></div>
+      <div className="flex-grow flex items-center justify-center w-full h-full">
+  <div className="grid-container w-full h-full">
+    {/* Celdas del grid aquí */}
+  </div>
+</div>
     </div>
   );
 };

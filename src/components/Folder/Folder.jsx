@@ -45,11 +45,11 @@ const Folder = ({
   }, [isOpen]);
 
   const handleDoubleClick = () => {
-    if (!disableDoubleClick) {
-      setIsModalOpen(true);
-      onOpen(id); // This will update the state in App which should pass down new props
+    if (!disableDoubleClick && !isDragging) {
+        setIsModalOpen(true);
+        onOpen(id); // This will update the state in App which should pass down new props
     }
-  };
+};
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -78,7 +78,7 @@ const Folder = ({
 
   const handleDragEnd = () => {
     setIsDragging(false);
-  };
+};
 
   const handleTouchStart = (e) => {
     touchTimeout.current = setTimeout(() => {
@@ -87,7 +87,7 @@ const Folder = ({
       }
       e.target.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
       setIsDragging(true);
-    }, 400); // 0.4 seconds timeout to activate drag
+    }, 1000); // 0.4 seconds timeout to activate drag
   };
 
   const handleTouchEnd = (e) => {
@@ -95,11 +95,13 @@ const Folder = ({
       clearTimeout(touchTimeout.current);
       touchTimeout.current = null;
     }
-    if (!isDragging) {
+    if (isDragging) {
+      setIsDragging(false);
+  } else {
+      // If the touch ended before the timeout, treat it as a regular touch (e.g., for opening the modal)
       handleDoubleClick();
-    }
-    setIsDragging(false);
-  };
+  }
+};
 
   return (
     <div className="m-3">

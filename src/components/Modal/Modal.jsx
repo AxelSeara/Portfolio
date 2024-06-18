@@ -61,12 +61,15 @@ const Modal = ({ isOpen, onClose, title, children, zIndex, onClick }) => {
         </div>
         <div
           style={{
+            display: 'flex',
+            flexDirection: 'column',
             maxHeight: 'calc(90vh - 48px)',
             overflowY: 'auto',
             paddingTop: '1rem',
             marginTop: '0.04rem',
+            width: '100%',
           }}
-          className="p-2 flex flex-grow items-center justify-center overflow-y-auto"
+          className="p-2 flex flex-grow items-center justify-center overflow-y-auto" //check this line
         >
           <AnimatePresence>
             <motion.div

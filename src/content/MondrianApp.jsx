@@ -13,32 +13,32 @@ const MondrianApp = ({ horizontalValue, verticalValue }) => {
       console.error('Grid container not found');
       return;
     }
-    container.innerHTML = ''; // Clear the container before generating a new grid
+    container.innerHTML = '';
     container.style.gridTemplateColumns = `repeat(${columnas}, 1fr)`;
-    container.style.gridTemplateRows = `repeat(${filas}, 1fr)`; // Adjusted to control rows as well
-
-    let espaciosRestantes = columnas * filas;
-    console.log('Generating grid with', columnas, 'columns and', filas, 'rows');
-
-    while (espaciosRestantes > 0) {
+    container.style.gridTemplateRows = `repeat(${filas}, 1fr)`;
+  
+    let totalCells = columnas * filas;
+    const maxCellSize = Math.ceil((columnas * filas) / (colores.length * 2));
+  
+    while (totalCells > 0) {
       const cell = document.createElement('div');
       cell.className = 'grid-item';
       cell.style.backgroundColor = colores[Math.floor(Math.random() * colores.length)];
-
-      let spanCols = Math.ceil(Math.random() * Math.min(3, columnas));
-      let spanRows = Math.ceil(Math.random() * Math.min(3, filas));
-
-      let espacioUsado = spanCols * spanRows;
-      if (espacioUsado > espaciosRestantes || espaciosRestantes - espacioUsado < columnas) {
-        spanRows = 1;
-        spanCols = 1;
+  
+      let spanCols = Math.min(Math.ceil(Math.random() * 3), columnas);
+      let spanRows = Math.min(Math.ceil(Math.random() * 3), filas);
+  
+      if (spanCols * spanRows > maxCellSize) {
+        spanCols = Math.max(1, Math.floor(maxCellSize / spanRows));
+        spanRows = Math.max(1, Math.floor(maxCellSize / spanCols));
       }
-
+  
+      totalCells -= spanCols * spanRows;
+  
       cell.style.gridColumn = `span ${spanCols}`;
       cell.style.gridRow = `span ${spanRows}`;
-
+  
       container.appendChild(cell);
-      espaciosRestantes -= espacioUsado;
     }
   };
 
