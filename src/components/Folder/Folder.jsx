@@ -85,7 +85,8 @@ const Folder = ({
         navigator.vibrate(100);
       }
       e.target.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
-    }, 200);
+      setIsDragging(true);
+    }, 400); // 0.4 seconds timeout to activate drag
   };
 
   const handleTouchEnd = (e) => {
@@ -96,6 +97,7 @@ const Folder = ({
     if (!isDragging) {
       handleDoubleClick();
     }
+    setIsDragging(false);
   };
 
   return (
