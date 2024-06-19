@@ -6,7 +6,7 @@ import Mainmenu from './DailyBloomImages/mainmenu.mp4';
 
 /* first line overflow aply on other content folders pls*/
 const DailyBloomContent = () => (
-  <div className="  overflow-auto" style={{ maxHeight: 'calc(100vh - 12rem)', overflowY:'auto' }}> 
+  <div className="overflow-auto " style={{ maxHeight: 'calc(100vh - 12rem)', overflowY:'auto', maxWidth: '70vh' }}> 
     <h1 className="text-4xl font-serif font-bold text-white mb-2 text-center">Daily Bloom Content</h1>
     <p className="text-accent text-center max-w-2xl mx-auto mb-8">
       Project where I collaborated mainly leading UX/UI aspects and implementing them from a frontend perspective. Daily Bloom is an app designed for those who want to create a memories diary. The app, through a flipping card game, recommends a daily topic. Then we have the option to post content related to it and share if we want, since it is mainly a non-social social app.

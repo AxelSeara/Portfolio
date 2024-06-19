@@ -32,8 +32,7 @@ const Folder = ({
   onClick,
   zIndex,
   id,
-  isOpen,
-  dragConstraints
+  isOpen
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
@@ -87,7 +86,7 @@ const Folder = ({
       }
       e.target.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
       setIsDragging(true);
-    }, 400); // 0.4 seconds timeout to activate drag
+    }, 1200); // 0.4 seconds timeout to activate drag
   };
 
   const handleTouchEnd = (e) => {
@@ -108,7 +107,6 @@ const Folder = ({
         style={{ ...style, cursor: 'move' }}
         drag
         dragMomentum={false}
-        dragConstraints={dragConstraints}
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
         onDoubleClick={handleDoubleClick}
@@ -127,7 +125,7 @@ const Folder = ({
           whileHover={{ scale: 1.05 }}
           transition={{ duration: 0.2 }}
         />
-        <span className={`mt-2 text-center w-full font-bold  ${isClicked ? 'bg-accent text-white ' : 'text-white text-shadow-'}`}>
+        <span className={`mt-2 text-center w-full ${isClicked ? 'bg-accent text-white font-semibold ' : 'text-white font-semibold text-shadow-sm'}`}>
           {name}
         </span>
       </motion.div>
@@ -156,7 +154,6 @@ Folder.propTypes = {
   onClick: PropTypes.func.isRequired,
   zIndex: PropTypes.number.isRequired,
   id: PropTypes.number.isRequired,
-  dragConstraints: PropTypes.object.isRequired,
 };
 
 export default Folder;

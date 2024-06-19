@@ -38,11 +38,16 @@ const Modal = ({ isOpen, onClose, title, children, zIndex, onClick }) => {
   return (
     <div className="fixed inset-0 pointer-events-none flex items-center justify-center p-4 md:p-6" style={{ zIndex }} onClick={onClick}>
       <motion.div
-        className="relative bg-tertiary text-accent w-full h-full md:h-auto md:w-1/2 shadow-no-blur pointer-events-auto border-4 border-accent rounded-md flex flex-col"
+        className="relative bg-tertiary text-accent w-full  h-full md:h-auto md:w-auto shadow-no-blur pointer-events-auto border-4 border-accent rounded-md flex flex-col"
         drag={isDraggable}
         dragListener={false}
         dragControls={controls}
-        dragConstraints={{ top: -100, left: -100, right: 100, bottom: 100 }}
+        dragConstraints={{ top: -90, left: -300, right: 300, bottom: 150 }}
+        style={{
+          padding: '0', // Remove padding or reduce it as needed
+          margin: 'auto', // Center it without additional space
+          maxWidth: '100%', // Ensure it does not exceed the modal width
+        }}
       >
         <div
           className={`flex justify-between items-center py-1 px-4 border-b-4 border-accent bg-gradient-to-r from-tertiary to-sky-200 ${isDraggable ? 'cursor-move' : ''}`}

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import Button from '../components/Button/Button';
+import Button from '../components/Button/Button'; // Make sure this path is correct
 
-const ContactContent = () => {
+const ContactContent = ({ onClose }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -19,31 +19,29 @@ const ContactContent = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    // Simulación de envío de formulario con un retraso de 2 segundos
+    // Simulate sending data
     setTimeout(() => {
-      console.log('Formulario enviado:', formData);
+      console.log('Form Submitted:', formData);
       setIsSent(true);
     }, 2000);
   };
 
   if (isSent) {
     return (
-      <div className="p-4 bg-red-200 border-2 border-quaternary rounded">
-        <h2 className="text-lg font-bold mb-4 text-accent">Message Sent!</h2>
-        <p className="text-accent">Thank you for reaching out. We will get back to you soon.</p>
+      <div className="flex flex-col items-center justify-center h-full p-4 text-center">
+        <h2 className="text-lg font-bold text-accent mb-4">Message Sent!</h2>
+        <p className="text-accent mb-4">Thank you for reaching out. We will get back to you soon.</p>
+        <Button text="Close" onClick={onClose} />
       </div>
     );
   }
 
   return (
-    <div className="p-4 bg-red-200 border-2 border-quaternary rounded">
-      <h2 className="text-lg font-bold mb-4 text-accent">Contact</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label className="block text-sm font-bold mb-2 text-accent" htmlFor="name">
-            Name:
-          </label>
+    <div className="flex flex-col h-full w-full p-4 overflow-auto">
+      <h2 className="text-lg font-bold text-accent mb-4">Contact Us</h2>
+      <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
+        <div>
+          <label className="block text-sm font-bold text-accent mb-2" htmlFor="name">Name:</label>
           <input
             type="text"
             id="name"
@@ -53,10 +51,8 @@ const ContactContent = () => {
             className="w-full p-2 border border-accent bg-quaternary text-accent rounded"
           />
         </div>
-        <div className="mb-4">
-          <label className="block text-sm font-bold mb-2 text-accent" htmlFor="email">
-            Email:
-          </label>
+        <div>
+          <label className="block text-sm font-bold text-accent mb-2" htmlFor="email">Email:</label>
           <input
             type="email"
             id="email"
@@ -66,10 +62,8 @@ const ContactContent = () => {
             className="w-full p-2 border border-accent bg-quaternary text-accent rounded"
           />
         </div>
-        <div className="mb-4">
-          <label className="block text-sm font-bold mb-2 text-accent" htmlFor="message">
-            Message:
-          </label>
+        <div>
+          <label className="block text-sm font-bold text-accent mb-2" htmlFor="message">Message:</label>
           <textarea
             id="message"
             name="message"
@@ -77,9 +71,9 @@ const ContactContent = () => {
             onChange={handleChange}
             className="w-full p-2 border border-accent bg-quaternary text-accent rounded"
             rows="4"
-          ></textarea>
+          />
         </div>
-        <div className="flex justify-end">
+        <div className="flex justify-end mt-4">
           <Button text="Send" />
         </div>
       </form>
