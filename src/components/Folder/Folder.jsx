@@ -32,7 +32,8 @@ const Folder = ({
   onClick,
   zIndex,
   id,
-  isOpen
+  isOpen,
+  dragConstraints
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
@@ -77,6 +78,7 @@ const Folder = ({
 
   const handleDragEnd = () => {
     setIsDragging(false);
+    setIsClicked(false);
   };
 
   const handleTouchStart = (e) => {
@@ -106,6 +108,7 @@ const Folder = ({
         className={` flex flex-col items-center justify-center w-24 p-2 ${className}`}
         style={{ ...style, cursor: 'move' }}
         drag
+        dragConstraints={dragConstraints}
         dragMomentum={false}
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
@@ -154,6 +157,9 @@ Folder.propTypes = {
   onClick: PropTypes.func.isRequired,
   zIndex: PropTypes.number.isRequired,
   id: PropTypes.number.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  dragConstraints: PropTypes.object.isRequired,
+
 };
 
 export default Folder;

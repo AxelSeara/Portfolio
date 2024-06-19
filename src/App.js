@@ -29,6 +29,7 @@ const App = () => {
   const [resetCounter, setResetCounter] = useState(0); // New state to trigger re-renders
   const [backgroundImage, setBackgroundImage] = useState('/bg3.jpg');
   const containerRef = useRef(null);
+  const gridContainerRef = useRef(null);
 
   useEffect(() => {
     // Images to preload
@@ -88,7 +89,7 @@ const App = () => {
     setBackgroundImage(newBg);
 };
   return (
-    <MainLayout key={backgroundImage}  backgroundImage={backgroundImage}>
+    <MainLayout key={backgroundImage} backgroundImage={backgroundImage}>
       {showNotification && (
         <Notification
           message="Welcome to my portfolio! This site is entirely my creation, from the assets to the code, emulating an operating system environment. Feel free to drag the desktop icons, double-click to open them, and explore. Enjoy your visit, and don't hesitate to contact me!"
@@ -108,7 +109,7 @@ const App = () => {
         />
       </div>
       <div className="relative mt-16 h-screen overflow-y-auto" ref={containerRef}>
-        <div className="grid grid-cols-3 gap-1 lg:grid-cols-3 lg:gap-2 mx-4">
+        <div className="grid grid-cols-3 gap-1 lg:grid-cols-3 lg:gap-2 mx-4" ref={gridContainerRef}>
           {folders.map((folder, index) => (  // Include index here
             <Folder
               key={`${folder.id}-${resetCounter}`} // Resetting using resetCounter`.
@@ -123,7 +124,7 @@ const App = () => {
               isOpen={openModals.includes(folder.name)}
               zIndex={modalZIndices[folder.name] || 1000}
               disableDoubleClick={false}
-              dragConstraints={containerRef}
+              dragConstraints={gridContainerRef} // Pass the drag constraints
             />
           ))}
         </div>
