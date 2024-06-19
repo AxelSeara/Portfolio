@@ -26,6 +26,7 @@ module.exports = {
       },
       fontFamily: {
         mono: ['Roboto Mono', 'monospace'],
+        lora: ['Lora', 'serif'],
       },
       // Adding text shadow extensions
       textShadow: {

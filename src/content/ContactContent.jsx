@@ -1,13 +1,19 @@
 import React, { useState } from 'react';
-import Button from '../components/Button/Button'; // Make sure this path is correct
+import emailjs from 'emailjs-com';
+import { motion, AnimatePresence } from 'framer-motion';
+import Button from '../components/Button/Button'; // Ensure this path is correct
+import iconLetter from '../icons/icon_letter.svg'; // Ensure this path is correct
 
 const ContactContent = ({ onClose }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    subject: '',
     message: ''
   });
+  const [errors, setErrors] = useState({});
   const [isSent, setIsSent] = useState(false);
+  const [isSending, setIsSending] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -17,13 +23,52 @@ const ContactContent = ({ onClose }) => {
     });
   };
 
+  const validate = () => {
+    let tempErrors = {};
+    let isValid = true;
+
+    if (!formData.name.match(/^[a-zA-Z\s]+$/)) {
+      tempErrors.name = 'Name should contain only letters and spaces.';
+      isValid = false;
+    }
+
+    if (!formData.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+      tempErrors.email = 'Email is not valid.';
+      isValid = false;
+    }
+
+    if (formData.subject.trim() === '') {
+      tempErrors.subject = 'Subject is required.';
+      isValid = false;
+    }
+
+    if (formData.message.trim() === '') {
+      tempErrors.message = 'Message is required.';
+      isValid = false;
+    }
+
+    setErrors(tempErrors);
+    return isValid;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Simulate sending data
-    setTimeout(() => {
-      console.log('Form Submitted:', formData);
-      setIsSent(true);
-    }, 2000);
+
+    if (!validate()) {
+      return;
+    }
+
+    setIsSending(true);
+
+    emailjs.send('service_pbwskx8', 'template_cqcuixl', formData, 'OdKGa6t_VAsUFW1vD')
+      .then((result) => {
+        console.log('Form Submitted:', result.text);
+        setIsSent(true);
+        setIsSending(false);
+      }, (error) => {
+        console.log('Failed to send form:', error.text);
+        setIsSending(false);
+      });
   };
 
   if (isSent) {
@@ -50,6 +95,7 @@ const ContactContent = ({ onClose }) => {
             onChange={handleChange}
             className="w-full p-2 border border-accent bg-quaternary text-accent rounded"
           />
+          {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
         </div>
         <div>
           <label className="block text-sm font-bold text-accent mb-2" htmlFor="email">Email:</label>
@@ -61,6 +107,19 @@ const ContactContent = ({ onClose }) => {
             onChange={handleChange}
             className="w-full p-2 border border-accent bg-quaternary text-accent rounded"
           />
+          {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
+        </div>
+        <div>
+          <label className="block text-sm font-bold text-accent mb-2" htmlFor="subject">Subject:</label>
+          <input
+            type="text"
+            id="subject"
+            name="subject"
+            value={formData.subject}
+            onChange={handleChange}
+            className="w-full p-2 border border-accent bg-quaternary text-accent rounded"
+          />
+          {errors.subject && <p className="text-red-500 text-xs mt-1">{errors.subject}</p>}
         </div>
         <div>
           <label className="block text-sm font-bold text-accent mb-2" htmlFor="message">Message:</label>
@@ -72,8 +131,9 @@ const ContactContent = ({ onClose }) => {
             className="w-full p-2 border border-accent bg-quaternary text-accent rounded"
             rows="4"
           />
+          {errors.message && <p className="text-red-500 text-xs mt-1">{errors.message}</p>}
         </div>
-        <div className="flex justify-end mt-4">
+        <div className="flex justify-end mt-4 relative">
           <Button text="Send" />
         </div>
       </form>
