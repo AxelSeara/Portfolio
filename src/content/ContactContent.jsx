@@ -6,10 +6,11 @@ import iconLetter from '../icons/icon_letter.svg'; // Ensure this path is correc
 
 const ContactContent = ({ onClose }) => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
+    from_name: '',
+    from_email: '',
     subject: '',
-    message: ''
+    message: '',
+    to_name: 'Recipient' // Assuming a static recipient name
   });
   const [errors, setErrors] = useState({});
   const [isSent, setIsSent] = useState(false);
@@ -27,13 +28,13 @@ const ContactContent = ({ onClose }) => {
     let tempErrors = {};
     let isValid = true;
 
-    if (!formData.name.match(/^[a-zA-Z\s]+$/)) {
-      tempErrors.name = 'Name should contain only letters and spaces.';
+    if (!formData.from_name.match(/^[a-zA-Z\s]+$/)) {
+      tempErrors.from_name = 'Name should contain only letters and spaces.';
       isValid = false;
     }
 
-    if (!formData.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-      tempErrors.email = 'Email is not valid.';
+    if (!formData.from_email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+      tempErrors.from_email = 'Email is not valid.';
       isValid = false;
     }
 
@@ -86,28 +87,28 @@ const ContactContent = ({ onClose }) => {
       <h2 className="text-lg font-bold text-accent mb-4">Contact Us</h2>
       <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
         <div>
-          <label className="block text-sm font-bold text-accent mb-2" htmlFor="name">Name:</label>
+          <label className="block text-sm font-bold text-accent mb-2" htmlFor="from_name">Name:</label>
           <input
             type="text"
-            id="name"
-            name="name"
-            value={formData.name}
+            id="from_name"
+            name="from_name"
+            value={formData.from_name}
             onChange={handleChange}
             className="w-full p-2 border border-accent bg-quaternary text-accent rounded"
           />
-          {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
+          {errors.from_name && <p className="text-red-500 text-xs mt-1">{errors.from_name}</p>}
         </div>
         <div>
-          <label className="block text-sm font-bold text-accent mb-2" htmlFor="email">Email:</label>
+          <label className="block text-sm font-bold text-accent mb-2" htmlFor="from_email">Email:</label>
           <input
             type="email"
-            id="email"
-            name="email"
-            value={formData.email}
+            id="from_email"
+            name="from_email"
+            value={formData.from_email}
             onChange={handleChange}
             className="w-full p-2 border border-accent bg-quaternary text-accent rounded"
           />
-          {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
+          {errors.from_email && <p className="text-red-500 text-xs mt-1">{errors.from_email}</p>}
         </div>
         <div>
           <label className="block text-sm font-bold text-accent mb-2" htmlFor="subject">Subject:</label>
