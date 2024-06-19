@@ -42,7 +42,7 @@ const Modal = ({ isOpen, onClose, title, children, zIndex, onClick }) => {
         drag={isDraggable}
         dragListener={false}
         dragControls={controls}
-        dragConstraints={{ top: -90, left: -300, right: 300, bottom: 150 }}
+        dragConstraints={{ top: -20, left: -300, right: 300, bottom: 500 }}
         style={{
           padding: '0', // Remove padding or reduce it as needed
           margin: 'auto', // Center it without additional space
