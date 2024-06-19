@@ -6,7 +6,7 @@ const AboutContent = () => (
         <img
           src={Avatar}
           alt="Axel"
-          className="w-48 h-48  mb-4 shadow-sm "
+          className="w-48 h-48  mb-4"
         />
         <h1 className="text-3xl font-bold text-accent mb-2">Hey! Here Axel</h1>
         <h2 className="text-xl  text-accent mb-4"> Welcome to my portoflio </h2>
