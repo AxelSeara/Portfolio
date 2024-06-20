@@ -30,6 +30,7 @@ const App = () => {
   const [backgroundImage, setBackgroundImage] = useState('/bg3.jpg');
   const containerRef = useRef(null);
   const gridContainerRef = useRef(null);
+  const [isNavbarLoaded, setIsNavbarLoaded] = useState(false);
 
   useEffect(() => {
     // Images to preload
@@ -48,10 +49,10 @@ const App = () => {
     { id: 8, name: 'Mondrian Generator', content: <MondrianContent onClose={() => handleCloseModal('Mondrian Generator')} /> },
     { id: 9, name: 'About', content: <AboutContent onClose={() => handleCloseModal('About Content')} /> },
   ];
+
   const resetFolderPositions = () => {
     setResetCounter(prev => prev + 1); // Increment to trigger re-render
   };
-  
 
   const handleOpenModal = (id) => {
     const folder = folders.find(folder => folder.id === id);
@@ -87,7 +88,8 @@ const App = () => {
     const timestamp = new Date().getTime(); // Get current timestamp
     const newBg = bgName === 'Classic' ? `/bg2.jpg?${timestamp}` : `/bg3.jpg?${timestamp}`;
     setBackgroundImage(newBg);
-};
+  };
+
   return (
     <MainLayout key={backgroundImage} backgroundImage={backgroundImage}>
       {showNotification && (
@@ -106,29 +108,32 @@ const App = () => {
           onOpenModal={handleOpenModal}
           onRefreshFolders={resetFolderPositions}  // Pass the function down to Navbar
           switchBackground={switchBackground} // Pass the function down to Navbar
+          onLoad={() => setIsNavbarLoaded(true)} // Callback para indicar que el Navbar ha cargado
         />
       </div>
-      <div className="relative mt-16 h-screen overflow-y-auto" ref={containerRef}>
-        <div className="grid grid-cols-3 gap-1 lg:grid-cols-3 lg:gap-2 mx-4" ref={gridContainerRef}>
-          {folders.map((folder, index) => (  // Include index here
-            <Folder
-              key={`${folder.id}-${resetCounter}`} // Resetting using resetCounter`.
-              id={folder.id}
-              initialOpen={false}
-              className="relative"
-              name={folder.name}
-              content={folder.content}
-              onClick={handleClick}
-              onOpen={handleOpenModal}
-              onClose={handleCloseModal}
-              isOpen={openModals.includes(folder.name)}
-              zIndex={modalZIndices[folder.name] || 1000}
-              disableDoubleClick={false}
-              dragConstraints={gridContainerRef} // Pass the drag constraints
-            />
-          ))}
+      {isNavbarLoaded && (
+        <div className="relative mt-16 h-screen overflow-y-auto" ref={containerRef}>
+          <div className="grid grid-cols-3 gap-1 lg:grid-cols-3 lg:gap-2 mx-4" ref={gridContainerRef}>
+            {folders.map((folder, index) => (  // Include index here
+              <Folder
+                key={`${folder.id}-${resetCounter}`} // Resetting using resetCounter`.
+                id={folder.id}
+                initialOpen={false}
+                className="relative"
+                name={folder.name}
+                content={folder.content}
+                onClick={handleClick}
+                onOpen={handleOpenModal}
+                onClose={handleCloseModal}
+                isOpen={openModals.includes(folder.name)}
+                zIndex={modalZIndices[folder.name] || 1000}
+                disableDoubleClick={false}
+                dragConstraints={gridContainerRef} // Pass the drag constraints
+              />
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </MainLayout>
   );
 };

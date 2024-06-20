@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { motion, AnimatePresence } from 'framer-motion';
 import DropdownAdjust from '../DropdownAdjust/DropdownAdjust';
 
-const Navbar = ({ name, links, onClickLink, activeLink, folders, onOpenModal, onRefreshFolders, switchBackground }) => {
+const Navbar = ({ name, links, onClickLink, activeLink, folders, onOpenModal, onRefreshFolders, switchBackground,onLoad }) => {
   const [currentTime, setCurrentTime] = useState('');
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isSwitched, setIsSwitched] = useState(false);
@@ -16,6 +16,10 @@ const Navbar = ({ name, links, onClickLink, activeLink, folders, onOpenModal, on
       onOpenModal(contactFolder.id);
     }
   };
+
+  useEffect(() => {
+    onLoad();
+  }, [onLoad]);
 
   useEffect(() => {
     const updateClock = () => {
