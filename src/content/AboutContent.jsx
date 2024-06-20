@@ -4,7 +4,7 @@ import Avatar from './Avatar/avatar.png';
 
 const AboutContent = () => (
   <>
-    <div className="flex flex-col items-center p-4 max-w-xl text-center bg-tertiary rounded-lg shadow-xl">
+    <div className="flex flex-col items-center p-4 max-w-xl text-center">
       <motion.img
         src={Avatar}
         alt="Axel"
@@ -25,10 +25,7 @@ const AboutContent = () => (
         Dive into My Digital Realm
       </h2>
       <p className="text-accent font-medium mb-4">
-        I'm a designer, developer, and UX/UI master. Every pixel and code snippet on this page is crafted by my own hands. Revel in the exploration of my work, featuring bespoke apps and design projects. Feel free to connect; let's create something new.
-      </p>
-      <p className="text-accent mt-4 font-bold text-lg">
-        Axel S © 2024 - All Rights Reserved
+        I'm a designer, developer, and UX/UI master. Every pixel and code snippet on this page is crafted by my own hands Feel free to connect; let's create something new.
       </p>
     </div>
   </>
