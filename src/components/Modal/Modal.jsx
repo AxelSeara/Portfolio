@@ -2,7 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { motion, useDragControls, AnimatePresence } from 'framer-motion';
 import PropTypes from 'prop-types';
 
-const Modal = ({ isOpen, onClose, title, children, zIndex, onClick }) => {
+const Modal = ({
+  isOpen,
+  onClose,
+  title,
+  children = null,
+  zIndex = 50,
+  onClick = () => {}
+}) => {
   const controls = useDragControls();
   const [isDraggable, setIsDraggable] = useState(true);
 
@@ -38,7 +45,7 @@ const Modal = ({ isOpen, onClose, title, children, zIndex, onClick }) => {
   return (
     <div className="fixed inset-0 pointer-events-none flex items-center justify-center p-4 md:p-6" style={{ zIndex }} onClick={onClick}>
       <motion.div
-        className="relative bg-tertiary text-accent w-full  h-full md:h-auto md:w-auto shadow-no-blur pointer-events-auto border-4 border-accent rounded-md flex flex-col"
+        className="relative bg-tertiary text-accent w-full h-full md:h-auto md:w-auto shadow-no-blur pointer-events-auto border-4 border-accent rounded-md flex flex-col"
         drag={isDraggable}
         dragListener={false}
         dragControls={controls}
@@ -78,7 +85,7 @@ const Modal = ({ isOpen, onClose, title, children, zIndex, onClick }) => {
         >
           <AnimatePresence>
             <motion.div
-              key={children.key}
+              key={children?.key}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -100,12 +107,6 @@ Modal.propTypes = {
   children: PropTypes.node,
   zIndex: PropTypes.number,
   onClick: PropTypes.func,
-};
-
-Modal.defaultProps = {
-  children: null,
-  zIndex: 50,
-  onClick: () => {},
 };
 
 export default Modal;
