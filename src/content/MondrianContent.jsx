@@ -103,7 +103,7 @@ const MondrianContent = () => {
             min="2"
             max="8"
             value={verticalValue}
-            className="w-30 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-400"
+            className="w-30 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-200"
             id="verticalValue"
             onChange={(e) => setVerticalValue(parseInt(e.target.value))}
           />
@@ -119,7 +119,7 @@ const MondrianContent = () => {
             min="2"
             max="8"
             value={horizontalValue}
-            className="w-30 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-400"
+            className="w-30 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-200"
             id="horizontalValue"
             onChange={(e) => setHorizontalValue(parseInt(e.target.value))}
           />
