@@ -38,7 +38,7 @@ const App = () => {
   }, []);
 
   const folders = [
-    { id: 1, name: 'Ilustration', content: <IlusContent onClose={() => handleCloseModal('Ilus')} /> },
+    { id: 1, name: 'Illustration', content: <IlusContent onClose={() => handleCloseModal('Ilus')} /> },
     { id: 2, name: 'Animation', content: <ProjectsContent onClose={() => handleCloseModal('Projects')} /> },
     { id: 3, name: 'Brand', content: <DesignContent onClose={() => handleCloseModal('Design')} /> },
     { id: 4, name: 'CV', content: <CVContent onClose={() => handleCloseModal('CV')} /> },

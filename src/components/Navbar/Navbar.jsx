@@ -57,9 +57,9 @@ const Navbar = ({ name, links, onClickLink, activeLink, folders, onOpenModal, on
 
   const submenuItems = {
     ABOUT: [
-      "Welcome to my portfolio! I’m Axel, a former graphic designer now diving into front-end development. I crafted this site from scratch, including all assets and features. Enjoy exploring the small apps and features I’ve created. Have fun!"
+      "This project was created by Axel, a designer, developer, and UX/UI master. Using React, Tailwind CSS, and Framer Motion.",
     ],
-    VERSION: ["Version 0.8 almost ready to deploy"],
+    VERSION: ["Version 1.0 - July 2024"],
   };
 
   const handleFolderClick = (e) => {
