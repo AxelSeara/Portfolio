@@ -8,14 +8,12 @@ import Mainmenu from './DailyBloomImages/mainmenu.mp4';
 const DailyBloomContent = () => (
   <div className="overflow-auto" style={{ maxHeight: 'calc(100vh - 12rem)', overflowY: 'auto' }}>
     <div className="p-4 text-center max-w-2xl mx-auto">
-      <motion.h1
+      <h1
         className="text-3xl md:text-4xl font-mono font-bold text-accent mb-4"
-        initial={{ opacity: 0, y: -50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
+  
       >
         Daily Bloom Content
-      </motion.h1>
+      </h1>
       <p className="text-sm md:text-base text-accent mb-8">
         Project where I led UX/UI aspects and frontend implementation. Daily Bloom, designed for memory keeping, offers a daily topic through a flipping card game, promoting non-social social interaction.
       </p>
