@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import emailjs from 'emailjs-com';
-import { motion, AnimatePresence } from 'framer-motion';
 import Button from '../components/Button/Button'; // Ensure this path is correct
-import iconLetter from '../icons/icon_letter.svg'; // Ensure this path is correct
 
 const ContactContent = ({ onClose }) => {
   const [formData, setFormData] = useState({
@@ -24,41 +22,8 @@ const ContactContent = ({ onClose }) => {
     });
   };
 
-  const validate = () => {
-    let tempErrors = {};
-    let isValid = true;
-
-    if (!formData.from_name.match(/^[a-zA-Z\s]+$/)) {
-      tempErrors.from_name = 'Name should contain only letters and spaces.';
-      isValid = false;
-    }
-
-    if (!formData.from_email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-      tempErrors.from_email = 'Email is not valid.';
-      isValid = false;
-    }
-
-    if (formData.subject.trim() === '') {
-      tempErrors.subject = 'Subject is required.';
-      isValid = false;
-    }
-
-    if (formData.message.trim() === '') {
-      tempErrors.message = 'Message is required.';
-      isValid = false;
-    }
-
-    setErrors(tempErrors);
-    return isValid;
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    if (!validate()) {
-      return;
-    }
-
     setIsSending(true);
 
     emailjs.send('service_pbwskx8', 'template_cqcuixl', formData, 'OdKGa6t_VAsUFW1vD')
@@ -83,7 +48,7 @@ const ContactContent = ({ onClose }) => {
   }
 
   return (
-    <div className="flex flex-col h-full w-full p-4 overflow-auto">
+    <div className="flex flex-col h-full w-full px-4 py-2 overflow-auto">
       <h2 className="text-lg font-bold text-accent mb-4">Contact Us</h2>
       <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
         <div>
@@ -96,7 +61,6 @@ const ContactContent = ({ onClose }) => {
             onChange={handleChange}
             className="w-full p-2 border border-accent bg-quaternary text-accent rounded"
           />
-          {errors.from_name && <p className="text-red-500 text-xs mt-1">{errors.from_name}</p>}
         </div>
         <div>
           <label className="block text-sm font-bold text-accent mb-2" htmlFor="from_email">Email:</label>
@@ -108,7 +72,6 @@ const ContactContent = ({ onClose }) => {
             onChange={handleChange}
             className="w-full p-2 border border-accent bg-quaternary text-accent rounded"
           />
-          {errors.from_email && <p className="text-red-500 text-xs mt-1">{errors.from_email}</p>}
         </div>
         <div>
           <label className="block text-sm font-bold text-accent mb-2" htmlFor="subject">Subject:</label>
@@ -120,7 +83,6 @@ const ContactContent = ({ onClose }) => {
             onChange={handleChange}
             className="w-full p-2 border border-accent bg-quaternary text-accent rounded"
           />
-          {errors.subject && <p className="text-red-500 text-xs mt-1">{errors.subject}</p>}
         </div>
         <div>
           <label className="block text-sm font-bold text-accent mb-2" htmlFor="message">Message:</label>
@@ -132,9 +94,8 @@ const ContactContent = ({ onClose }) => {
             className="w-full p-2 border border-accent bg-quaternary text-accent rounded"
             rows="4"
           />
-          {errors.message && <p className="text-red-500 text-xs mt-1">{errors.message}</p>}
         </div>
-        <div className="flex justify-end mt-4 relative">
+        <div className="flex justify-end mt-4">
           <Button text="Send" />
         </div>
       </form>

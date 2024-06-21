@@ -8,8 +8,8 @@ import logo1 from './FolderImages/brand/logo1.jpeg';
 const DesignContent = () => (
   <div className="overflow-auto p-4 max-w-4xl mx-auto" style={{ maxHeight: 'calc(100vh - 12rem)', maxWidth: '70vh' }}>
     <h1 className="text-4xl font-bold text-accent mb-4 font-mono">Brand Design Portfolio</h1>
-    <h2 className="text-2xl font-semibold text-accent mb-2 font-lora">Collaborations and Creative Projects</h2>
-    <p className="text-accent mb-4 font-lora">I've had the opportunity to collaborate with diverse brands, generating logos for handbags, collections, and various small projects. Each piece showcases a unique approach to brand identity and design.</p>
+    <h2 className="text-2xl font-semibold text-accent mb-2 font-mono">Collaborations and Creative Projects</h2>
+    <p className="text-accent mb-4">I've had the opportunity to collaborate with diverse brands, generating logos for handbags, collections, and various small projects. Each piece showcases a unique approach to brand identity and design.</p>
     
     {[
       { src: brand2, title: "Time Vortex", description: "Design for a T-shirt collection inspired by retro digital logos. Tools used: Illustrator.", alt: "Brand Design 2" },
@@ -25,7 +25,7 @@ const DesignContent = () => (
           className="w-full h-auto mb-4"
         />
         <h4 className="text-lg font-bold text-accent mb-2 font-mono">{item.title}</h4>
-        <p className="text-accent font-lora">{item.description}</p>
+        <p className="text-accent">{item.description}</p>
       </div>
     ))}
   </div>

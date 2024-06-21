@@ -9,9 +9,9 @@ import eyes from './FolderImages/ilustration/eyes.jpeg';
 
 const IlusContent = () => (
   <div className="overflow-auto p-4 max-w-4xl mx-auto" style={{ maxHeight: 'calc(100vh - 12rem)', maxWidth: '70vh' }}>
-    <h1 className="text-4xl font-bold text-accent mb-4 font-mono">Illustration Portfolio</h1>
-    <h2 className="text-2xl font-semibold text-accent mb-2 font-lora">Exploring Creativity and Professionalism</h2>
-    <p className="text-accent mb-4 font-lora">During my time at Cotton Corner Group, I worked on creating a variety of content for different brands within the Inditex group. My focus was on both print materials and digital content displayed in stores. Below is a selection of these projects.</p>
+    <h1 className="text-4xl font-mono font-bold text-accent mb-4">Illustration Portfolio</h1>
+    <h2 className="text-2xl font-mono font-semibold text-accent mb-2">Exploring Creativity and Professionalism</h2>
+    <p className="text-accent mb-4 ">During my time at Cotton Corner Group, I worked on creating a variety of content for different brands within the Inditex group. My focus was on both print materials and digital content displayed in stores. Below is a selection of these projects.</p>
     <p className="text-accent mb-4 font-lora">Dive into the vibrant world of illustrations, where each piece tells its own unique story, brought to life through various digital techniques and tools.</p>
     
     {[

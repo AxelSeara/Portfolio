@@ -9,6 +9,7 @@ import weatherIcon from '../../icons/weather3.svg';
 import contactIcon from '../../icons/letter_close.svg';
 import mondrianIcon from '../../icons/mondrian.svg';
 import aboutIcon from '../../icons/mypc.svg';
+import paintIcon from '../../icons/image.svg';
 import Modal from '../Modal/Modal';
 
 const iconMapping = {
@@ -18,6 +19,7 @@ const iconMapping = {
   'Contact': contactIcon,
   'Mondrian Generator': mondrianIcon,
   'About': aboutIcon,
+  'Paint App': paintIcon,
 };
 
 const Folder = ({

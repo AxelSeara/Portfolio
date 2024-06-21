@@ -3,8 +3,8 @@ import Navbar from './components/Navbar/Navbar';
 import MainLayout from './components/MainLayout/MainLayout';
 import Folder from './components/Folder/Folder';
 import IlusContent from './content/IlusContent';
-import ProjectsContent from './content/ProjectsContent';
-import DesignContent from './content/DesignContent';
+import ProjectsContent from './content/AnimationContent';
+import DesignContent from './content/BrandContent';
 import CVContent from './content/CVContent';
 import DailyBloomContent from './content/DailyBloomContent';
 import WeatherContent from './content/WeatherContent';
@@ -12,6 +12,7 @@ import ContactContent from './content/ContactContent';
 import MondrianContent from './content/MondrianContent';
 import AboutContent from './content/AboutContent';
 import Notification from './components/Notification/Notification';
+import PaintContent from './content/PaintContent';
 
 const preloadImages = (imageArray) => {
   imageArray.forEach((image) => {
@@ -48,6 +49,7 @@ const App = () => {
     { id: 7, name: 'Contact', content: <ContactContent onClose={() => handleCloseModal('Contact')} /> },
     { id: 8, name: 'Mondrian Generator', content: <MondrianContent onClose={() => handleCloseModal('Mondrian Generator')} /> },
     { id: 9, name: 'About', content: <AboutContent onClose={() => handleCloseModal('About Content')} /> },
+    { id: 10, name: 'Paint App', content: <PaintContent onClose={() => handleCloseModal('Paint App')} onSave={(imageData) => console.log('Saved image data:', imageData)} /> },
   ];
 
   const resetFolderPositions = () => {

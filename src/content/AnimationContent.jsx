@@ -7,8 +7,8 @@ import landscape3d from './FolderImages/animation/landscape3d.webp';
 const ProjectsContent = () => (
   <div className="overflow-auto p-4 max-w-4xl mx-auto" style={{ maxHeight: 'calc(100vh - 12rem)', maxWidth: '70vh' }}>
     <h1 className="text-4xl font-bold text-accent mb-4 font-mono">Animation Portfolio</h1>
-    <h2 className="text-2xl font-semibold text-accent mb-2 font-lora">Highlighting Collaborative Projects and Creativity</h2>
-    <p className="text-accent mb-4 font-lora">Here are some pieces from projects where I had the opportunity to collaborate, showcasing various animation works and design prototypes.</p>
+    <h2 className="text-2xl font-semibold text-accent mb-2 font-mono">Highlighting Collaborative Projects and Creativity</h2>
+    <p className="text-accent mb-4 ">Here are some pieces from projects where I had the opportunity to collaborate, showcasing various animation works and design prototypes.</p>
     
     {[
       { src: cardsFlames, title: "Flaming Cards", description: "Animation for Pull&Bear's social media, featuring flaming cards intended to be displayed on the Pull&Bear website. Tools used: Illustrator and After Effects.", alt: "Cards Flames Animation" },
