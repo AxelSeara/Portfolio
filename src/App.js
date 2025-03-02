@@ -13,6 +13,7 @@ import MondrianContent from './content/MondrianContent';
 import AboutContent from './content/AboutContent';
 import Notification from './components/Notification/Notification';
 import PaintContent from './content/PaintContent';
+import { Analytics } from "@vercel/analytics/react"
 
 const preloadImages = (imageArray) => {
   imageArray.forEach((image) => {
@@ -93,6 +94,7 @@ const App = () => {
   };
 
   return (
+    
     <MainLayout key={backgroundImage} backgroundImage={backgroundImage}>
       {showNotification && (
         <Notification
@@ -136,7 +138,9 @@ const App = () => {
           </div>
         </div>
       )}
+      <Analytics />
     </MainLayout>
+    
   );
 };
 
