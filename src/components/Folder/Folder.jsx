@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import PropTypes from 'prop-types';
 import folderCloseIcon from '../../icons/folder_close.svg';
@@ -11,15 +11,17 @@ import mondrianIcon from '../../icons/mondrian.svg';
 import aboutIcon from '../../icons/mypc.svg';
 import paintIcon from '../../icons/image.svg';
 import Modal from '../Modal/Modal';
+import { getCopy } from '../../content/copy';
 
+const t = getCopy();
 const iconMapping = {
-  'CV': documentIcon,
-  'DailyBloom': dailyBloomIcon,
-  'Weather': weatherIcon,
-  'Contact': contactIcon,
-  'Mondrian Generator': mondrianIcon,
-  'About': aboutIcon,
-  'Paint App': paintIcon,
+  [t.app.folders.cv]: documentIcon,
+  [t.app.folders.dailyBloom]: dailyBloomIcon,
+  [t.app.folders.weather]: weatherIcon,
+  [t.app.folders.contact]: contactIcon,
+  [t.app.folders.mondrian]: mondrianIcon,
+  [t.app.folders.about]: aboutIcon,
+  [t.app.folders.paint]: paintIcon,
 };
 
 const Folder = ({
@@ -31,30 +33,31 @@ const Folder = ({
   disableDoubleClick = false,
   onOpen,
   onClose,
+  onMinimize,
+  onToggleMaximize,
+  onContextMenu,
   onClick,
   zIndex,
   id,
   isOpen,
-  dragConstraints
+  isMinimized,
+  isMaximized,
+  isActive = false,
+  dragConstraints,
+  isMobile = false,
+  openOnSingleClick = false,
 }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const touchTimeout = useRef(null);
 
-  useEffect(() => {
-    setIsModalOpen(isOpen);  // Control modal visibility directly from props
-  }, [isOpen]);
-
   const handleDoubleClick = () => {
     if (!disableDoubleClick) {
-      setIsModalOpen(true);
       onOpen(id); // This will update the state in App which should pass down new props
     }
   };
 
   const closeModal = () => {
-    setIsModalOpen(false);
     onClose(name);
   };
 
@@ -84,13 +87,14 @@ const Folder = ({
   };
 
   const handleTouchStart = (e) => {
+    if (isMobile) return;
     touchTimeout.current = setTimeout(() => {
       if (navigator.vibrate) {
         navigator.vibrate(100);
       }
       e.target.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
       setIsDragging(true);
-    }, 1200); // 0.4 seconds timeout to activate drag
+    }, 1200);
   };
 
   const handleTouchEnd = (e) => {
@@ -105,20 +109,27 @@ const Folder = ({
   };
 
   return (
-    <div className="m-3">
+    <div className="m-1 sm:m-2">
       <motion.div
-        className={` flex flex-col items-center justify-center w-24 p-2 ${className}`}
-        style={{ ...style, cursor: 'move' }}
-        drag
+        className={`flex flex-col items-center justify-center w-16 p-1 sm:w-20 sm:p-2 md:w-24 ${className}`}
+        style={{ ...style, cursor: isMobile ? 'pointer' : 'grab' }}
+        drag={!isMobile}
         dragConstraints={dragConstraints}
         dragMomentum={false}
+        dragElastic={0}
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
         onDoubleClick={handleDoubleClick}
+        onClick={() => {
+          if (openOnSingleClick) {
+            handleDoubleClick();
+          }
+        }}
         tabIndex={0}
         onKeyDown={handleKeyDown}
         onPointerDown={handlePointerDown}
         onPointerUp={handlePointerUp}
+        onContextMenu={(event) => onContextMenu(name, event)}
         whileTap={{ scale: 0.95 }}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
@@ -126,20 +137,35 @@ const Folder = ({
         <motion.img
           src={iconMapping[name] || (isOpen ? folderOpenIcon : folderCloseIcon)}
           alt={name}
-          className={isOpen ? "w-full h-full pointer-events-none" : "w-[105%] h-[105%] pointer-events-none"}
+          className={
+            isOpen ? 'w-full h-full pointer-events-none' : 'w-[105%] h-[105%] pointer-events-none'
+          }
           whileHover={{ scale: 1.05 }}
           transition={{ duration: 0.2 }}
         />
-        <span className={`mt-2 text-center w-full ${isClicked ? 'bg-accent text-white font-semibold ' : 'text-white font-semibold text-shadow-sm'}`}>
+        <span
+          className={`retro-folder-label mt-1 w-full max-w-full border px-1 py-[3px] text-center text-[11px] leading-tight break-words sm:mt-2 sm:text-sm ${
+            isClicked || isActive
+              ? 'border-accent bg-accent text-white font-semibold'
+              : 'border-white/60 bg-black/45 text-white font-semibold text-shadow-sm'
+          }`}
+          style={{ minHeight: '2.4em' }}
+        >
           {name}
         </span>
       </motion.div>
       <Modal
-        isOpen={isModalOpen}
+        isOpen={isOpen}
+        isMinimized={isMinimized}
+        isMaximized={isMaximized}
+        isMobile={isMobile}
+        isActive={isActive}
         onClose={closeModal}
+        onMinimize={() => onMinimize(name)}
+        onToggleMaximize={() => onToggleMaximize(name)}
         title={name}
         zIndex={zIndex}
-        onClick={() => onClick && onClick(name)} // Safeguarding the onClick call
+        onFocus={() => onClick && onClick(name)}
       >
         {content}
       </Modal>
@@ -152,16 +178,23 @@ Folder.propTypes = {
   className: PropTypes.string,
   style: PropTypes.object,
   name: PropTypes.string.isRequired,
-  content: PropTypes.node.isRequired,
+  content: PropTypes.node,
   disableDoubleClick: PropTypes.bool,
   onOpen: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
+  onMinimize: PropTypes.func.isRequired,
+  onToggleMaximize: PropTypes.func.isRequired,
+  onContextMenu: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
   zIndex: PropTypes.number.isRequired,
   id: PropTypes.number.isRequired,
   isOpen: PropTypes.bool.isRequired,
+  isMinimized: PropTypes.bool.isRequired,
+  isMaximized: PropTypes.bool.isRequired,
+  isActive: PropTypes.bool,
   dragConstraints: PropTypes.object.isRequired,
-
+  isMobile: PropTypes.bool,
+  openOnSingleClick: PropTypes.bool,
 };
 
 export default Folder;

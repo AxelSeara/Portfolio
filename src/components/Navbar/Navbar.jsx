@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { motion, AnimatePresence } from 'framer-motion';
 import DropdownAdjust from '../DropdownAdjust/DropdownAdjust';
+import { getCopy } from '../../content/copy';
 
 ////////////////////////////////////////////////////////////////////////
 // 1) Función para animación retro
@@ -55,6 +56,7 @@ const submenuVariants = {
     },
   },
 };
+const t = getCopy();
 
 ////////////////////////////////////////////////////////////////////////
 // 3) Componente Navbar
@@ -68,20 +70,29 @@ const Navbar = ({
   onOpenModal,
   onRefreshFolders,
   switchBackground,
-  onLoad
+  onToggleCrt,
+  retroCrtEnabled,
+  isMobile,
+  mobileSwitcherOpen,
+  onToggleMobileSwitcher,
+  onLoad,
 }) => {
   const [currentTime, setCurrentTime] = useState('');
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [activeSubmenu, setActiveSubmenu] = useState(null);
   const dropdownRef = useRef(null);
 
-  // Abre la carpeta "Contact" si existe
-  const openContactModal = () => {
-    const contactFolder = folders.find(folder => folder.name === "Contact");
-    if (contactFolder) {
-      onOpenModal(contactFolder.id);
+  const openFolderByName = (folderName) => {
+    const folder = folders.find((item) => item.name === folderName);
+    if (folder) {
+      onOpenModal(folder.id);
     }
   };
+
+  // Abre la carpeta "Contact" si existe
+  const openContactModal = () => openFolderByName(t.app.folders.contact);
+
+  const openCVModal = () => openFolderByName(t.app.folders.cv);
 
   // Llamar a onLoad en el montaje
   useEffect(() => {
@@ -128,16 +139,14 @@ const Navbar = ({
   };
 
   const submenuItems = {
-    ABOUT: [
-      "This project was created by Axel, a designer, developer, and UX/UI passionate. Using React, Tailwind CSS, and Framer Motion.",
-    ],
-    VERSION: ["Version 1.1 - February 2025"],
+    [t.navbar.dropdown.menu.about]: [t.navbar.dropdown.aboutText],
+    [t.navbar.dropdown.menu.version]: [t.navbar.dropdown.versionText],
   };
 
   const handleFolderClick = (e) => {
     e.preventDefault();
     const folderName = e.currentTarget.getAttribute('data-name');
-    const folder = folders.find(f => f.name === folderName);
+    const folder = folders.find((f) => f.name === folderName);
     if (folder) {
       onOpenModal(folder.id);
     }
@@ -147,12 +156,14 @@ const Navbar = ({
   return (
     <div className="relative">
       {/* Nav container */}
-      <nav className="
+      <nav
+        className="
         flex justify-between items-center
         p-1 px-2 bg-tertiary text-accent font-mono
         m-4 border-2 border-accent shadow-no-blur
         rounded-md
-      ">
+      "
+      >
         {/* Left side: nombre + links */}
         <div className="relative flex items-center space-x-4">
           <button
@@ -164,46 +175,121 @@ const Navbar = ({
           </button>
 
           {/* Animación retro en links */}
-          {links && links.map((link) => (
-            <motion.a
-              key={link}
-              href={`#${link.toLowerCase()}`}
-              className={`px-2 py-1 ${link === activeLink ? 'bg-accent text-white' : ''}`}
-              variants={linkVariants}
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-              onClick={(e) => {
-                e.preventDefault();
-                onClickLink(link);
-              }}
-            >
-              {link}
-            </motion.a>
-          ))}
+          {links &&
+            links.map((link) => (
+              <motion.button
+                key={link}
+                type="button"
+                className={`px-2 py-1 ${link === activeLink ? 'bg-accent text-white' : ''}`}
+                variants={linkVariants}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+                onClick={() => {
+                  onClickLink(link);
+                }}
+              >
+                {link}
+              </motion.button>
+            ))}
         </div>
 
         {/* Right side: Ajustes, Contact, Reloj */}
         <div className="flex items-center space-x-4">
+          <button
+            type="button"
+            className="border-2 border-accent px-2 py-1 font-mono text-[10px] uppercase tracking-wide text-accent hover:bg-accent hover:text-white"
+            onClick={() => openFolderByName(t.app.folders.about)}
+            aria-label={t.navbar.aria.openAbout}
+          >
+            {t.navbar.quickActions.about}
+          </button>
+
+          <button
+            type="button"
+            className="border-2 border-accent px-2 py-1 font-mono text-[10px] uppercase tracking-wide text-accent hover:bg-accent hover:text-white"
+            onClick={() => openFolderByName(t.app.folders.dailyBloom)}
+            aria-label={t.navbar.aria.openCase}
+          >
+            {t.navbar.quickActions.case}
+          </button>
+
+          <button
+            type="button"
+            className="border-2 border-accent px-2 py-1 font-mono text-[10px] uppercase tracking-wide text-accent hover:bg-accent hover:text-white"
+            onClick={openCVModal}
+            aria-label={t.navbar.aria.openCv}
+          >
+            {t.navbar.quickActions.cv}
+          </button>
+
+          {isMobile && (
+            <button
+              type="button"
+              className={`border-2 border-accent px-2 py-1 font-mono text-[10px] uppercase tracking-wide ${
+                mobileSwitcherOpen
+                  ? 'bg-accent text-white'
+                  : 'text-accent hover:bg-accent hover:text-white'
+              }`}
+              onClick={onToggleMobileSwitcher}
+              aria-label={t.navbar.aria.toggleAppSwitcher}
+            >
+              {t.navbar.quickActions.apps}
+            </button>
+          )}
+
           <DropdownAdjust
             buttonContent={
-              <div className="group w-6 h-6 flex items-center justify-center hover:bg-accent hover:text-white" id="adjust">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 49 42.09" className="w-5 h-5 stroke-current text-accent group-hover:text-white fill-accent">
+              <div
+                className="group w-6 h-6 flex items-center justify-center hover:bg-accent hover:text-white"
+                id="adjust"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 49 42.09"
+                  className="w-5 h-5 stroke-current text-accent group-hover:text-white fill-accent"
+                >
                   <g data-name="Capa 1">
-                    <path d="M30 10.29H4.92M44.46 31.03H18" fill="none" stroke="#243b40" strokeMiterlimit="10" strokeWidth="6"/>
-                    <circle cx="37.94" cy="11.06" r="8.06" fill="none" stroke="#243b40" strokeMiterlimit="10" strokeWidth="6"/>
-                    <circle cx="10.96" cy="31.13" r="7.96" fill="none" stroke="#243b40" strokeMiterlimit="10" strokeWidth="6"/>
+                    <path
+                      d="M30 10.29H4.92M44.46 31.03H18"
+                      fill="none"
+                      stroke="#243b40"
+                      strokeMiterlimit="10"
+                      strokeWidth="6"
+                    />
+                    <circle
+                      cx="37.94"
+                      cy="11.06"
+                      r="8.06"
+                      fill="none"
+                      stroke="#243b40"
+                      strokeMiterlimit="10"
+                      strokeWidth="6"
+                    />
+                    <circle
+                      cx="10.96"
+                      cy="31.13"
+                      r="7.96"
+                      fill="none"
+                      stroke="#243b40"
+                      strokeMiterlimit="10"
+                      strokeWidth="6"
+                    />
                   </g>
                 </svg>
               </div>
             }
             onRefreshFolders={onRefreshFolders}
             switchBackground={switchBackground}
+            onToggleCrt={onToggleCrt}
+            retroCrtEnabled={retroCrtEnabled}
           />
 
-          <div
+          <button
+            type="button"
             className="group w-6 h-6 flex items-center justify-center hover:bg-accent hover:text-white"
             onClick={openContactModal}
+            aria-label={t.navbar.aria.openContact}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -211,12 +297,17 @@ const Navbar = ({
               className="w-5 h-5 stroke-current stroke-4 text-accent group-hover:text-white fill-none"
             >
               <g data-name="Capa 1">
-                <path d="M3 3h39.43v28H3zM17.95 17.53 3.53 27.61M41.49 27.57l-13.54-9.71" strokeWidth="4"/>
-                <path d="m3.86 3.57 15.79 15.5a4.75 4.75 0 0 0 6.71 0l15.5-14.93" strokeWidth="4"/>
+                <path
+                  d="M3 3h39.43v28H3zM17.95 17.53 3.53 27.61M41.49 27.57l-13.54-9.71"
+                  strokeWidth="4"
+                />
+                <path d="m3.86 3.57 15.79 15.5a4.75 4.75 0 0 0 6.71 0l15.5-14.93" strokeWidth="4" />
               </g>
             </svg>
-          </div>
-          <span>{currentTime}</span>
+          </button>
+          <span className="border-2 border-accent px-2 py-1 font-mono text-[10px]">
+            {currentTime}
+          </span>
         </div>
       </nav>
 
@@ -234,20 +325,24 @@ const Navbar = ({
           ref={dropdownRef}
         >
           <ul className="py-2 text-sm" aria-labelledby="dropdownDefaultButton">
-            {['ABOUT', 'VERSION', 'FILES'].map((menu) => (
+            {[
+              t.navbar.dropdown.menu.about,
+              t.navbar.dropdown.menu.version,
+              t.navbar.dropdown.menu.files,
+            ].map((menu) => (
               <li
                 key={menu}
                 onMouseEnter={() => handleMouseEnter(menu)}
                 onMouseLeave={handleMouseLeave}
                 className="relative"
               >
-                <a
-                  href="#"
-                  className="block px-4 py-2 hover:bg-accent hover:text-white"
+                <button
+                  type="button"
+                  className="block w-full text-left px-4 py-2 hover:bg-accent hover:text-white"
                   onClick={(e) => e.preventDefault()}
                 >
                   {menu}
-                </a>
+                </button>
 
                 {/* Submenú con AnimatePresence y estilo retro + sombra */}
                 <AnimatePresence>
@@ -266,32 +361,30 @@ const Navbar = ({
                       "
                     >
                       <ul>
-                        {menu === 'FILES' ? (
-                          folders.map((folder) => (
-                            <li key={folder.id}>
-                              <a
-                                href="#"
-                                data-name={folder.name}
-                                className="block px-4 py-2 hover:bg-accent hover:text-white"
-                                onClick={handleFolderClick}
-                              >
-                                {folder.name}
-                              </a>
-                            </li>
-                          ))
-                        ) : (
-                          submenuItems[menu]?.map((submenuItem) => (
-                            <li key={submenuItem}>
-                              <a
-                                href="#"
-                                className="block px-4 py-2 hover:bg-accent hover:text-white"
-                                onClick={(e) => e.preventDefault()}
-                              >
-                                {submenuItem}
-                              </a>
-                            </li>
-                          ))
-                        )}
+                        {menu === t.navbar.dropdown.menu.files
+                          ? folders.map((folder) => (
+                              <li key={folder.id}>
+                                <button
+                                  type="button"
+                                  data-name={folder.name}
+                                  className="block w-full text-left px-4 py-2 hover:bg-accent hover:text-white"
+                                  onClick={handleFolderClick}
+                                >
+                                  {folder.name}
+                                </button>
+                              </li>
+                            ))
+                          : submenuItems[menu]?.map((submenuItem) => (
+                              <li key={submenuItem}>
+                                <button
+                                  type="button"
+                                  className="block w-full text-left px-4 py-2 hover:bg-accent hover:text-white"
+                                  onClick={(e) => e.preventDefault()}
+                                >
+                                  {submenuItem}
+                                </button>
+                              </li>
+                            ))}
                       </ul>
                     </motion.div>
                   )}
@@ -314,6 +407,11 @@ Navbar.propTypes = {
   onOpenModal: PropTypes.func,
   onRefreshFolders: PropTypes.func,
   switchBackground: PropTypes.func,
+  onToggleCrt: PropTypes.func,
+  retroCrtEnabled: PropTypes.bool,
+  isMobile: PropTypes.bool,
+  mobileSwitcherOpen: PropTypes.bool,
+  onToggleMobileSwitcher: PropTypes.func,
   onLoad: PropTypes.func,
 };
 

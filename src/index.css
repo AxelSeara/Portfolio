@@ -3,3 +3,309 @@
 @tailwind utilities;
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap');
+
+:root {
+  --retro-bg: #75bebe;
+  --retro-surface: #e1b1a9;
+  --retro-surface-alt: #ffba6b;
+  --retro-surface-strong: #ff8e78;
+  --retro-border: #243b40;
+  --retro-accent: #243b40;
+  --retro-accent-soft: #48646b;
+  --retro-focus: #3a8ca6;
+  --retro-shadow: 4px 4px 0 rgba(20, 35, 38, 0.75);
+  --retro-radius: 2px;
+  --retro-dur-fast: 120ms;
+  --retro-dur-base: 220ms;
+  --retro-dur-slow: 420ms;
+  --retro-cursor:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='%23ffffff' d='M1 1h2v1h1v1h1v1h1v1h1v1h1v1h1v1H8v1H7v2H6v2H5v1H4v-1H3v-2H2V9H1z'/%3E%3Cpath fill='%23000000' d='M0 0h3v1h1v1h1v1h1v1h1v1h1v1h1v1h2v2H9v1H8v2H7v2H6v2H3v-1H2v-2H1V9H0zM1 1v8h1v3h1v3h2v-3h1v-2h1v-1h2V8H8V7H7V6H6V5H5V4H4V3H3V2H2V1z'/%3E%3C/svg%3E")
+      0 0,
+    auto;
+  --retro-pointer:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='%23000000' d='M2 1h2v1h1v1h1v1h1v1h1v1h1v1h2v2h-1v1H9v1H8v2H6v2H4v-2H3v-2H2v-2H1V7h1V6h1z'/%3E%3Cpath fill='%23ffffff' d='M3 2h1v1h1v1h1v1h1v1h1v1h1v1H9v1H8v1H7v2H6v2H5v-2H4v-2H3v-2H2V8h1V7h1V6h1V5H4V4H3z'/%3E%3C/svg%3E")
+      2 0,
+    pointer;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  cursor: var(--retro-cursor);
+  background: var(--retro-bg);
+  color: var(--retro-accent);
+  font-family: 'Roboto Mono', monospace;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--retro-focus);
+  outline-offset: 2px;
+}
+
+a,
+button,
+input,
+select,
+textarea,
+[role='button'],
+label {
+  cursor: var(--retro-pointer);
+}
+
+img,
+video,
+canvas {
+  image-rendering: pixelated;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2147483646;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.18) 0px,
+    rgba(0, 0, 0, 0.18) 1px,
+    rgba(255, 255, 255, 0.02) 2px,
+    rgba(255, 255, 255, 0.02) 3px
+  );
+  mix-blend-mode: multiply;
+  opacity: 0.45;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2147483647;
+  background:
+    radial-gradient(circle at center, transparent 58%, rgba(0, 0, 0, 0.42) 100%),
+    linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 255, 0.03));
+  animation: crt-flicker var(--retro-dur-slow) steps(12, end) infinite;
+}
+
+html[data-retro-intensity='off'] body::before,
+html[data-retro-intensity='off'] body::after {
+  opacity: 0 !important;
+  animation: none !important;
+}
+
+html[data-retro-intensity='low'] body::before {
+  opacity: 0.16;
+}
+html[data-retro-intensity='low'] body::after {
+  opacity: 0.18;
+}
+
+html[data-retro-intensity='medium'] body::before {
+  opacity: 0.28;
+}
+html[data-retro-intensity='medium'] body::after {
+  opacity: 0.3;
+}
+
+html[data-retro-intensity='high'] body::before {
+  opacity: 0.45;
+}
+html[data-retro-intensity='high'] body::after {
+  opacity: 0.51;
+}
+
+.desktop-shell {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.11) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.11) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.window-strip {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+}
+
+.retro-window-chip {
+  border: 2px solid var(--retro-border);
+  border-radius: var(--retro-radius);
+  background: var(--retro-surface);
+  color: var(--retro-accent);
+  font-family: 'Roboto Mono', monospace;
+  font-size: 11px;
+  padding: 2px 8px;
+  white-space: nowrap;
+  transition:
+    transform var(--retro-dur-fast),
+    background var(--retro-dur-base),
+    color var(--retro-dur-base);
+}
+
+.retro-window-chip:hover {
+  transform: translateY(-1px);
+}
+
+.retro-window-chip.active {
+  background: var(--retro-accent);
+  color: #fff;
+}
+
+.retro-window-chip.minimized {
+  opacity: 0.72;
+}
+
+.retro-switcher-btn {
+  border: 2px solid var(--retro-border);
+  border-radius: var(--retro-radius);
+  background: var(--retro-surface);
+  color: var(--retro-accent);
+  font-family: 'Roboto Mono', monospace;
+  font-size: 11px;
+  padding: 6px 8px;
+  text-align: left;
+  min-height: 38px;
+}
+
+.retro-switcher-btn.active {
+  background: var(--retro-accent-soft);
+  color: #fff;
+}
+
+.retro-loading {
+  border: 2px solid var(--retro-border);
+  background: var(--retro-surface);
+  padding: 12px 18px;
+  box-shadow: var(--retro-shadow);
+}
+
+.retro-app-shell {
+  width: min(100%, 1100px);
+  border: 4px solid var(--retro-border);
+  background: color-mix(in srgb, var(--retro-surface) 88%, #fff 12%);
+  box-shadow: var(--retro-shadow);
+}
+
+.retro-app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  border-bottom: 4px solid var(--retro-border);
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--retro-surface) 70%, var(--retro-surface-alt) 30%),
+    color-mix(in srgb, var(--retro-surface-alt) 76%, var(--retro-surface-strong) 24%)
+  );
+  padding: 8px 12px;
+  font-family: 'Roboto Mono', monospace;
+  color: var(--retro-accent);
+}
+
+.retro-app-title {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.retro-app-toolbar {
+  border-bottom: 2px solid var(--retro-border);
+  background: color-mix(in srgb, var(--retro-surface-alt) 78%, #fff 22%);
+  padding: 8px;
+}
+
+.retro-app-body {
+  background: color-mix(in srgb, var(--retro-surface) 68%, var(--retro-bg) 32%);
+  padding: 10px;
+}
+
+.retro-app-panel {
+  border: 2px solid var(--retro-border);
+  background: color-mix(in srgb, var(--retro-surface) 86%, #fff 14%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  padding: 10px;
+}
+
+.retro-btn {
+  border: 2px solid var(--retro-border);
+  background: color-mix(in srgb, var(--retro-surface-alt) 80%, #fff 20%);
+  color: var(--retro-accent);
+  font-family: 'Roboto Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 8px;
+  transition:
+    background var(--retro-dur-base),
+    color var(--retro-dur-base),
+    transform var(--retro-dur-fast);
+}
+
+.retro-btn:hover {
+  background: var(--retro-accent);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.retro-btn.active {
+  background: var(--retro-accent);
+  color: #fff;
+}
+
+.retro-folder-label {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+}
+
+.modal-content .retro-app-shell {
+  width: 100%;
+  max-width: none;
+  border: 0;
+  box-shadow: none;
+  background: transparent;
+}
+
+.modal-content .retro-app-header {
+  border-bottom-width: 2px;
+  background: transparent;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+@keyframes crt-flicker {
+  0% {
+    opacity: 0.52;
+  }
+  10% {
+    opacity: 0.56;
+  }
+  25% {
+    opacity: 0.48;
+  }
+  40% {
+    opacity: 0.58;
+  }
+  60% {
+    opacity: 0.5;
+  }
+  80% {
+    opacity: 0.55;
+  }
+  100% {
+    opacity: 0.51;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::after {
+    animation: none;
+  }
+}

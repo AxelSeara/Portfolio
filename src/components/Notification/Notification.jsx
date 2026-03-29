@@ -1,40 +1,37 @@
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import mypcIcon from '../../icons/mypc.svg';
+import { getCopy } from '../../content/copy';
 
 const Notification = ({ message, onClose }) => {
+  const t = getCopy();
   useEffect(() => {
     const timer = setTimeout(() => {
       onClose();
-    }, 15000); // Auto-close after 15 seconds
+    }, 8000);
 
     return () => clearTimeout(timer);
   }, [onClose]);
 
   return (
-    <div className="fixed bottom-0 right-0 p-4 z-50 pointer-events-none">
+    <div className="fixed bottom-3 right-3 z-50 p-2 pointer-events-none">
       <AnimatePresence>
         <motion.div
           initial={{ opacity: 0, y: 50, scale: 0.8 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 50, transition: { duration: 0.5 } }}
-          transition={{
-            type: "spring",
-            stiffness: 300,
-            damping: 20,
-            duration: 0.8
-          }}
-          className="relative rounded-md bg-tertiary text-accent w-full md:max-w-xs shadow-none pointer-events-auto"
+          transition={{ type: 'spring', stiffness: 300, damping: 20, duration: 0.55 }}
+          className="relative w-[88vw] border-2 border-accent bg-tertiary text-accent shadow-no-blur pointer-events-auto md:w-[360px]"
         >
-          <div className="flex justify-between items-center py-2 px-4 bg-gradient-to-r from-tertiary to-sky-200 rounded-md">
-            <div className="flex items-center text-sm font-normal">
-              <img src={mypcIcon} alt="PC Icon" className="mr-4 w-12 h-12" /> {/* Icon to the left */}
-              Explore my portfolio! Drag icons, switch backgrounds, explore the content and enjoy the experience.
+          <div className="flex items-center justify-between bg-gradient-to-r from-tertiary to-secondary/70 px-3 py-2">
+            <div className="flex items-center font-mono text-xs md:text-sm">
+              <img src={mypcIcon} alt={t.notification.iconAlt} className="mr-3 h-9 w-9" />
+              {message}
             </div>
             <button
-              className="text-lg font-bold px-2 hover:bg-accent hover:text-white transition-colors duration-200 rounded-lg focus:ring-2 focus:ring-gray-300"
+              className="border-2 border-accent px-2 py-0.5 font-mono text-xs font-bold hover:bg-accent hover:text-white"
               onClick={onClose}
-              aria-label="Close"
+              aria-label={t.notification.close}
             >
               X
             </button>

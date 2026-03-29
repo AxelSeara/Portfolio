@@ -1,7 +1,6 @@
 import React from 'react';
 import MainLayout from './MainLayout';
 import Navbar from '../Navbar/Navbar';
-import Folder from '../Folder/Folder';
 
 export default {
   title: 'Components/MainLayout',

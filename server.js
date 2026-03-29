@@ -2,13 +2,18 @@ const express = require('express');
 const path = require('path');
 const app = express();
 
-// Middleware para redirigir de no-www a www
+// Middleware para redirigir de no-www a www en dominios públicos
 app.use((req, res, next) => {
-  if (req.headers.host.slice(0, 4) !== 'www.') {
-    res.redirect(301, 'https://www.' + req.headers.host + req.url);
-  } else {
-    next();
+  const host = req.headers.host || '';
+  const hostname = host.split(':')[0];
+  const isLocalhost = hostname === 'localhost' || /^\d{1,3}(\.\d{1,3}){3}$/.test(hostname);
+  const isSubdomain = hostname.startsWith('www.');
+
+  if (!isLocalhost && hostname && !isSubdomain) {
+    return res.redirect(301, `https://www.${host}${req.url}`);
   }
+
+  next();
 });
 
 // Servir archivos estáticos desde el directorio 'build'

@@ -1,230 +1,260 @@
-import React, { useState, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
-import './WeatherStyles.css';
+import { getCopy } from './copy';
 
 const cities = [
-  { name: 'Berlin', lat: 52.5200, lon: 13.4050 },
+  { name: 'Berlin', lat: 52.52, lon: 13.405 },
   { name: 'Ourense', lat: 42.3367, lon: -7.8641 },
   { name: 'Sarajevo', lat: 43.8563, lon: 18.4131 },
   { name: 'Helsinki', lat: 60.1695, lon: 24.9354 },
-  { name: 'Nauru', lat: -0.5228, lon: 166.9315 }
+  { name: 'Nauru', lat: -0.5228, lon: 166.9315 },
 ];
 
-const WeatherContent = () => {
-  const [weather, setWeather]   = useState(null);
+const WEATHER_API_KEY = process.env.REACT_APP_OPENWEATHER_API_KEY;
+
+const weatherIconByMain = {
+  clear: '☀',
+  clouds: '☁',
+  rain: '☂',
+  thunderstorm: '⚡',
+  snow: '❄',
+  drizzle: '☔',
+  mist: '〰',
+  fog: '〰',
+};
+
+const WeatherApp = () => {
+  const t = getCopy();
+  const [weather, setWeather] = useState(null);
   const [airQuality, setAirQuality] = useState(null);
   const [latitude, setLatitude] = useState(cities[0].lat);
   const [longitude, setLongitude] = useState(cities[0].lon);
-  const [loading, setLoading]   = useState(true);
-  const [error, setError]       = useState(null);
+  const [selectedCity, setSelectedCity] = useState(cities[0].name);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [showInfoPanel, setShowInfoPanel] = useState(true);
 
-  /** 
-   * Recuperar el clima y la calidad del aire
-   */
-  const fetchWeather = async (lat, lon) => {
-    try {
-      const weatherRes = await axios.get(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=9d6c6b757538770137128e0520bd7f64&units=metric`
-      );
-      const airQRes = await axios.get(
-        `https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=9d6c6b757538770137128e0520bd7f64`
-      );
+  const fetchWeather = useCallback(
+    async (lat, lon) => {
+      if (!WEATHER_API_KEY) {
+        setError(t.content.weather.errors.serviceNotConfigured);
+        setLoading(false);
+        return;
+      }
 
-      setWeather(weatherRes.data);
-      setAirQuality(airQRes.data.list[0].main.aqi);
-    } catch (err) {
-      console.error('Error fetching weather data:', err);
-      setError('Unable to fetch weather data.');
-    } finally {
-      setLoading(false);
-    }
-  };
+      try {
+        const weatherRes = await axios.get(
+          `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}&units=metric`
+        );
+        const airQRes = await axios.get(
+          `https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}`
+        );
 
-  /**
-   * Al montar o cambiar lat/lon
-   */
+        setWeather(weatherRes.data);
+        setAirQuality(airQRes.data.list[0].main.aqi);
+        setError('');
+      } catch (err) {
+        console.error('Error fetching weather data:', err);
+        setError(t.content.weather.errors.fetchFailed);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [t]
+  );
+
   useEffect(() => {
     fetchWeather(latitude, longitude);
-  }, [latitude, longitude]);
+  }, [fetchWeather, latitude, longitude]);
 
-  /**
-   * Pide geolocalización solo con Current Location
-   */
+  const handleCityClick = (city) => {
+    setSelectedCity(city.name);
+    setLoading(true);
+    setError('');
+    setLatitude(city.lat);
+    setLongitude(city.lon);
+  };
+
   const handleLocationPermission = () => {
-    console.log("Requesting location permission...");
-
     if (!navigator.geolocation) {
-      setError('Geolocation is not supported by your browser.');
+      setError(t.content.weather.errors.noGeolocation);
       return;
     }
 
-    // Solo para current location marcamos "loading = true"
+    setSelectedCity(t.content.weather.actions.currentLocation);
     setLoading(true);
-    setError(null);
+    setError('');
 
     navigator.geolocation.getCurrentPosition(
       (pos) => {
-        console.log("Location access granted.");
         setLatitude(pos.coords.latitude);
         setLongitude(pos.coords.longitude);
       },
-      (err) => {
-        console.error('Error getting location:', err);
-        setError('Location permission denied. Using default cities.');
-        // No cambiamos lat/lon => se queda en la ciudad default
+      () => {
         setLoading(false);
+        setError(t.content.weather.errors.locationDenied);
       },
       { timeout: 10000, maximumAge: 60000, enableHighAccuracy: true }
     );
   };
 
-  /**
-   * Determina el gradiente de fondo según el clima
-   */
-  const getBackgroundClass = () => {
-    if (!weather) return 'from-blue-500 to-blue-300';
-    const main = weather.weather[0].main.toLowerCase();
+  const main = weather?.weather?.[0]?.main?.toLowerCase() || 'clear';
+  const symbol = weatherIconByMain[main] || '☀';
 
-    switch (main) {
-      case 'clear':
-        return 'from-blue-500 to-blue-300';       // Soleado
-      case 'clouds':
-        return 'from-gray-600 to-gray-300';       // Nublado
-      case 'rain':
-        return 'from-blue-900 to-blue-500';       // Lluvia
-      case 'thunderstorm':
-        return 'from-gray-900 to-gray-700';       // Tormenta
-      case 'snow':
-        return 'from-blue-500 to-white';          // Nieve
-      case 'drizzle':
-        return 'from-blue-300 to-blue-100';       // Llovizna
-      case 'mist':
-      case 'fog':
-        return 'from-gray-400 to-gray-200';       // Niebla
-      default:
-        return 'from-blue-500 to-blue-300';       // Por defecto
-    }
-  };
-
-  /**
-   * Determina el emoji según el clima
-   */
-  const getWeatherEmoji = () => {
-    if (!weather) return '🌞';
-    const main = weather.weather[0].main.toLowerCase();
-    switch (main) {
-      case 'clear':        return '☀️';
-      case 'clouds':       return weather.weather[0].description.includes('broken') ? '⛅' : '☁️';
-      case 'rain':         return '🌧️';
-      case 'thunderstorm': return '⛈️';
-      case 'snow':         return '❄️';
-      case 'drizzle':      return '🌦️';
-      case 'mist':
-      case 'fog':          return '🌫️';
-      default:             return '🌞';
-    }
-  };
-
-  /**
-   * Alerta de calidad del aire
-   * Mismo color de texto que el resto, + un emoji
-   */
-  const getAirQualityAlert = () => {
-    if (airQuality === null) return null;
+  const airQualityInfo = (() => {
     switch (airQuality) {
       case 1:
-        return { message: 'Air quality is good.', emoji: '😃' };
+        return {
+          label: t.content.weather.airQuality.labels.good,
+          note: t.content.weather.airQuality.notes.good,
+          tone: 'bg-tertiary text-accent',
+        };
       case 2:
-        return { message: 'Air quality is fair.', emoji: '🙂' };
+        return {
+          label: t.content.weather.airQuality.labels.fair,
+          note: t.content.weather.airQuality.notes.fair,
+          tone: 'bg-secondary text-accent',
+        };
       case 3:
-        return { message: 'Moderate pollution. Sensitive people take precautions.', emoji: '😐' };
+        return {
+          label: t.content.weather.airQuality.labels.moderate,
+          note: t.content.weather.airQuality.notes.moderate,
+          tone: 'bg-primary text-accent',
+        };
       case 4:
-        return { message: 'High pollution! Avoid outdoor activities.', emoji: '😷' };
+        return {
+          label: t.content.weather.airQuality.labels.poor,
+          note: t.content.weather.airQuality.notes.poor,
+          tone: 'bg-accent text-white',
+        };
       case 5:
-        return { message: 'Very high pollution! Stay indoors if you have allergies.', emoji: '🤒' };
+        return {
+          label: t.content.weather.airQuality.labels.veryPoor,
+          note: t.content.weather.airQuality.notes.veryPoor,
+          tone: 'bg-black text-white',
+        };
       default:
-        return null;
+        return {
+          label: t.content.weather.airQuality.labels.na,
+          note: t.content.weather.airQuality.notes.na,
+          tone: 'bg-quaternary text-accent',
+        };
     }
-  };
-
-  /** Cambiar ciudad sin activar loading */
-  const handleCityClick = (city) => {
-    setError(null);
-    setLoading(false); 
-    setLatitude(city.lat);
-    setLongitude(city.lon);
-  };
+  })();
 
   return (
-    <div 
-      className={`
-        flex flex-col items-center justify-center h-full p-4
-        bg-gradient-to-t ${getBackgroundClass()} 
-        font-mono transition ease-in-out
-      `}
-    >
-      {/* Barra de ciudades */}
-      <div className="w-full flex justify-center text-accent mb-6 p-2 rounded flex-wrap">
-        {cities.map((city) => (
-          <button
-            key={city.name}
-            className="bg-tertiary text-accent px-2 py-1 m-1 rounded text-xs hover:bg-accent hover:text-tertiary shadow-sm"
-            onClick={() => handleCityClick(city)}
-          >
-            {city.name}
-          </button>
-        ))}
-
-        {/* Botón Current Location => activa loading */}
-        <button
-          className="bg-tertiary text-accent px-2 py-1 m-1 rounded text-xs hover:bg-accent hover:text-tertiary"
-          onClick={handleLocationPermission}
-        >
-          Current Location
-        </button>
+    <div className="retro-app-shell mx-auto">
+      <div className="retro-app-header">
+        <h2 className="retro-app-title">{t.content.weather.title}</h2>
+        <span className="font-mono text-[11px] uppercase tracking-widest text-accent">
+          {t.content.weather.badge}
+        </span>
       </div>
 
-      {/* Contenedor de contenido */}
-      <div className="flex flex-col items-center justify-center flex-grow w-full max-w-md h-96">
-        {loading ? (
-          /* Solo se muestra "loading..." cuando es por geolocalización */
-          <div className="flex flex-col items-center justify-center">
-            <motion.div
-              className="w-12 h-12"
-              animate={{ y: [0, -10, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
+      <div className="retro-app-toolbar">
+        <div className="flex flex-wrap items-center gap-2">
+          {cities.map((city) => (
+            <button
+              key={city.name}
+              type="button"
+              className={`retro-btn ${selectedCity === city.name ? 'active' : ''}`}
+              onClick={() => handleCityClick(city)}
             >
-              ⏳
-            </motion.div>
-            <p className="text-xl mt-2">Loading weather data...</p>
+              {city.name}
+            </button>
+          ))}
+          <button type="button" className="retro-btn" onClick={handleLocationPermission}>
+            {t.content.weather.actions.currentLocation}
+          </button>
+        </div>
+      </div>
+
+      <div className="retro-app-body md:p-4">
+        {showInfoPanel && (
+          <div className="retro-app-panel mb-3 font-mono text-xs leading-relaxed text-accent">
+            <div className="flex items-start justify-between gap-3">
+              <p>{t.content.weather.info}</p>
+              <button
+                type="button"
+                className="retro-btn shrink-0"
+                onClick={() => setShowInfoPanel(false)}
+              >
+                {t.content.weather.actions.close}
+              </button>
+            </div>
           </div>
-        ) : error ? (
-          <div className="text-center mt-6">
-            <p className="text-xl">{error}</p>
-          </div>
-        ) : (
-          <div className="text-center mt-6">
+        )}
+
+        {loading && (
+          <div className="retro-app-panel flex min-h-64 flex-col items-center justify-center">
             <motion.div
-              className="text-6xl"
-              animate={{ y: [0, -10, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
+              className="text-4xl"
+              animate={{ y: [0, -6, 0] }}
+              transition={{ duration: 1.1, repeat: Infinity }}
             >
-              {getWeatherEmoji()}
+              {symbol}
             </motion.div>
+            <p className="mt-2 font-mono text-sm text-accent">{t.content.weather.loading}</p>
+          </div>
+        )}
 
-            <h1 className="text-2xl mb-2 mt-2">{weather?.name}</h1>
-            <p className="text-lg">Temperature: {weather?.main?.temp.toFixed(1)}°C</p>
-            <p className="text-lg">Condition: {weather?.weather[0]?.description}</p>
-            <p className="text-lg">Min Temp: {weather?.main?.temp_min.toFixed(1)}°C</p>
-            <p className="text-lg">Max Temp: {weather?.main?.temp_max.toFixed(1)}°C</p>
+        {!loading && error && (
+          <div className="retro-app-panel min-h-64 bg-primary p-4 font-mono text-sm font-bold text-accent">
+            {error}
+          </div>
+        )}
 
-            {/* Alerta de calidad del aire (mismo color que resto, + emoji) */}
-            {getAirQualityAlert() && (
-              <p className="text-lg font-bold mt-4">
-                {getAirQualityAlert().emoji} {getAirQualityAlert().message}
-              </p>
-            )}
+        {!loading && !error && weather && (
+          <div className="grid gap-3 md:grid-cols-[1.2fr_1fr]">
+            <div className="retro-app-panel p-4">
+              <div className="font-mono text-xs uppercase tracking-widest text-accent">
+                {selectedCity}
+              </div>
+              <div className="mt-2 flex items-end gap-3">
+                <motion.div
+                  className="font-mono text-5xl leading-none text-accent"
+                  animate={{ y: [0, -5, 0] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                >
+                  {symbol}
+                </motion.div>
+                <div className="font-mono text-5xl font-bold leading-none text-accent">
+                  {weather.main.temp.toFixed(0)}°
+                </div>
+              </div>
+              <div className="mt-3 inline-block border-2 border-accent bg-tertiary px-2 py-1 font-mono text-xs uppercase text-accent">
+                {weather.weather[0].description}
+              </div>
+            </div>
+
+            <div className="grid gap-3">
+              <div className="retro-app-panel p-3 font-mono text-sm text-accent">
+                <div className="mb-2 text-xs uppercase tracking-wide">
+                  {t.content.weather.ranges.title}
+                </div>
+                <div className="flex justify-between">
+                  <span>{t.content.weather.ranges.min}</span>
+                  <strong>{weather.main.temp_min.toFixed(1)}°C</strong>
+                </div>
+                <div className="mt-1 flex justify-between">
+                  <span>{t.content.weather.ranges.max}</span>
+                  <strong>{weather.main.temp_max.toFixed(1)}°C</strong>
+                </div>
+              </div>
+
+              <div className="retro-app-panel p-3 font-mono text-sm">
+                <div className="mb-2 text-xs uppercase tracking-wide text-accent">
+                  {t.content.weather.airQuality.title}
+                </div>
+                <div
+                  className={`inline-flex border-2 border-accent px-2 py-1 text-xs font-bold uppercase ${airQualityInfo.tone}`}
+                >
+                  {airQualityInfo.label}
+                </div>
+                <p className="mt-2 text-xs text-accent">{airQualityInfo.note}</p>
+              </div>
+            </div>
           </div>
         )}
       </div>
@@ -232,4 +262,4 @@ const WeatherContent = () => {
   );
 };
 
-export default WeatherContent;
+export default WeatherApp;

@@ -3,18 +3,22 @@ import PropTypes from 'prop-types';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const MainLayout = ({ children, backgroundImage }) => {
+  const resolvedBackground = backgroundImage.startsWith('/')
+    ? `${process.env.PUBLIC_URL}${backgroundImage}`
+    : backgroundImage;
+
   return (
-    <div className="h-screen flex flex-col overflow-hidden relative bg-gray-800">
+    <div className="relative flex h-screen flex-col overflow-hidden bg-accent">
       <AnimatePresence>
         <motion.div
           key={backgroundImage}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          exit={{ opacity: 0.5 }} // Adjust opacity level during exit to prevent full transparency
-          transition={{ duration: 0.5, ease: "easeInOut" }} // Use easeInOut for a smoother transition
+          exit={{ opacity: 0.5 }}
+          transition={{ duration: 0.45, ease: 'easeInOut' }}
           className="absolute inset-0 bg-no-repeat bg-cover bg-center"
           style={{
-            backgroundImage: `url(${backgroundImage})`,
+            backgroundImage: `url(${resolvedBackground})`,
           }}
         />
       </AnimatePresence>

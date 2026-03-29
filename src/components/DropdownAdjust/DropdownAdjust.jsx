@@ -3,20 +3,28 @@ import PropTypes from 'prop-types';
 import { motion, AnimatePresence } from 'framer-motion';
 import bg2Icon from './icons/bg2_icon.png';
 import bg3Icon from './icons/bg3_icon.png';
+import { getCopy } from '../../content/copy';
 
-const DropdownAdjust = ({ buttonContent, onRefreshFolders, switchBackground }) => {
+const DropdownAdjust = ({
+  buttonContent,
+  onRefreshFolders,
+  switchBackground,
+  onToggleCrt,
+  retroCrtEnabled,
+}) => {
+  const t = getCopy();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
-  const toggleDropdown = () => setIsOpen(!isOpen);
-
-  const handleClickOutside = (event) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-      setIsOpen(false);
-    }
-  };
+  const toggleDropdown = () => setIsOpen((prev) => !prev);
 
   useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
@@ -24,70 +32,88 @@ const DropdownAdjust = ({ buttonContent, onRefreshFolders, switchBackground }) =
   }, []);
 
   const handleBgClick = (bgName) => {
-    console.log("Changing background to:", bgName);
-    switchBackground(bgName); // Use the passed switchBackground function
+    switchBackground(bgName);
   };
 
   return (
     <div className="relative" ref={dropdownRef}>
-      <div onClick={toggleDropdown} className="cursor-pointer">
+      <button
+        type="button"
+        onClick={toggleDropdown}
+        className="cursor-pointer"
+        aria-label={t.navbar.aria.openSettings}
+      >
         {buttonContent}
-      </div>
+      </button>
       <AnimatePresence>
         {isOpen && (
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.3 }}
-            className="absolute right-0 mt-8 bg-tertiary shadow-lg w-44 py-2 text-accent z-20"
+            transition={{ duration: 0.2 }}
+            className="absolute right-0 z-20 mt-3 w-52 border-2 border-accent bg-tertiary py-2 text-accent shadow-no-blur"
           >
             <ul>
-              <li 
-                className="flex items-center px-4 py-2 hover:bg-accent hover:text-white transition-colors duration-200 group"
-                onClick={onRefreshFolders}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  className="mr-4 w-8 h-8 text-accent group-hover:text-white"
+              <li>
+                <button
+                  type="button"
+                  className="flex w-full items-center px-3 py-2 text-left hover:bg-accent hover:text-white"
+                  onClick={onRefreshFolders}
                 >
-                  <path d="M0 0h24v24H0z" fill="none"/>
-                  <path d="M17.65 6.35A7.95 7.95 0 0 0 12 4a8 8 0 0 0 0 16c4.41 0 8-3.59 8-8h-2c0 3.31-2.69 6-6 6s-6-2.69-6-6 2.69-6 6-6c1.66 0 3.14.69 4.24 1.76L13 11h7V4l-2.35 2.35z"/>
-                </svg>
-                <span className="flex-grow">Refresh Folders</span>
+                  <span className="mr-2 text-xs">⟳</span>
+                  <span className="font-mono text-xs uppercase tracking-wide">
+                    {t.settings.refreshFolders}
+                  </span>
+                </button>
               </li>
-              <li className="mt-4 px-4">
-                <h3 className="font-bold mb-2">Backgrounds</h3>
-                <div className="flex items-center justify-between">
 
-                  <div className="text-center group">
+              <li>
+                <button
+                  type="button"
+                  className="mt-1 flex w-full items-center justify-between px-3 py-2 text-left hover:bg-accent hover:text-white"
+                  onClick={onToggleCrt}
+                >
+                  <span className="font-mono text-xs uppercase tracking-wide">
+                    {t.settings.crt}
+                  </span>
+                  <span className="border border-accent px-2 py-[1px] font-mono text-[10px] uppercase">
+                    {retroCrtEnabled ? t.settings.on : t.settings.off}
+                  </span>
+                </button>
+              </li>
+
+              <li className="mt-2 border-t-2 border-accent px-3 pt-2">
+                <h3 className="mb-2 font-mono text-[11px] font-bold uppercase tracking-wide">
+                  {t.settings.backgrounds}
+                </h3>
+                <div className="flex items-center justify-between gap-2">
+                  <button
+                    type="button"
+                    className="text-center"
+                    onClick={() => handleBgClick('Nighty')}
+                  >
                     <motion.img
                       src={bg3Icon}
-                      alt="Nighty"
-                      className="w-12 h-12 border-2 hover:border-accent rounded"
-                      whileTap={{ scale: 1.1, border: '2px solid #000' }}
-                      onClick={() => handleBgClick('Nighty')}
-                      initial={{ borderColor: '#fff' }}
-                      whileHover={{ borderColor: '#000' }}
-                      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                      alt={t.settings.aria.classicBackground}
+                      className="h-12 w-12 border-2 border-accent"
+                      whileTap={{ scale: 0.96 }}
                     />
-                    <p className="mt-2 text-sm">Classic</p>
-                  </div>
-                  <div className="text-center group">
+                    <p className="mt-1 font-mono text-[10px] uppercase">{t.settings.classic}</p>
+                  </button>
+                  <button
+                    type="button"
+                    className="text-center"
+                    onClick={() => handleBgClick('Classic')}
+                  >
                     <motion.img
                       src={bg2Icon}
-                      alt="Classic"
-                      className="w-12 h-12 border-2 hover:border-accent rounded"
-                      whileTap={{ scale: 1.1, border: '2px solid #000' }}
-                      onClick={() => handleBgClick('Classic')}
-                      initial={{ borderColor: '#fff' }}
-                      whileHover={{ borderColor: '#000' }}
-                      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                      alt={t.settings.aria.nightyBackground}
+                      className="h-12 w-12 border-2 border-accent"
+                      whileTap={{ scale: 0.96 }}
                     />
-                    <p className="mt-2 text-sm">Nighty</p>
-                  </div>
+                    <p className="mt-1 font-mono text-[10px] uppercase">{t.settings.nighty}</p>
+                  </button>
                 </div>
               </li>
             </ul>
@@ -101,7 +127,9 @@ const DropdownAdjust = ({ buttonContent, onRefreshFolders, switchBackground }) =
 DropdownAdjust.propTypes = {
   buttonContent: PropTypes.node.isRequired,
   onRefreshFolders: PropTypes.func.isRequired,
-  switchBackground: PropTypes.func.isRequired // Ensure this prop is required
+  switchBackground: PropTypes.func.isRequired,
+  onToggleCrt: PropTypes.func.isRequired,
+  retroCrtEnabled: PropTypes.bool.isRequired,
 };
 
 export default DropdownAdjust;

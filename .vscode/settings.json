@@ -1,0 +1,10 @@
+{
+  "prettier.requireConfig": true,
+  "prettier.configPath": ".prettierrc.json",
+  "prettier.ignorePath": ".prettierignore",
+  "prettier.prettierPath": "./node_modules/prettier/index.cjs",
+  "files.exclude": {
+    "**/.DS_Store": true,
+    "**/.!*.js": true
+  }
+}

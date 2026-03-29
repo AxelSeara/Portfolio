@@ -4,31 +4,45 @@ import brand3 from './FolderImages/brand/brand 3.jpeg';
 import brand4 from './FolderImages/brand/brand 4.jpeg';
 import brand5 from './FolderImages/brand/brand 5.jpeg';
 import logo1 from './FolderImages/brand/logo1.jpeg';
+import { getCopy } from './copy';
 
-const DesignContent = () => (
-  <div className="overflow-auto p-4 max-w-4xl mx-auto" style={{ maxHeight: 'calc(100vh - 12rem)', maxWidth: '70vh' }}>
-    <h1 className="text-4xl font-bold text-accent mb-4 font-mono">Brand Design Portfolio</h1>
-    <h2 className="text-2xl font-semibold text-accent mb-2 font-mono">Collaborations and Creative Projects</h2>
-    <p className="text-accent mb-4">I've had the opportunity to collaborate with diverse brands, generating logos for handbags, collections, and various small projects. Each piece showcases a unique approach to brand identity and design.</p>
-    
-    {[
-      { src: brand2, title: "Time Vortex", description: "Design for a T-shirt collection inspired by retro digital logos. Tools used: Illustrator.", alt: "Brand Design 2" },
-      { src: brand3, title: "Little Dimensional Company", description: "Collaboration with the same brand for a second collection logo, based on the retro digital logos concept with appealing naming. Tools used: Illustrator.", alt: "Brand Design 3" },
-      { src: brand4, title: "In Love With", description: "For a campaign promoting eco-transition at Pull&Bear, this logo was used in handtags and fabric tags for a small collection. Tools used: Illustrator.", alt: "Brand Design 4" },
-      { src: brand5, title: "Grow is Pleasure", description: "Worked with a small streetwear brand to completely redesign their brand identity. Tools used: Illustrator.", alt: "Brand Design 5" },
-      { src: logo1, title: "Daily Beats", description: "Logo for an independent radio station from northern Spain. Tools used: Illustrator.", alt: "Logo Design 1" }
-    ].map(item => (
-      <div key={item.title} className="mb-8">
-        <img
-          src={item.src}
-          alt={item.alt}
-          className="w-full h-auto mb-4"
-        />
-        <h4 className="text-lg font-bold text-accent mb-2 font-mono">{item.title}</h4>
-        <p className="text-accent">{item.description}</p>
+const assets = [brand2, brand3, brand4, brand5, logo1];
+
+const BrandContent = () => {
+  const t = getCopy();
+
+  return (
+    <div className="retro-app-shell mx-auto max-w-5xl">
+      <div className="retro-app-header">
+        <h1 className="retro-app-title">{t.content.brand.title}</h1>
+        <span className="font-mono text-[11px] uppercase tracking-wide text-accent/80">
+          {t.content.brand.badge}
+        </span>
       </div>
-    ))}
-  </div>
-);
 
-export default DesignContent;
+      <div className="retro-app-body space-y-3">
+        <div className="retro-app-panel font-mono text-sm leading-relaxed text-accent">
+          {t.content.brand.intro}
+        </div>
+
+        <div className="grid gap-3 md:grid-cols-2">
+          {t.content.brand.items.map((item, index) => (
+            <article key={item.title} className="retro-app-panel">
+              <img
+                src={assets[index]}
+                alt={item.alt}
+                className="h-52 w-full border-2 border-accent object-cover"
+              />
+              <h2 className="mt-3 font-mono text-base font-bold text-accent">{item.title}</h2>
+              <p className="mt-2 font-mono text-xs leading-relaxed text-accent/90">
+                {item.description}
+              </p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default BrandContent;

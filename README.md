@@ -32,7 +32,11 @@ To run this project locally, follow these steps:
    ```bash
    npm install
    ```
-4. **Start the development server**:
+4. **Configure environment variables**:
+   ```bash
+   cp .env.example .env.local
+   ```
+5. **Start the development server**:
    ```bash
    npm start
    ```
@@ -74,11 +78,35 @@ The project is implemented using:
 - **Enhanced UI**: Adding more detailed styling and transitions to enhance the user experience.
 - **Backend Integration**: Connecting the project with a backend to manage user data and files.
 
+## Retro OS Design Guide
+
+- Keep a single visual language across all apps: same title bar, buttons, borders, and status bar.
+- Distinguish system controls from app controls:
+  - `System Menu` and global toggles in the top shell.
+  - Open app states in the `Window Strip`.
+- Use CRT effects progressively:
+  - `high` for showcase mode.
+  - `medium` as default.
+  - `low/off` for readability or reduced motion preference.
+- In mobile mode (`phone OS`), only one app should be active fullscreen at a time.
+
+## QA Checklist
+
+- `npm start` launches without hanging on host/port conflicts.
+- `npm run build` compiles successfully.
+- Desktop:
+  - open/minimize/maximize/close windows works.
+  - active window focus is clear.
+  - Alt+Tab cycles open windows.
+- Mobile:
+  - single active fullscreen app.
+  - app switcher opens and switches correctly.
+- Visual consistency:
+  - all windows share the same chrome.
+  - icons and text maintain contrast and readability.
+
 We hope you enjoy exploring this OS emulation website. Your feedback and contributions are welcome!
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-```
-
-This README provides a comprehensive overview of your project, its current stage, usage instructions, and the logic behind it.
