@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { getCopy } from './copy';
+import { trackEvent } from '../lib/metrics';
 
 const CONTACT_EMAIL = 'axelsearagomez@gmail.com';
 
@@ -11,9 +12,11 @@ const ContactContent = () => {
     try {
       await navigator.clipboard.writeText(CONTACT_EMAIL);
       setCopied(true);
+      trackEvent('contact_copy_email');
       setTimeout(() => setCopied(false), 1800);
     } catch (error) {
       setCopied(false);
+      trackEvent('contact_copy_email_failed');
     }
   };
 
@@ -31,6 +34,7 @@ const ContactContent = () => {
           <a
             href={`mailto:${CONTACT_EMAIL}`}
             className="retro-btn inline-flex items-center justify-center no-underline"
+            onClick={() => trackEvent('contact_mailto_click')}
           >
             {t.content.contact.actions.newMessage}
           </a>

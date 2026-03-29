@@ -15,14 +15,14 @@ module.exports = {
         '8': '2rem',
       },
       boxShadow: {
-        'no-blur': '5px 5px 0 0 #243b40',
+        'no-blur': '5px 5px 0 0 var(--retro-border)',
       },
       colors: {
-        primary: '#ff8e78',
-        secondary: '#ffba6b',
-        tertiary: '#75bebe',
-        quaternary: '#e1b1a9',
-        accent: '#243b40',
+        primary: 'var(--retro-surface-strong)',
+        secondary: 'var(--retro-surface-alt)',
+        tertiary: 'var(--retro-bg)',
+        quaternary: 'var(--retro-surface)',
+        accent: 'var(--retro-accent)',
       },
       fontFamily: {
         mono: ['Roboto Mono', 'monospace'],

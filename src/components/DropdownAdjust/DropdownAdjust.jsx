@@ -11,6 +11,8 @@ const DropdownAdjust = ({
   switchBackground,
   onToggleCrt,
   retroCrtEnabled,
+  retroTheme,
+  onChangeTheme,
 }) => {
   const t = getCopy();
   const [isOpen, setIsOpen] = useState(false);
@@ -35,6 +37,24 @@ const DropdownAdjust = ({
     switchBackground(bgName);
   };
 
+  const themeOptions = [
+    {
+      id: 'neon-dos',
+      label: t.settings.themes.neonDos,
+      colors: ['#0f172a', '#00f5d4', '#9b5de5'],
+    },
+    {
+      id: 'sunset-crt',
+      label: t.settings.themes.sunsetCrt,
+      colors: ['#75bebe', '#ffba6b', '#ff8e78'],
+    },
+    {
+      id: 'acid-terminal',
+      label: t.settings.themes.acidTerminal,
+      colors: ['#111827', '#a3e635', '#22d3ee'],
+    },
+  ];
+
   return (
     <div className="relative" ref={dropdownRef}>
       <button
@@ -58,7 +78,7 @@ const DropdownAdjust = ({
               <li>
                 <button
                   type="button"
-                  className="flex w-full items-center px-3 py-2 text-left hover:bg-accent hover:text-white"
+                  className="retro-hover-invert flex w-full items-center px-3 py-2 text-left"
                   onClick={onRefreshFolders}
                 >
                   <span className="mr-2 text-xs">⟳</span>
@@ -71,7 +91,7 @@ const DropdownAdjust = ({
               <li>
                 <button
                   type="button"
-                  className="mt-1 flex w-full items-center justify-between px-3 py-2 text-left hover:bg-accent hover:text-white"
+                  className="retro-hover-invert mt-1 flex w-full items-center justify-between px-3 py-2 text-left"
                   onClick={onToggleCrt}
                 >
                   <span className="font-mono text-xs uppercase tracking-wide">
@@ -91,7 +111,7 @@ const DropdownAdjust = ({
                   <button
                     type="button"
                     className="text-center"
-                    onClick={() => handleBgClick('Nighty')}
+                    onClick={() => handleBgClick('Classic')}
                   >
                     <motion.img
                       src={bg3Icon}
@@ -104,7 +124,7 @@ const DropdownAdjust = ({
                   <button
                     type="button"
                     className="text-center"
-                    onClick={() => handleBgClick('Classic')}
+                    onClick={() => handleBgClick('Nighty')}
                   >
                     <motion.img
                       src={bg2Icon}
@@ -114,6 +134,43 @@ const DropdownAdjust = ({
                     />
                     <p className="mt-1 font-mono text-[10px] uppercase">{t.settings.nighty}</p>
                   </button>
+                </div>
+              </li>
+
+              <li className="mt-2 border-t-2 border-accent px-3 pt-2">
+                <h3 className="mb-2 font-mono text-[11px] font-bold uppercase tracking-wide">
+                  {t.settings.themeLab}
+                </h3>
+                <div className="grid grid-cols-1 gap-2">
+                  {themeOptions.map((themeOption) => {
+                    const isActive = retroTheme === themeOption.id;
+                    return (
+                      <button
+                        key={themeOption.id}
+                        type="button"
+                        onClick={() => onChangeTheme(themeOption.id)}
+                        className={`w-full border-2 px-2 py-2 text-left ${
+                          isActive
+                            ? 'retro-active-invert border-accent'
+                            : 'border-accent/70 bg-tertiary text-accent hover:border-accent'
+                        }`}
+                        aria-pressed={isActive}
+                      >
+                        <div className="mb-1 font-mono text-[10px] uppercase tracking-wide">
+                          {themeOption.label}
+                        </div>
+                        <div className="flex gap-1">
+                          {themeOption.colors.map((color) => (
+                            <span
+                              key={color}
+                              className="h-3 w-3 border border-black/40"
+                              style={{ backgroundColor: color }}
+                            />
+                          ))}
+                        </div>
+                      </button>
+                    );
+                  })}
                 </div>
               </li>
             </ul>
@@ -130,6 +187,8 @@ DropdownAdjust.propTypes = {
   switchBackground: PropTypes.func.isRequired,
   onToggleCrt: PropTypes.func.isRequired,
   retroCrtEnabled: PropTypes.bool.isRequired,
+  retroTheme: PropTypes.string.isRequired,
+  onChangeTheme: PropTypes.func.isRequired,
 };
 
 export default DropdownAdjust;

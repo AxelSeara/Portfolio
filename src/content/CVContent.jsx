@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { getCopy } from './copy';
+import { trackEvent } from '../lib/metrics';
 
 const CVContent = ({ onClose }) => {
   const t = getCopy();
@@ -8,6 +9,7 @@ const CVContent = ({ onClose }) => {
   const [progress, setProgress] = useState(0);
 
   const startDownload = () => {
+    trackEvent('cv_download_start');
     setIsDownloading(true);
     setProgress(0);
 
@@ -26,6 +28,7 @@ const CVContent = ({ onClose }) => {
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+            trackEvent('cv_download_complete');
           }, 500);
           return 100;
         }

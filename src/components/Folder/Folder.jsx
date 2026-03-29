@@ -11,17 +11,14 @@ import mondrianIcon from '../../icons/mondrian.svg';
 import aboutIcon from '../../icons/mypc.svg';
 import paintIcon from '../../icons/image.svg';
 import Modal from '../Modal/Modal';
-import { getCopy } from '../../content/copy';
-
-const t = getCopy();
 const iconMapping = {
-  [t.app.folders.cv]: documentIcon,
-  [t.app.folders.dailyBloom]: dailyBloomIcon,
-  [t.app.folders.weather]: weatherIcon,
-  [t.app.folders.contact]: contactIcon,
-  [t.app.folders.mondrian]: mondrianIcon,
-  [t.app.folders.about]: aboutIcon,
-  [t.app.folders.paint]: paintIcon,
+  1: aboutIcon,
+  2: dailyBloomIcon,
+  6: documentIcon,
+  7: contactIcon,
+  8: paintIcon,
+  9: mondrianIcon,
+  10: weatherIcon,
 };
 
 const Folder = ({
@@ -111,7 +108,7 @@ const Folder = ({
   return (
     <div className="m-1 sm:m-2">
       <motion.div
-        className={`flex flex-col items-center justify-center w-16 p-1 sm:w-20 sm:p-2 md:w-24 ${className}`}
+        className={`flex flex-col items-center justify-center w-20 p-2 sm:w-20 sm:p-2 md:w-24 ${className}`}
         style={{ ...style, cursor: isMobile ? 'pointer' : 'grab' }}
         drag={!isMobile}
         dragConstraints={dragConstraints}
@@ -135,11 +132,11 @@ const Folder = ({
         onTouchEnd={handleTouchEnd}
       >
         <motion.img
-          src={iconMapping[name] || (isOpen ? folderOpenIcon : folderCloseIcon)}
+          src={iconMapping[id] || (isOpen ? folderOpenIcon : folderCloseIcon)}
           alt={name}
-          className={
+          className={`retro-folder-icon ${
             isOpen ? 'w-full h-full pointer-events-none' : 'w-[105%] h-[105%] pointer-events-none'
-          }
+          }`}
           whileHover={{ scale: 1.05 }}
           transition={{ duration: 0.2 }}
         />

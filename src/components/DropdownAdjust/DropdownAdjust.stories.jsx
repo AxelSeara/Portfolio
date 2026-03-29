@@ -15,4 +15,6 @@ Default.args = {
   switchBackground: () => {},
   onToggleCrt: () => {},
   retroCrtEnabled: true,
+  retroTheme: 'sunset-crt',
+  onChangeTheme: () => {},
 };

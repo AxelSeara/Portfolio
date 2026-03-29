@@ -12,7 +12,8 @@ import Navbar from './components/Navbar/Navbar';
 import MainLayout from './components/MainLayout/MainLayout';
 import Folder from './components/Folder/Folder';
 import Notification from './components/Notification/Notification';
-import { getCopy } from './content/copy';
+import { getCopy, getPreferredLocale, setPreferredLocale } from './content/copy';
+import { metricValue, trackEvent } from './lib/metrics';
 
 const IlusContent = lazy(() => import('./content/IlusContent'));
 const ProjectsContent = lazy(() => import('./content/AnimationContent'));
@@ -27,20 +28,7 @@ const PaintContent = lazy(() => import('./content/PaintContent'));
 
 const BASE_Z_INDEX = 1000;
 const MOBILE_BREAKPOINT = 900;
-const t = getCopy();
-
-const FOLDER_DEFINITIONS = [
-  { id: 1, name: t.app.folders.about, component: AboutContent },
-  { id: 2, name: t.app.folders.dailyBloom, component: DailyBloomContent },
-  { id: 3, name: t.app.folders.brand, component: DesignContent },
-  { id: 4, name: t.app.folders.animation, component: ProjectsContent },
-  { id: 5, name: t.app.folders.illustration, component: IlusContent },
-  { id: 6, name: t.app.folders.cv, component: CVContent },
-  { id: 7, name: t.app.folders.contact, component: ContactContent },
-  { id: 8, name: t.app.folders.paint, component: PaintContent },
-  { id: 9, name: t.app.folders.mondrian, component: MondrianContent },
-  { id: 10, name: t.app.folders.weather, component: WeatherContent },
-];
+const DEFAULT_RETRO_THEME = 'sunset-crt';
 
 const preloadImages = (imageArray) => {
   imageArray.forEach((image) => {
@@ -165,6 +153,24 @@ const windowReducer = (state, action) => {
 };
 
 const App = () => {
+  const [locale, setLocale] = useState(getPreferredLocale);
+  const t = useMemo(() => getCopy(locale), [locale]);
+  const folders = useMemo(
+    () => [
+      { id: 1, name: t.app.folders.about, component: AboutContent },
+      { id: 2, name: t.app.folders.dailyBloom, component: DailyBloomContent },
+      { id: 3, name: t.app.folders.brand, component: DesignContent },
+      { id: 4, name: t.app.folders.animation, component: ProjectsContent },
+      { id: 5, name: t.app.folders.illustration, component: IlusContent },
+      { id: 6, name: t.app.folders.cv, component: CVContent },
+      { id: 7, name: t.app.folders.contact, component: ContactContent },
+      { id: 8, name: t.app.folders.paint, component: PaintContent },
+      { id: 9, name: t.app.folders.mondrian, component: MondrianContent },
+      { id: 10, name: t.app.folders.weather, component: WeatherContent },
+    ],
+    [t]
+  );
+
   const [windows, dispatchWindows] = useReducer(windowReducer, {});
   const [activeLink, setActiveLink] = useState('');
   const [showNotification, setShowNotification] = useState(true);
@@ -182,6 +188,9 @@ const App = () => {
     targetName: '',
   });
   const [retroCrtEnabled, setRetroCrtEnabled] = useState(true);
+  const [retroTheme, setRetroTheme] = useState(
+    () => window.localStorage.getItem('retro-theme') || DEFAULT_RETRO_THEME
+  );
   const [isMobile, setIsMobile] = useState(false);
   const [mobileSwitcherOpen, setMobileSwitcherOpen] = useState(false);
 
@@ -190,7 +199,6 @@ const App = () => {
   const [isNavbarLoaded, setIsNavbarLoaded] = useState(false);
   const zCounterRef = useRef(BASE_Z_INDEX);
 
-  const folders = FOLDER_DEFINITIONS;
   const folderById = useMemo(() => new Map(folders.map((f) => [f.id, f])), [folders]);
   const folderByName = useMemo(() => new Map(folders.map((f) => [f.name, f])), [folders]);
 
@@ -199,11 +207,23 @@ const App = () => {
   }, []);
 
   useEffect(() => {
+    trackEvent('session_start', {
+      mode: isMobile ? 'mobile' : 'desktop',
+      theme: metricValue(retroTheme),
+    });
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
     document.documentElement.setAttribute(
       'data-retro-intensity',
       retroCrtEnabled ? 'medium' : 'off'
     );
   }, [retroCrtEnabled]);
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-retro-theme', retroTheme);
+    window.localStorage.setItem('retro-theme', retroTheme);
+  }, [retroTheme]);
 
   useEffect(() => {
     const onResize = () => {
@@ -256,18 +276,20 @@ const App = () => {
 
   const resetFolderPositions = useCallback(() => {
     setResetCounter((prev) => prev + 1);
+    trackEvent('desktop_icons_refresh');
   }, []);
 
   const closeModal = useCallback((name) => {
     dispatchWindows({ type: 'CLOSE_WINDOW', name });
     setActiveLink((prevActive) => (prevActive === name ? '' : prevActive));
+    trackEvent('app_close', { app: metricValue(name) });
     setPropertiesWindow((prev) =>
       prev.targetName === name ? { visible: false, targetName: '' } : prev
     );
   }, []);
 
   const openWindowByName = useCallback(
-    (name) => {
+    (name, source = 'unknown') => {
       if (!name) return;
       if (isMobile) {
         dispatchWindows({
@@ -284,24 +306,30 @@ const App = () => {
         });
       }
       setActiveLink(name);
+      trackEvent('app_open', {
+        app: metricValue(name),
+        source: metricValue(source),
+        mode: isMobile ? 'mobile' : 'desktop',
+      });
     },
     [getNextZIndex, isMobile]
   );
 
   const handleOpenModal = useCallback(
-    (id) => {
+    (id, source = null) => {
       const folder = folderById.get(id);
       if (!folder) return;
-      openWindowByName(folder.name);
+      const inferredSource = source || (isMobile ? 'desktop_tap' : 'desktop_icon');
+      openWindowByName(folder.name, inferredSource);
     },
-    [folderById, openWindowByName]
+    [folderById, isMobile, openWindowByName]
   );
 
   const handleOpenModalByName = useCallback(
-    (name) => {
+    (name, source = 'system_menu') => {
       const folder = folderByName.get(name);
       if (!folder) return;
-      openWindowByName(folder.name);
+      openWindowByName(folder.name, source);
     },
     [folderByName, openWindowByName]
   );
@@ -309,7 +337,7 @@ const App = () => {
   const handleClickModal = useCallback(
     (name) => {
       if (isMobile) {
-        openWindowByName(name);
+        openWindowByName(name, 'window_chip');
         return;
       }
       dispatchWindows({
@@ -318,6 +346,7 @@ const App = () => {
         zIndex: getNextZIndex(),
       });
       setActiveLink(name);
+      trackEvent('app_focus', { app: metricValue(name), source: 'window_chip' });
     },
     [getNextZIndex, isMobile, openWindowByName]
   );
@@ -325,6 +354,7 @@ const App = () => {
   const handleMinimizeModal = useCallback((name) => {
     dispatchWindows({ type: 'MINIMIZE_WINDOW', name });
     setActiveLink((prevActive) => (prevActive === name ? '' : prevActive));
+    trackEvent('app_minimize', { app: metricValue(name) });
   }, []);
 
   const handleToggleMaximizeModal = useCallback(
@@ -335,25 +365,44 @@ const App = () => {
         zIndex: getNextZIndex(),
       });
       setActiveLink(name);
+      trackEvent('app_toggle_maximize', { app: metricValue(name) });
     },
     [getNextZIndex]
   );
 
   const handleCloseAllWindows = useCallback(() => {
+    const openCount = Object.values(windows).filter((windowState) => windowState?.isOpen).length;
     dispatchWindows({ type: 'CLOSE_ALL_WINDOWS' });
     setActiveLink('');
     setMobileSwitcherOpen(false);
     setPropertiesWindow({ visible: false, targetName: '' });
-  }, []);
+    trackEvent('close_all_windows', { open_count: openCount });
+  }, [windows]);
 
   const switchBackground = useCallback((bgName) => {
     const timestamp = Date.now();
     const nextBg = bgName === 'Classic' ? `/bg2.jpg?${timestamp}` : `/bg3.jpg?${timestamp}`;
     setBackgroundImage(nextBg);
+    trackEvent('settings_background_switch', { background: metricValue(bgName) });
   }, []);
 
   const toggleRetroCrt = useCallback(() => {
-    setRetroCrtEnabled((prev) => !prev);
+    setRetroCrtEnabled((prev) => {
+      const next = !prev;
+      trackEvent('settings_crt_toggle', { enabled: next ? 'on' : 'off' });
+      return next;
+    });
+  }, []);
+
+  const changeRetroTheme = useCallback((themeName) => {
+    setRetroTheme(themeName);
+    trackEvent('settings_theme_change', { theme: metricValue(themeName) });
+  }, []);
+
+  const handleChangeLocale = useCallback((nextLocale) => {
+    setPreferredLocale(nextLocale);
+    setLocale(nextLocale);
+    trackEvent('settings_language_change', { locale: metricValue(nextLocale) });
   }, []);
 
   const handleFolderContextMenu = useCallback((name, event) => {
@@ -388,10 +437,10 @@ const App = () => {
       const { targetType, targetName } = contextMenu;
 
       if (targetType === 'folder' && targetName) {
-        if (action === 'open') handleOpenModalByName(targetName);
+        if (action === 'open') handleOpenModalByName(targetName, 'context_menu');
         if (action === 'minimize') handleMinimizeModal(targetName);
         if (action === 'maximize') {
-          handleOpenModalByName(targetName);
+          handleOpenModalByName(targetName, 'context_menu');
           handleToggleMaximizeModal(targetName);
         }
         if (action === 'close') closeModal(targetName);
@@ -439,11 +488,13 @@ const App = () => {
 
       if (event.key === 'Escape' && activeLink) {
         closeModal(activeLink);
+        trackEvent('keyboard_shortcut', { key: 'escape_close' });
       }
 
       if (event.ctrlKey && event.key.toLowerCase() === 'm' && activeLink) {
         event.preventDefault();
         handleMinimizeModal(activeLink);
+        trackEvent('keyboard_shortcut', { key: 'ctrl_m_minimize' });
       }
 
       if (event.altKey && event.key === 'Tab' && sortedOpenWindows.length > 0) {
@@ -453,7 +504,7 @@ const App = () => {
         const nextWindow = sortedOpenWindows[nextIndex];
 
         if (isMobile) {
-          openWindowByName(nextWindow);
+          openWindowByName(nextWindow, 'alt_tab');
         } else {
           dispatchWindows({
             type: 'FOCUS_WINDOW',
@@ -462,6 +513,7 @@ const App = () => {
           });
         }
         setActiveLink(nextWindow);
+        trackEvent('keyboard_shortcut', { key: 'alt_tab' });
       }
     };
 
@@ -500,13 +552,18 @@ const App = () => {
       {showNotification && (
         <Notification
           message={t.app.notificationMessage}
-          onClose={() => setShowNotification(false)}
+          onClose={() => {
+            setShowNotification(false);
+            trackEvent('welcome_notification_close');
+          }}
         />
       )}
 
       <div className="fixed top-0 left-0 right-0 z-50">
         <Navbar
           name={t.app.ownerName}
+          locale={locale}
+          onChangeLocale={handleChangeLocale}
           links={openWindows}
           onClickLink={handleClickModal}
           activeLink={activeLink}
@@ -516,6 +573,8 @@ const App = () => {
           switchBackground={switchBackground}
           onToggleCrt={toggleRetroCrt}
           retroCrtEnabled={retroCrtEnabled}
+          retroTheme={retroTheme}
+          onChangeTheme={changeRetroTheme}
           isMobile={isMobile}
           mobileSwitcherOpen={mobileSwitcherOpen}
           onToggleMobileSwitcher={() => setMobileSwitcherOpen((prev) => !prev)}
@@ -525,12 +584,12 @@ const App = () => {
 
       {isNavbarLoaded && (
         <div
-          className="desktop-shell relative mt-16 h-screen overflow-y-auto"
+          className="desktop-shell relative mt-20 min-h-[calc(100dvh-5rem)] overflow-y-auto md:mt-16 md:h-screen"
           ref={containerRef}
-          onContextMenu={handleDesktopContextMenu}
+          onContextMenu={isMobile ? undefined : handleDesktopContextMenu}
         >
           <div
-            className="grid grid-cols-4 gap-x-1 gap-y-2 mx-2 justify-items-center content-start sm:mx-4 sm:gap-x-2 sm:gap-y-3 md:grid-cols-5 lg:grid-cols-3 lg:gap-2"
+            className="desktop-icons-grid mx-2 mt-2 sm:mx-3 md:mx-4"
             ref={gridContainerRef}
           >
             {folders.map((folder) => {
@@ -588,17 +647,17 @@ const App = () => {
       )}
 
       {isMobile && mobileSwitcherOpen && (
-        <div className="phone-switcher fixed bottom-4 left-1/2 z-[80] w-[92vw] max-w-xl -translate-x-1/2 border-2 border-accent bg-tertiary/95 p-2 shadow-no-blur">
+        <div className="phone-switcher fixed bottom-[max(1rem,env(safe-area-inset-bottom))] left-1/2 z-[80] w-[94vw] max-w-xl -translate-x-1/2 border border-accent bg-tertiary/95 p-3 shadow-[2px_2px_0_0_var(--retro-border)]">
           <div className="mb-2 font-mono text-xs uppercase tracking-wide text-accent">
             {t.app.mobileSwitcherTitle}
           </div>
-          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+          <div className="grid grid-cols-2 gap-2">
             {sortedOpenWindows.map((name) => (
               <button
                 key={name}
                 type="button"
                 className={`retro-switcher-btn ${activeLink === name ? 'active' : ''}`}
-                onClick={() => handleOpenModalByName(name)}
+                onClick={() => handleOpenModalByName(name, 'mobile_switcher')}
               >
                 {name}
               </button>
@@ -614,7 +673,7 @@ const App = () => {
 
       {contextMenu.visible && (
         <div
-          className="fixed z-[60] border-2 border-accent bg-tertiary text-accent shadow-no-blur min-w-48"
+          className="fixed z-[60] border border-accent bg-tertiary text-accent shadow-[2px_2px_0_0_var(--retro-border)] min-w-48"
           style={{ left: contextMenu.x, top: contextMenu.y }}
           onClick={(event) => event.stopPropagation()}
         >
@@ -711,16 +770,16 @@ const App = () => {
 
       {propertiesWindow.visible && (
         <div
-          className="fixed right-6 top-28 z-[65] w-72 border-4 border-accent bg-tertiary shadow-no-blur"
+          className="fixed right-6 top-28 z-[65] w-72 border-2 border-accent bg-tertiary shadow-[2px_2px_0_0_var(--retro-border)]"
           data-testid="properties-panel"
         >
-          <div className="flex items-center justify-between border-b-4 border-accent bg-gradient-to-r from-tertiary to-secondary/70 px-3 py-1">
+          <div className="flex items-center justify-between border-b-2 border-accent bg-gradient-to-r from-tertiary to-secondary/70 px-3 py-1">
             <h3 className="font-mono text-sm font-bold text-accent">
               {t.app.propertiesPanel.title}
             </h3>
             <button
               type="button"
-              className="border-2 border-accent px-2 text-xs font-bold hover:bg-accent hover:text-white"
+              className="border border-accent px-2 text-xs font-bold hover:bg-accent hover:text-white"
               onClick={() => setPropertiesWindow({ visible: false, targetName: '' })}
               aria-label="Close properties"
             >

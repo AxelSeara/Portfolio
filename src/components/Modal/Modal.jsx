@@ -101,7 +101,7 @@ const Modal = ({
           style={{ zIndex }}
         >
           <motion.div
-            className={`relative pointer-events-auto border-4 border-accent flex flex-col shadow-no-blur ${
+            className={`relative pointer-events-auto border-2 border-accent flex flex-col shadow-[2px_2px_0_0_var(--retro-border)] ${
               isMobile || isMaximized
                 ? 'h-full w-full rounded-none'
                 : 'h-full w-full rounded-md md:h-auto md:w-auto'
@@ -121,7 +121,7 @@ const Modal = ({
             exit="exit"
           >
             <div
-              className="flex justify-between items-center py-1 px-2 border-b-4 border-accent bg-gradient-to-r from-tertiary to-secondary/70"
+              className="flex justify-between items-center py-1 px-2 border-b-2 border-accent bg-gradient-to-r from-tertiary to-secondary/70"
               onPointerDown={startDrag}
               style={{ touchAction: 'none' }}
             >
@@ -131,7 +131,9 @@ const Modal = ({
               <div className="flex items-center gap-1">
                 <button
                   type="button"
-                  className="h-7 min-w-7 border-2 border-accent px-2 font-mono text-sm font-bold leading-none hover:bg-accent hover:text-white"
+                  className={`border border-accent font-mono font-bold leading-none hover:bg-accent hover:text-white ${
+                    isMobile ? 'h-10 min-w-10 px-2 text-base' : 'h-7 min-w-7 px-2 text-sm'
+                  }`}
                   onClick={onMinimize}
                   aria-label={t.modal.controls.minimize.replace('{title}', title)}
                 >
@@ -139,7 +141,9 @@ const Modal = ({
                 </button>
                 <button
                   type="button"
-                  className="h-7 min-w-7 border-2 border-accent px-2 font-mono text-sm font-bold leading-none hover:bg-accent hover:text-white"
+                  className={`border border-accent font-mono font-bold leading-none hover:bg-accent hover:text-white ${
+                    isMobile ? 'h-10 min-w-10 px-2 text-base' : 'h-7 min-w-7 px-2 text-sm'
+                  }`}
                   onClick={onToggleMaximize}
                   aria-label={
                     isMaximized
@@ -151,7 +155,9 @@ const Modal = ({
                 </button>
                 <button
                   type="button"
-                  className="h-7 min-w-7 border-2 border-accent px-2 font-mono text-sm font-bold leading-none hover:bg-accent hover:text-white"
+                  className={`border border-accent font-mono font-bold leading-none hover:bg-accent hover:text-white ${
+                    isMobile ? 'h-10 min-w-10 px-2 text-base' : 'h-7 min-w-7 px-2 text-sm'
+                  }`}
                   onClick={onClose}
                   aria-label={t.modal.controls.close.replace('{title}', title)}
                 >
@@ -170,7 +176,7 @@ const Modal = ({
                 {children}
               </motion.div>
             </div>
-            <div className="border-t-2 border-accent bg-quaternary px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-accent">
+            <div className="border-t border-accent bg-quaternary px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-accent">
               {isMobile ? t.modal.status.phoneMode : t.modal.status.desktopMode} ·{' '}
               {isActive ? t.modal.status.active : t.modal.status.background}
             </div>
